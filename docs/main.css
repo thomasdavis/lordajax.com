@@ -1,0 +1,107 @@
+body,
+html {
+  font-family: "Inconsolata", monospace;
+}
+
+body {
+  padding: 20px;
+}
+body a {
+  color: #444;
+  font-weight: 600;
+}
+body a:hover {
+  color: #777777 !important;
+  text-decoration: none;
+}
+p > code {
+  background: #ededed;
+  padding: 3px 2px;
+  color: #2aa198;
+}
+blockquote {
+  color: #555;
+}
+blockquote {
+  margin: 30px auto;
+  font-style: italic;
+  color: #555555;
+  padding: 0.8em 30px 0.4em 45px;
+  border-left: 8px solid #2aa198;
+  line-height: 1.6;
+  position: relative;
+  background: #ededed;
+}
+
+blockquote::before {
+  font-family: Arial;
+  content: "\201C";
+  color: #2aa198;
+  font-size: 3em;
+  position: absolute;
+  left: 10px;
+  top: -10px;
+}
+
+blockquote::after {
+  content: "";
+}
+
+blockquote span {
+  display: block;
+  color: #333333;
+  font-style: normal;
+  font-weight: bold;
+  margin-top: 1em;
+}
+.container {
+  width: 680px;
+  margin: auto;
+}
+.container img {
+  width: 100%;
+}
+@media only screen and (max-width: 680px) {
+  .container {
+    width: 100%;
+  }
+}
+.title {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+.byline {
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+
+.pages a {
+  margin-right: 20px;
+  color: #444;
+  font-weight: 600;
+}
+
+.content {
+  margin-top: 40px;
+}
+.content ul {
+}
+
+.postsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.postListItem {
+  text-decoration: none;
+  margin-bottom: 5px;
+  font-weight: 200;
+}
+.postListItem a:visited,
+.postListItem a:focus,
+.postListItem a:active,
+.postListItem a {
+  text-decoration: none;
+  color: #444;
+  font-weight: 600;
+}
