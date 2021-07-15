@@ -1,0 +1,106 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+    <title>Introducing JSON Blog - Lord Ajax</title>
+  <meta name="description" content="hopefully someone likes this">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:title" content="Introducing JSON Blog - Lord Ajax" />
+
+  <!-- Place favicon.ico in the root directory -->
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#fafafa">
+  <link rel="stylesheet" href="/main.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.0/styles/solarized-dark.min.css" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="title">Lord Ajax</div>
+    <div class="byline">hopefully someone likes this</div>
+    <div class="pages">
+      <a href="/">Home</a>
+    </div>
+
+    <div class="content">
+      <h1>Introducing JSON Blog</h1>
+<blockquote>
+<p>dcwr (don't care, won't read)
+This project aims to make your entire blog contained in a single file (content sourced from where ever you want), of which you can do what ever you want via utilizing tools built in a community fashion.</p>
+</blockquote>
+<h2>Getting Started</h2>
+<pre class="hljs"><code>mkdir myblog &amp;&amp; <span class="hljs-built_in">cd</span> myblog
+npm i -g jsonblog-cli
+blog init
+blog build
+blog serve
+</code></pre>
+<h2>Overview</h2>
+<p>I feel like I don't speak just for myself but over the years maintaining a blog has been rather arduous. I hate setting them up, I suck at keeping them alive, I dislike buying into platforms, I cannot seem to back them up and they are always way more than I actually needed.</p>
+<p>Just recently I happened to stumble upon a Hacker News comment by Jedberg where he also listed his pain points with personal blogging which largely mirroed my own gripes. His comment and seeing the other trends wishing to relive the personal blogging era compelled me to attempt something.</p>
+<p>Some readers might have realized already, but JSON Blog was inspired by another project that I co-founded a few years ago called JSON Resume. Essentially your resume is defined as formatted data which you are free to take anywhere you want and use community built tooling to analyze, render and host.</p>
+<p>JSON Blog is at core a schematic simply to describe a blog, and I've spent some time developing some initial tooling to make it rather seamless to get started.
+Here is a simple example (that generates this site)</p>
+<pre class="hljs"><code>{
+  <span class="hljs-attr">&quot;site&quot;</span>: {
+    <span class="hljs-attr">&quot;title&quot;</span>: <span class="hljs-string">&quot;My Blog&quot;</span>,
+    <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;I write my thoughts here&quot;</span>
+  },
+  <span class="hljs-attr">&quot;basics&quot;</span>: {
+    <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;Thomas Davis&quot;</span>
+  },
+  <span class="hljs-attr">&quot;posts&quot;</span>: [
+    {
+      <span class="hljs-attr">&quot;title&quot;</span>: <span class="hljs-string">&quot;Introducing JSON Blog&quot;</span>,
+      <span class="hljs-attr">&quot;source&quot;</span>: <span class="hljs-string">&quot;https://gist.github.com/thomasdavis/db7db8d07ccb086504261802edf3069a/raw/introducing.md&quot;</span>
+    }
+  ],
+  <span class="hljs-attr">&quot;pages&quot;</span>: [
+    {
+      <span class="hljs-attr">&quot;title&quot;</span>: <span class="hljs-string">&quot;About&quot;</span>,
+      <span class="hljs-attr">&quot;source&quot;</span>: <span class="hljs-string">&quot;https://gist.githubusercontent.com/thomasdavis/3e7eed3648f3a3e3d7b9a84d99fa1da762c5b880/about.md&quot;</span>
+    }
+  ]
+}
+</code></pre>
+<p>As with any schema, you might say that the naming conventions are terrible, and I'd agree. The reasoning behind any individual semantic choices might be rather complex so I can just tell you by what principles I chose these initial ones.</p>
+<p>First, once you add anything to a schema, it cannot be removed without difficulty from the ecosystem. So I've only started with the bare essentials. There are some obvious additions to be made such as tags and categories but I've yet to define them for the second reason.</p>
+<p>Schema's are only valubable in so far as person's will agree with them. (all reality is just consensus anyway jks). The success of a schema is dependent on if it is agreeable or not, therefore you need to have a bunch of differing opinions. So there is a schema repo, where anyone can chime in and some people will be elevated to arbiters. And those who debate will complain about lack of change, can't blame them, but change should be slow. And I won't pretend, that Me, the programmatic surgeon dictator won't have a final say. All I can say on that is that I've been consistenly wrong and;</p>
+<blockquote>
+<blockquote>
+<p>We have two ears and one mouth so that we can listen twice as much as we speak - Epictetus</p>
+</blockquote>
+</blockquote>
+<h2>Ecosystem</h2>
+<p>The tools I've built are Javascript only but as a schematic the language of tooling is agnostic.</p>
+<p><code>source</code> in the schema is meant to promote that a blog shouldn't care where you host your content, just make it a publically accessible URI, of which plenty of servies support Drive, Dropbox, Gist, pastbin</p>
+<p>Essentially implying you can pass your <code>blog.json</code> to any function/company and they should be able to construct it. Which leads onto the concept of a <code>generator</code>;</p>
+<h3>Generators</h3>
+<p>A <code>generator</code> so far envisioned is a function that simply takes a <code>blog.json</code> and outputs an array of files and their content e.g.</p>
+<pre class="hljs"><code>{
+  <span class="hljs-attr">&quot;files&quot;</span>: [
+    {
+      <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;index.html&quot;</span>,
+      <span class="hljs-attr">&quot;content&quot;</span>: <span class="hljs-string">&quot;&lt;h1&gt;I am a good person&lt;/h1&gt;&quot;</span>
+    },
+    {
+      <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;assets/logo.svg&quot;</span>,
+      <span class="hljs-attr">&quot;content&quot;</span>: <span class="hljs-string">&quot;&lt;svg version=\&quot;1.1\&quot;&gt;&lt;text&gt;Hello noob&lt;/text&gt;&lt;/svg&gt;&quot;</span>
+    }
+  ]
+}
+</code></pre>
+<p>The <code>generator</code> should then loop through the files, create directories and files where necessary and pipe in the <code>content</code>.</p>
+<p>You can read more about generators at <a href="https://github.com/jsonblog/jsonblog-generator-boilerplate">https://github.com/jsonblog/jsonblog-generator-boilerplate</a></p>
+<p>This entire project is still under development, but looking for feedback because I can't tell if it is a good idea.</p>
+
+
+    </div>
+    <br />
+    Built by <a href="https://jsonblog.org">JSON Blog</a>
+  </div>
+</body>
+
+</html>
