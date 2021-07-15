@@ -6,10 +6,15 @@
   "basics": {
     "name": "Lord Ajax"
   },
-  "pages": [],
+  "pages": [
+    {
+      "title": "Contact",
+      "source": "https://gist.githubusercontent.com/thomasdavis/855f6d9869236b89de4a87a636ab3ac2/raw/27cbb309a4a30fd55ca1aa1eda4ea33bd0bb0659/contact.md"
+    }
+  ],
   "posts": [
     {
-      "title": "How to write a trading on in ~50 lines of code",
+      "title": "How to write a trading bot in ~50 lines of code",
       "source": "https://gist.githubusercontent.com/thomasdavis/aabc762ea2792beb08d01fddc9a9a8da/raw/f60522ec885fa3d6cb4f60b9f6622751a5be8b39/trading-bot.md"
     },
     {

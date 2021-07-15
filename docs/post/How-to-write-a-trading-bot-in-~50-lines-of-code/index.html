@@ -1,0 +1,180 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+    <title>How to write a trading bot in ~50 lines of code - Lord Ajax</title>
+  <meta name="description" content="hopefully someone likes this">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:title" content="How to write a trading bot in ~50 lines of code - Lord Ajax" />
+
+  <!-- Place favicon.ico in the root directory -->
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#fafafa">
+  <link rel="stylesheet" href="/main.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.0/styles/solarized-dark.min.css" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="title">Lord Ajax</div>
+    <div class="byline">hopefully someone likes this</div>
+    <div class="pages">
+      <a href="/">Home</a>
+        <a href="/Contact">Contact</a>
+    </div>
+
+    <div class="content">
+      <h1>Blockbid CCXT Tutorials</h1>
+<p><a href="https://platform.blockbid.io/trade/btctusd">blockbid.io</a> - Australian crypto exchange, no KYC required</p>
+<p>We thought it would be useful to show our users how to trade programatically at Blockbid. This repo will eventually contain a series of tutorials ranging from super beginner to advanced. Please use issues to suggest ideas about what you would like to see.</p>
+<h2>Requirements</h2>
+<ul>
+<li>Basic understanding of Javascript</li>
+<li>Basic understanding of trading</li>
+<li>NodeJS</li>
+</ul>
+<h2>Getting Started</h2>
+<p>After you have cloned the repo.</p>
+<ol>
+<li>Generate an API key on your <a href="https://platform.blockbid.io/settings/preferences">settings page</a></li>
+<li>Edit <code>stragies/safeMargins.js</code> to add your new API key</li>
+<li>Execute the commands below</li>
+</ol>
+<pre class="hljs"><code>npm i
+npm run start
+</code></pre>
+<h2>Safe High Margin Limit Order Tutorial</h2>
+<p>This tutorial will show you how to periodically set orders with high margins based off the average global market price.</p>
+<p>It is actually quite easy to write trading bots, and this one in particular is really only around 30-40 lines of code.</p>
+<p>It expects you to have two currencies e.g. BTC TUSD</p>
+<p>It will then place one sell order and one buy order every minute with fluctuating prices on the BTCTUSD market.</p>
+<p>We call it safe because the script is set to place orders 20% above and below market price, ensuring no one will likely match them, but if they do you should be happy.</p>
+<p>The code is fully documentated and you should be able to read it even if you have no programming experience.</p>
+<p>We love all feedback!</p>
+<p>Successful output should look like:</p>
+<pre class="hljs"><code>Starting safe margin limit order strategy
+Fetching current orders on BTC/TUSD
+Cancelling current orders on BTC/TUSD
+Finished cancelling 2 open orders
+Fetching the global average price for BTC/TUSD
+The global average price for BTC/TUSD is 10055.30417295
+By our calculations we want to
+Buy 0.0003019033084706648 BTC when the price is 8044.24333836
+Sell 0.0011350974232612501 TUSD when the price is 12066.36500754
+Successfully placed orders
+</code></pre>
+<p>Here is the contents of the script</p>
+<pre class="hljs"><code><span class="hljs-keyword">const</span> ccxt = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;ccxt&quot;</span>);
+<span class="hljs-keyword">const</span> axios = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;axios&quot;</span>); <span class="hljs-comment">// Used for API requests</span>
+
+<span class="hljs-comment">// WARNING: You will be placing orders on a real market place</span>
+<span class="hljs-keyword">const</span> TRADE = <span class="hljs-literal">false</span>;
+<span class="hljs-comment">// WARNING: Change the above to true, if you want to actually execute orders</span>
+
+<span class="hljs-keyword">const</span> API_KEY = <span class="hljs-string">&quot;&quot;</span>;
+<span class="hljs-keyword">const</span> SECRET = <span class="hljs-string">&quot;&quot;</span>;
+
+<span class="hljs-comment">// CCXT is a framework that was built to make trading across hundreds of exchanges</span>
+<span class="hljs-comment">// Here we initialize CCXT to trade with Blockbid</span>
+<span class="hljs-keyword">let</span> blockbidClient = <span class="hljs-keyword">new</span> ccxt.blockbid({
+  <span class="hljs-attr">apiKey</span>: API_KEY,
+  <span class="hljs-attr">secret</span>: SECRET
+});
+
+<span class="hljs-comment">// Here we define the configuration for a simple safe margin limit order strategy</span>
+
+<span class="hljs-keyword">const</span> marketQuote = <span class="hljs-string">&quot;BTC&quot;</span>;
+<span class="hljs-keyword">const</span> marketBase = <span class="hljs-string">&quot;TUSD&quot;</span>;
+<span class="hljs-keyword">const</span> market = <span class="hljs-string">`<span class="hljs-subst">${marketQuote}</span>/<span class="hljs-subst">${marketBase}</span>`</span>; <span class="hljs-comment">// e.g BTC/TUSD&quot;</span>
+
+<span class="hljs-keyword">const</span> volumePercentage = <span class="hljs-number">0.1</span>; <span class="hljs-comment">// What percentage of our available funds do we want to trade</span>
+<span class="hljs-keyword">const</span> priceVariation = <span class="hljs-number">0.2</span>; <span class="hljs-comment">// What price increase/decrease do we want to margin our orders with</span>
+<span class="hljs-keyword">const</span> shiftSeconds = <span class="hljs-number">60</span>; <span class="hljs-comment">// How often should we shift the price of our orders</span>
+
+<span class="hljs-comment">// This is our main function, once executed, our orders will be placed</span>
+<span class="hljs-keyword">const</span> strategy = <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;\n\n Starting safe margin limit order strategy&quot;</span>);
+
+  <span class="hljs-comment">// First let&#x27;s cancel any open orders open on this market</span>
+  <span class="hljs-comment">// To do that, we need to fetch a list of our open orders</span>
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Fetching current orders on&quot;</span>, market);
+  <span class="hljs-keyword">const</span> openOrders = <span class="hljs-keyword">await</span> blockbidClient.fetchOpenOrders(market);
+  <span class="hljs-comment">// Now that we have the open orders, let&#x27;s loop over them and cancel them</span>
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Cancelling current orders on&quot;</span>, market);
+  openOrders.forEach(<span class="hljs-keyword">async</span> order =&gt; {
+    <span class="hljs-keyword">await</span> blockbidClient.cancelOrder(order.id);
+  });
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Finished cancelling&quot;</span>, openOrders.length, <span class="hljs-string">&quot;open orders&quot;</span>);
+
+  <span class="hljs-comment">// The purpose of this script is to set safe/high-margin orders</span>
+  <span class="hljs-comment">// We use cryptonator to get a current rough global price for the market</span>
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Fetching the global average price for&quot;</span>, market);
+  <span class="hljs-keyword">const</span> globalPriceUrl = <span class="hljs-string">`https://api.cryptonator.com/api/ticker/<span class="hljs-subst">${marketQuote}</span>-<span class="hljs-subst">${marketBase}</span>`</span>;
+  <span class="hljs-keyword">const</span> globalPriceResponse = <span class="hljs-keyword">await</span> axios(globalPriceUrl); <span class="hljs-comment">// Axios makes network requests</span>
+  <span class="hljs-keyword">const</span> globalPrice = globalPriceResponse.data.ticker.price * <span class="hljs-number">1</span>;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;The global average price for&quot;</span>, market, <span class="hljs-string">&quot;is&quot;</span>, globalPrice);
+
+  <span class="hljs-comment">// Now that we have an average price, we want to calculate what our safe margins would be</span>
+  <span class="hljs-comment">// e.g. If the average global price for BTCTUSD is $10000</span>
+  <span class="hljs-comment">//      And our desired price variation is 20%</span>
+  <span class="hljs-comment">//      We would want to sell at $10000 + ($10000 * 0.2) which would be ~$12000</span>
+
+  <span class="hljs-keyword">const</span> sellPrice = globalPrice + globalPrice * priceVariation;
+  <span class="hljs-keyword">const</span> buyPrice = globalPrice - globalPrice * priceVariation;
+
+  <span class="hljs-comment">// Now we calculate what amount of volume we want to trade based off what we have</span>
+
+  <span class="hljs-comment">// First, let&#x27;s fetch our current balances on the exchange</span>
+  <span class="hljs-keyword">const</span> balances = <span class="hljs-keyword">await</span> blockbidClient.fetchBalance();
+
+  <span class="hljs-comment">// Now let&#x27;s find the balance of our accounts for the market we wish to trade on</span>
+  <span class="hljs-keyword">const</span> quoteBalance = balances.free[marketQuote]; <span class="hljs-comment">// e.g. 0.01 BTC</span>
+  <span class="hljs-keyword">const</span> baseBalance = balances.free[marketBase]; <span class="hljs-comment">// e.g. 30 TUSD</span>
+
+  <span class="hljs-comment">// To calculate how much we want to sell on this market we just</span>
+  <span class="hljs-comment">// simply use our account balance of the quote currency and multiply</span>
+  <span class="hljs-comment">// it by the percentage configured at the top of the file</span>
+  <span class="hljs-keyword">const</span> sellVolume = quoteBalance * volumePercentage;
+
+  <span class="hljs-comment">// To buy on this market is slightly different. We can only buy as much as we</span>
+  <span class="hljs-comment">// can afford by the balance of our base pair.</span>
+  <span class="hljs-comment">// If the price of BTCTUSD is $10000 and we only have $1000 TUSD</span>
+  <span class="hljs-comment">// then we can only afford to buy $1000 / $10000 = 0.1 BTC</span>
+  <span class="hljs-keyword">const</span> buyVolume = (baseBalance * volumePercentage) / globalPrice;
+
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;By our calculations we want to&quot;</span>);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Buy&quot;</span>, buyVolume, marketQuote, <span class="hljs-string">&quot;when the price is&quot;</span>, buyPrice);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Sell&quot;</span>, sellVolume, marketBase, <span class="hljs-string">&quot;when the price is&quot;</span>, sellPrice);
+
+  <span class="hljs-keyword">if</span> (TRADE) {
+    <span class="hljs-comment">// Now we simply execute our limit orders using CCXT</span>
+    <span class="hljs-keyword">await</span> blockbidClient.createLimitSellOrder(market, sellVolume, sellPrice);
+    <span class="hljs-keyword">await</span> blockbidClient.createLimitBuyOrder(market, buyVolume, buyPrice);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Successfully placed orders&quot;</span>);
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;TRADE EXECUTION IS DISABLED, SEE TOP OF FILE WARNING&quot;</span>);
+  }
+};
+
+<span class="hljs-keyword">const</span> safeMargins = <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-keyword">if</span> (API_KEY.length === <span class="hljs-number">0</span>) {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;You need to set your API key at the top of the file&quot;</span>);
+    <span class="hljs-keyword">return</span>;
+  }
+  strategy(); <span class="hljs-comment">// Call the strategy once</span>
+  <span class="hljs-comment">// Now set an interval which calls the function every X seconds</span>
+  <span class="hljs-built_in">setInterval</span>(strategy, shiftSeconds * <span class="hljs-number">1000</span>);
+};
+<span class="hljs-built_in">module</span>.exports = safeMargins;
+</code></pre>
+
+
+    </div>
+    <br />
+    Built by <a href="https://jsonblog.org">JSON Blog</a>
+  </div>
+</body>
+
+</html>
