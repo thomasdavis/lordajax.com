@@ -18,6 +18,10 @@
   ],
   "posts": [
     {
+      "title": "Omega WIP",
+      "source": "./posts/omega.md"
+    },
+    {
       "title": "How to write a trading bot in ~50 lines of code",
       "source": "https://gist.githubusercontent.com/thomasdavis/aabc762ea2792beb08d01fddc9a9a8da/raw/f60522ec885fa3d6cb4f60b9f6622751a5be8b39/trading-bot.md"
     },
