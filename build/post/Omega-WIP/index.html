@@ -65,7 +65,7 @@ Recording: CABLE Output (VB-Audio Virtual Cable)</p>
 <pre class="hljs"><code>BIO
 MEMORIES
 DEFAULT_CONVERSATION (a static manually defined conversation)
-LAST_CONVERSATION (the last 6-8 messages saved)
+PREVIOUS_CONVERSATION (the last 6-8 messages saved)
 NEW_TRANSCRIPTION (the latest speech to text)
 </code></pre>
 <h6>BIO</h6>
@@ -103,6 +103,7 @@ whether the new thing is a robot or not
 People: Hey Omega, does Chad like cookies?
 Omega: Yes
 </code></pre>
+<p>With more work (persistent query database) I believe this could actually work quite nicely.</p>
 <h6>DEFAULT_CONVERSATION</h6>
 <p>We are going to insert dynamic transcripts from Clubhouse eventually, but it's really good to always include a default/original bot that gives the persona an idea of how it is suppose to talk e.g. long, articulate and factual</p>
 <p>The current default conversational prompt for the &quot;Omega&quot; persona goes;</p>
@@ -123,7 +124,24 @@ Omega: Whale
 Omega: It's big
 </code></pre>
 <p>Hopefully this will make more sense as we talk about the next segments of the prompt.</p>
-<h6>LAST_CONVERSATION</h6>
+<h6>PREVIOUS_CONVERSATION</h6>
+<p>So as people talk and as the persona replies, everything is recorded into a transcript file so the bot always has an idea of what has been said previously, generally we only pop off 4-8 messages of the transcript e.g.</p>
+<pre class="hljs"><code>People:What is the meaning of life?
+Omega:We should start by saying that there is no meaning in life outside of that which we can find by ourselves as a species. There isn’t any kind of objective meaning written in the stars, in a holy book or in sequences of DNA.
+People:What is the holy book?
+Omega:The holy book generally refers to the Bible in the west.
+</code></pre>
+<p>So these previous discussion between people and &quot;Omega&quot; will also get appended to the prompt to send to GPT-3.</p>
+<p>This helps the personas have a bit more of a memory of what was previously said.</p>
+<p>Lastly, we want to append the latest thing somebody has said.</p>
+<h6>NEW_CONVERSATION</h6>
+<p>So we have constructed the majority of our prompt, by adding the BIO, MEMORIES, DEFAULT_CONVERSATION and PREVIOUS_CONVERSATION.</p>
+<p>All we have to do now is add the last thing a person said on Clubhouse.</p>
+<p>Once someone finishes speaking, we transcribe it to text it generate the last sequence of the prompt as such;</p>
+<pre class="hljs"><code>People:Did you understand what I previously said?
+Omega:
+</code></pre>
+<p>That last line of the prompt <code>Omega:</code> tells GPT-3 that it now wants a response to the conversation.</p>
 <h5>Text To speech</h5>
 <p>google deep voice
 <a href="https://cloud.google.com/text-to-speech">https://cloud.google.com/text-to-speech</a>

@@ -68,7 +68,7 @@ The prompt made for Omega bot personas follows this structure.
 BIO
 MEMORIES
 DEFAULT_CONVERSATION (a static manually defined conversation)
-LAST_CONVERSATION (the last 6-8 messages saved)
+PREVIOUS_CONVERSATION (the last 6-8 messages saved)
 NEW_TRANSCRIPTION (the latest speech to text)
 ```
 
@@ -125,6 +125,8 @@ People: Hey Omega, does Chad like cookies?
 Omega: Yes
 ```
 
+With more work (persistent query database) I believe this could actually work quite nicely.
+
 ###### DEFAULT_CONVERSATION
 
 We are going to insert dynamic transcripts from Clubhouse eventually, but it's really good to always include a default/original bot that gives the persona an idea of how it is suppose to talk e.g. long, articulate and factual
@@ -158,7 +160,37 @@ Omega: It's big
 
 Hopefully this will make more sense as we talk about the next segments of the prompt.
 
-###### LAST_CONVERSATION
+###### PREVIOUS_CONVERSATION
+
+So as people talk and as the persona replies, everything is recorded into a transcript file so the bot always has an idea of what has been said previously, generally we only pop off 4-8 messages of the transcript e.g.
+
+```
+People:What is the meaning of life?
+Omega:We should start by saying that there is no meaning in life outside of that which we can find by ourselves as a species. There isn’t any kind of objective meaning written in the stars, in a holy book or in sequences of DNA.
+People:What is the holy book?
+Omega:The holy book generally refers to the Bible in the west.
+```
+
+So these previous discussion between people and "Omega" will also get appended to the prompt to send to GPT-3.
+
+This helps the personas have a bit more of a memory of what was previously said.
+
+Lastly, we want to append the latest thing somebody has said.
+
+###### NEW_CONVERSATION
+
+So we have constructed the majority of our prompt, by adding the BIO, MEMORIES, DEFAULT_CONVERSATION and PREVIOUS_CONVERSATION.
+
+All we have to do now is add the last thing a person said on Clubhouse.
+
+Once someone finishes speaking, we transcribe it to text it generate the last sequence of the prompt as such;
+
+```
+People:Did you understand what I previously said?
+Omega:
+```
+
+That last line of the prompt `Omega:` tells GPT-3 that it now wants a response to the conversation.
 
 ##### Text To speech
 
