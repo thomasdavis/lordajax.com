@@ -13,9 +13,8 @@ At this point, people in clubhouse should be able to have a back and fourth with
 
 [https://www.youtube.com/watch?v=XoSjVnUVu_U](https://www.youtube.com/watch?v=XoSjVnUVu_U) - 15 minute demonstration of the bot in action
 
-<!-- TOC titleSize:3 tabSpaces:2 depthFrom:1 depthTo:7 withLinks:1 updateOnSave:1 orderedList:1 skip:0 title:1 charForUnorderedList:* -->
+<!-- TOC titleSize:3 tabSpaces:2 depthFrom:2 depthTo:7 withLinks:1 updateOnSave:1 orderedList:1 skip:0 title:1 charForUnorderedList:* -->
 ### Table of Contents
-1. [Omega - Clubhouse GPT-3 bot](#omega---clubhouse-gpt-3-bot)
     1. [Implementation](#implementation)
       1. [Clubhouse / Clubdeck](#clubhouse--clubdeck)
       2. [VB Audio control](#vb-audio-control)

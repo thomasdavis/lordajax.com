@@ -36,30 +36,21 @@ Once GPT-3 replies with a textual response, it triggers Omega to do &quot;text-t
 At this point, people in clubhouse should be able to have a back and fourth with GPT-3.</p>
 <p><a href="https://github.com/thomasdavis/omega">https://github.com/thomasdavis/omega</a> - The code is all open source</p>
 <p><a href="https://www.youtube.com/watch?v=XoSjVnUVu_U">https://www.youtube.com/watch?v=XoSjVnUVu_U</a> - 15 minute demonstration of the bot in action</p>
-<!-- TOC titleSize:3 tabSpaces:2 depthFrom:1 depthTo:7 withLinks:1 updateOnSave:1 orderedList:1 skip:0 title:1 charForUnorderedList:* -->
+<!-- TOC titleSize:3 tabSpaces:2 depthFrom:2 depthTo:7 withLinks:1 updateOnSave:1 orderedList:1 skip:0 title:1 charForUnorderedList:* -->
 <h3>Table of Contents</h3>
-<ol>
-<li><a href="#omega---clubhouse-gpt-3-bot">Omega - Clubhouse GPT-3 bot</a>
-<ol>
-<li><a href="#implementation">Implementation</a></li>
-<li><a href="#clubhouse--clubdeck">Clubhouse / Clubdeck</a></li>
-<li><a href="#vb-audio-control">VB Audio control</a></li>
-<li><a href="#omega--nodejs">Omega / Node.js</a>
-1. <a href="#speech-to-text">Speech To Text</a>
-2. <a href="#gpt-3-response">GPT-3 Response</a>
-<ol>
-<li><a href="#bio">BIO</a></li>
-<li><a href="#memories">MEMORIES</a></li>
-<li><a href="#defaultconversation">DEFAULT_CONVERSATION</a></li>
-<li><a href="#previousconversation">PREVIOUS_CONVERSATION</a></li>
-<li><a href="#newconversation">NEW_CONVERSATION</a></li>
-</ol>
-</li>
-</ol>
-<pre><code> 3. [Text To speech](#text-to-speech)
+<pre><code>1. [Implementation](#implementation)
+  1. [Clubhouse / Clubdeck](#clubhouse--clubdeck)
+  2. [VB Audio control](#vb-audio-control)
+  3. [Omega / Node.js](#omega--nodejs)
+    1. [Speech To Text](#speech-to-text)
+    2. [GPT-3 Response](#gpt-3-response)
+      1. [BIO](#bio)
+      2. [MEMORIES](#memories)
+      3. [DEFAULT_CONVERSATION](#defaultconversation)
+      4. [PREVIOUS_CONVERSATION](#previousconversation)
+      5. [NEW_CONVERSATION](#newconversation)
+    3. [Text To speech](#text-to-speech)
 </code></pre>
-</li>
-</ol>
 <!-- /TOC -->
 <h3>Implementation</h3>
 <p>The bot is a bit finicky to get working (currently only works on Windows to my chagrin, I am a life long Linux user).</p>
