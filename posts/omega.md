@@ -11,9 +11,9 @@ At this point, people in clubhouse should be able to have a back and fourth with
 
 [https://github.com/thomasdavis/omega](https://github.com/thomasdavis/omega) - The code is all open source
 
-[https://www.youtube.com/watch?v=XoSjVnUVu_U](https://www.youtube.com/watch?v=XoSjVnUVu_U) - 15 minute demonstration of the bot in action
+[https://www.youtube.com/watch?v=es-Xcz_n6f8](https://www.youtube.com/watch?v=es-Xcz_n6f8&ab_channel=AjaxDavisrett) - 15 minute demonstration of the bot in action
 
-<embed goes here>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/es-Xcz_n6f8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <!-- TOC titleSize:3 tabSpaces:2 depthFrom:2 depthTo:7 withLinks:0 updateOnSave:1 orderedList:1 skip:0 title:1 charForUnorderedList:* -->
 ### Table of Contents
@@ -281,8 +281,3 @@ These are just some ideas for improvements to be made;
 ### Credits
 - All of the technologies already referenced in this post
 - All of the clubhouse folk who have been playing with Omega
-
-
-todo:
-- Video demo embed
-- Stats
