@@ -12,9 +12,9 @@ Using the system described above, Omega is able to converse with people using th
 
 [https://github.com/thomasdavis/omega](https://github.com/thomasdavis/omega) - The code is all open source
 
-[https://www.youtube.com/watch?v=XoSjVnUVu_U](https://www.youtube.com/watch?v=XoSjVnUVu_U) - A 15-minute video demo
+[https://www.youtube.com/watch?v=es-Xcz_n6f8](https://www.youtube.com/watch?v=es-Xcz_n6f8&t=331s) - A video demo
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/es-Xcz_n6f8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/es-Xcz_n6f8?start=331" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <!-- TOC titleSize:3 tabSpaces:2 depthFrom:2 depthTo:7 withLinks:0 updateOnSave:1 orderedList:1 skip:0 title:1 charForUnorderedList:* -->
 ### Table of Contents
