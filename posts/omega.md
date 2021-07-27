@@ -14,7 +14,7 @@ Using the system described above, Omega is able to converse with people using th
 
 [https://www.youtube.com/watch?v=XoSjVnUVu_U](https://www.youtube.com/watch?v=XoSjVnUVu_U) - A 15-minute video demo
 
-<embed goes here>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/es-Xcz_n6f8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <!-- TOC titleSize:3 tabSpaces:2 depthFrom:2 depthTo:7 withLinks:0 updateOnSave:1 orderedList:1 skip:0 title:1 charForUnorderedList:* -->
 ### Table of Contents
@@ -22,16 +22,16 @@ Using the system described above, Omega is able to converse with people using th
       1. Clubhouse / Clubdeck
       2. VB-Audio CABLE
       3. Omega / Node.js
-        1. Speech To Text
+        1. Speech-to-Text
         2. GPT-3 Response
           1. BIO
           2. MEMORIES
           3. DEFAULT_CONVERSATION
           4. PREVIOUS_CONVERSATION
           5. NEW_CONVERSATION
-        3. Text To speech
+        3. Text-to-Speech
     2. Conclusion
-    3. Next steps
+    3. Next Steps
     4. Credits
 <!-- /TOC -->
 
@@ -63,7 +63,7 @@ Download: https://vb-audio.com/Cable/
 
 The Node.js client listens to audio output from Clubdeck, transcribes the spoken words and sends a transcription and a prompt to GPT-3. Upon receiving a response from GPT-3, the client converts this text to synthesized speech and then delivers this as an audio stream to Clubdeck's virtual microphone.
 
-Here is a work of art that I obviously spent a lot of time creating that shows the basic flow -> https://i.imgur.com/2UcWUa6.jpg 
+Here is a work of art that I obviously spent a lot of time creating that shows the basic flow -> https://i.imgur.com/2UcWUa6.jpg
 
 ##### Speech-to-Text
 
@@ -272,7 +272,3 @@ These are just some ideas for improvements to be made:
 ### Credits
 - All of the technologies already referenced in this post.
 - All of the Clubhouse folk who have played with Omega.
-
-## To Do
-- Video demo embed
-- Stats
