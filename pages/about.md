@@ -9,7 +9,7 @@ You can find my full resume at [https://registry.jsonresume.org/thomasdavis](htt
 
 ### Projects
 
-- [cdnjs](https://cdnjs.com) - a javascript cdn
+- [cdnjs](https://en.wikipedia.org/wiki/Cdnjs) - a javascript cdn
 - [jsonresume](https://jsonresume.org) - open source schema for resumes
 - [taskforce](https://taskforce.is) - some old work I did on hacktavist/civic tools and campaigns
 - [jsonblog](https://github.com/jsonblog) - a new project where your entire blog is built from 1 file
