@@ -7,11 +7,19 @@ I've only just setup this blog, so not much to say here;
 
 You can find my full resume at [https://registry.jsonresume.org/thomasdavis](https://registry.jsonresume.org/thomasdavis)
 
+### Contact
+
+I love meeting new people, please reach out;
+
+- [@thomasdavis](https://github.com/thomasdavis) on github
+- [@ajaxdavis](https://twitter.com/ajaxdavis) on twitter
+- thomasalwyndavis@gmail.com
+
 ### Projects
 
 - [cdnjs](https://en.wikipedia.org/wiki/Cdnjs) - a javascript cdn
 - [jsonresume](https://jsonresume.org) - open source schema for resumes
-- [taskforce](https://taskforce.is) - some old work I did on hacktavist/civic tools and campaigns
+- [taskforce](https://github.com/tfrce) - some old work I did on hacktavist/civic tools and campaigns
 - [jsonblog](https://github.com/jsonblog) - a new project where your entire blog is built from 1 file
 
 ### Media
