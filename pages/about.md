@@ -1,6 +1,6 @@
 I've only just setup this blog, so not much to say here;
 
-- I like programming, done a bunch of stuff over some amount of years
+- I like programming, a life time hobbyist programmer
 - Try to read and would like to write
 - Gardening is my favorite outdoor hobby
 - Love collaborating and meeting new people
@@ -17,10 +17,19 @@ I love meeting new people, please reach out;
 
 ### Projects
 
-- [cdnjs](https://en.wikipedia.org/wiki/Cdnjs) - a javascript cdn
-- [jsonresume](https://jsonresume.org) - open source schema for resumes
-- [taskforce](https://github.com/tfrce) - some old work I did on hacktavist/civic tools and campaigns
-- [jsonblog](https://github.com/jsonblog) - a new project where your entire blog is built from 1 file
+- [cdnjs](https://en.wikipedia.org/wiki/Cdnjs) - co-founded a javascript cdn
+- [jsonresume](https://jsonresume.org) - co-founded an open source schema for resumes with a built in ecosystem
+- [taskforce](https://github.com/tfrce) - core team on hacktavist/civic tools and campaigns
+- [jsonblog](https://github.com/jsonblog) - founded a blog generator that builds from 1 blog.json file
+- [backbonetutorials](https://leanpub.com/backbonetutorials) - an old series of tutorials I wrote turned into an ebook
+- [fake resumes gpt3](https://gpt3.jsonresume.org/) - generating completely fake contextual resumes with GPT-3
+- [fake resumes manual](https://fake.jsonresume.org/) - trained 10 different text ML models to generate fake resumes
+- [computer vision to identify flags](https://github.com/australia/aboriginal-flag-cv-model) - trained a pytorch CV model to identify the aboriginal flag
+
+### Interviews
+
+- 2015-30-07 - [An Interview with Thomas Davis, Author of Backbone Tutorials](https://leanpub.medium.com/leanpub-podcast-interview-22-thomas-davis-f194c0c3d906)
+- 2014-03-05 - [Behind CDNJS](https://www.youtube.com/watch?v=Pjj-5YEy1Z0)
 
 ### Media
 
