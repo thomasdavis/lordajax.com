@@ -1,4 +1,4 @@
 export default function handler(req, res) {
   console.log(req.body, req.param);
-  res.status(200).json({ name: "John ssss" + req.query.username });
+  res.status(200).json({ name: "reg ssss" + req.query.username });
 }
