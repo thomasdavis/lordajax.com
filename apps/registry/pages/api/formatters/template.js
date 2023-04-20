@@ -10,7 +10,7 @@ const THEMES = {
   dave: require("jsonresume-theme-dave"),
   elegant: require("jsonresume-theme-elegant"),
   elite: require("jsonresume-theme-elite"),
-  eloquent: require("jsonresume-theme-eloquent"),
+  // eloquent: require("jsonresume-theme-eloquent"),
   "el-santo": require("jsonresume-theme-el-santo"),
   even: require("jsonresume-theme-even"),
   flat: require("jsonresume-theme-flat"),
