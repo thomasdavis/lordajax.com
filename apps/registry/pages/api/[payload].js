@@ -28,8 +28,6 @@ export default async function handler(req, res) {
     return res.status(200).send("not supported file type");
   }
 
-  console.log({ fileType });
-
   const formatter = FORMATTERS[fileType];
 
   if (!formatter) {
@@ -37,7 +35,6 @@ export default async function handler(req, res) {
   }
 
   const formatted = await formatter.format(selectedResume, req.query);
-  console.log(formatted);
 
   // const rendered = {
   //   theme,
