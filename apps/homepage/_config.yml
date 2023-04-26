@@ -9,4 +9,3 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - README.md
-  - Vagrantfile
