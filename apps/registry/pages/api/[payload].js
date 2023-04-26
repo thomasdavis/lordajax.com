@@ -1,13 +1,13 @@
-const sampleResume = require("./samples/resume");
-
-const THEMES = { paper: require("jsonresume-theme-paper") };
+const sampleResume = require('./samples/resume');
+const fs = require('fs');
+const THEMES = { paper: require('jsonresume-theme-paper') };
 
 const FORMATTERS = {
-  qr: require("./formatters/qr"),
-  template: require("./formatters/template"),
+  qr: require('./formatters/qr'),
+  template: require('./formatters/template'),
 };
 
-const FILE_TYPES = new Set(["qr", "json", "text", "template"]);
+const FILE_TYPES = new Set(['qr', 'json', 'text', 'template']);
 
 export default async function handler(req, res) {
   const { theme, payload } = req.query;
@@ -15,23 +15,23 @@ export default async function handler(req, res) {
 
   const selectedResume = resume ?? sampleResume;
 
-  const payloadSplit = payload.split(".");
+  const payloadSplit = payload.split('.');
 
   const username = payloadSplit[0];
-  let fileType = "template";
+  let fileType = 'template';
 
   if (payloadSplit.length === 2) {
     fileType = payloadSplit[1];
   }
 
   if (!FILE_TYPES.has(fileType)) {
-    return res.status(200).send("not supported file type");
+    return res.status(200).send('not supported file type');
   }
 
   const formatter = FORMATTERS[fileType];
 
   if (!formatter) {
-    return res.status(200).send("not supported formatted");
+    return res.status(200).send('not supported formatted');
   }
 
   const formatted = await formatter.format(selectedResume, req.query);
@@ -43,6 +43,7 @@ export default async function handler(req, res) {
   //   selectedResume,
   //   fileType,
   // };
+  fs.writeFileSync('a.html', formatted, 'utf8');
 
   // res.status(200).json(rendered);
   res.status(200).send(formatted);
