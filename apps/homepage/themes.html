@@ -71,6 +71,42 @@ title: Themes
     </div>
     {% endfor %}
   </div>
+  <h2>Broken - Being repaired</h2>
+  <div class="row">
+    {% for theme in site.data.broken %}
+    <div class="col-sm-4 col-md-3">
+      <div class="theme">
+        <div class="row">
+          <div class="col-sm-12 col-xs-6">
+            <a
+              href="https://registry.jsonresume.org/thomasdavis?theme={{ theme.slug }}"
+            >
+              <img
+                style="height: 129px;"
+                src="/img/themes/{{ theme.slug }}.jpeg"
+              />
+            </a>
+          </div>
+          <div class="col-sm-12 col-xs-6 meta">
+            <div class="name">{{ theme.name }}</div>
+            <div class="author">
+              by <a href="{{theme.link}}" target="_blank">{{ theme.author }}</a>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <a
+              href="https://registry.jsonresume.org/thomasdavis?theme={{ theme.slug }}"
+              class="btn"
+              >Preview theme</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
   <div class="row">
     <div class="clear: both;"></div>
 
