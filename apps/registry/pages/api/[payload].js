@@ -5,9 +5,12 @@ const THEMES = { paper: require('jsonresume-theme-paper') };
 const FORMATTERS = {
   qr: require('./formatters/qr'),
   template: require('./formatters/template'),
+  tex: require('./formatters/tex'),
+  text: require('./formatters/text'),
+  json: require('./formatters/json'),
 };
 
-const FILE_TYPES = new Set(['qr', 'json', 'text', 'template']);
+const FILE_TYPES = new Set(['qr', 'json', 'tex', 'text', 'template']);
 
 export default async function handler(req, res) {
   const { theme, payload } = req.query;
