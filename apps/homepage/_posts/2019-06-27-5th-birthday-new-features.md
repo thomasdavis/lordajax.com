@@ -2,7 +2,7 @@
 layout: post
 title: "5th Birthday and New Features"
 date: 2019-06-27 14:18:05
-permalink: /blog/5th-birthday-new-features
+permalink: /blog/5th-birthday-new-features/
 ---
 
 It was our 5th birthday last week and we are happy to announce some new features. Development has been slow. In retrospect this is a good thing for something that purports to be a standard. We didn't make any radical changes which kept the ecosystem stable. The community still exists due to many members contributing above and beyond. We extend thanks to people have written themes, parsers, converters, tools and services. The website will soon showcase the plethora of projects built around JSON Resume.
