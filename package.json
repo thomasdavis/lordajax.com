@@ -13,5 +13,8 @@
     "turbo": "latest"
   },
   "packageManager": "pnpm@7.15.0",
-  "name": "jsonresume.org"
+  "name": "jsonresume.org",
+  "dependencies": {
+    "dotenv": "^16.0.3"
+  }
 }
