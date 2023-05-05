@@ -17,7 +17,10 @@ const GITHUB_TOKEN = "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"; // @todo - remo
 const FILE_TYPES = new Set(["qr", "json", "tex", "text", "template"]);
 
 const failMessage = (message) => {
-  return message + ", message @ajaxdavis on twitter if you need help";
+  return (
+    message +
+    ", message @ajaxdavis on twitter if you need help (or tag me in your gist comments @thomasdavis"
+  );
 };
 
 export default async function handler(req, res) {
