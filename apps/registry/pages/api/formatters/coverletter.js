@@ -14,26 +14,26 @@ const format = async function format(resume) {
     },
   });
 
+  const prompt = `
+  Hi there, this is my resume in the YAML format.
+
+  ${data}
+
+  Please write me a cover letter
+  `;
+  //   console.log({ resume });
   //   const prompt = `
   // Hi there, this is my resume in the YAML format.
 
   // ${data}
 
-  // Please write me a cover letter
+  // Please give me detail suggestions on how to improve it e.g.
+  // - Bad spelling and grammar
+  // - Sentences that seem irrelvant
+  // - Better ways of saying things
+
+  // Do not give general tips.
   // `;
-
-  const prompt = `
-Hi there, this is my resume in the YAML format. 
-  
-${data}
-
-Please give me detail suggestions on how to improve it e.g.
-- Bad spelling and grammar
-- Sentences that seem irrelvant 
-- Better ways of saying things
-
-Do not give general tips.
-`;
 
   const res = await api.sendMessage(prompt);
   return res.text;
