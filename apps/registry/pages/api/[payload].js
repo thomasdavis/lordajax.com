@@ -2,19 +2,31 @@ const sampleResume = require('./samples/resume');
 const fs = require('fs');
 const find = require('lodash/find');
 const axios = require('axios');
+import coverletter from './formatters/coverletter';
 
 const FORMATTERS = {
   qr: require('./formatters/qr'),
   template: require('./formatters/template'),
   tex: require('./formatters/tex'),
-  text: require('./formatters/text'),
+  txt: require('./formatters/text'),
   json: require('./formatters/json'),
+  // coverletter: require('./formatters/coverletter'),
+  coverletter: { format: coverletter },
+  yaml: require('./formatters/yaml'),
 };
 
 // const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const GITHUB_TOKEN = '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'; // @todo - remove this
 
-const FILE_TYPES = new Set(['qr', 'json', 'tex', 'text', 'template']);
+const FILE_TYPES = new Set([
+  'qr',
+  'json',
+  'tex',
+  'txt',
+  'template',
+  'coverletter',
+  'yaml',
+]);
 
 const failMessage = (message) => {
   return (
@@ -30,7 +42,7 @@ export default async function handler(req, res) {
 
   const username = payloadSplit[0];
   let fileType = 'template';
-
+  console.log('asdas');
   if (payloadSplit.length === 2) {
     fileType = payloadSplit[1];
   }
@@ -40,7 +52,7 @@ export default async function handler(req, res) {
   }
 
   const formatter = FORMATTERS[fileType];
-
+  console.log({ formatter });
   if (!formatter) {
     return res.status(200).send(failMessage('not supported formatted'));
   }
@@ -121,6 +133,7 @@ export default async function handler(req, res) {
 
   const options = { ...req.query, theme: realTheme };
   let formatted = '';
+  console.log('asd', formatter);
   try {
     formatted = await formatter.format(selectedResume, options);
   } catch (e) {
