@@ -45,9 +45,6 @@ export default async function handler(req, res) {
     return res.status(200).send(failMessage('not supported formatted'));
   }
 
-  const formatted1 = await formatter.format(sampleResume, { theme: 'paper' });
-  return res.status(200).send(formatted1);
-
   if (
     [
       'favicon.ico',
