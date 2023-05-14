@@ -11,7 +11,7 @@ const format = async function format(resume) {
     // apiKey: process.env.OPENAI_API_KEY,
     completionParams: {
       // model: 'gpt-4',
-      temperature: 0.5,
+      temperature: 0.9,
       top_p: 0.8,
     },
   });
