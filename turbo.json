@@ -4,12 +4,12 @@
   "pipeline": {
     "build": {
       "outputs": [".next/**", "!.next/cache/**"],
-      "env": ["DATABASE_URL", "GITHUB_TOKEN"]
     },
     "lint": {},
     "dev": {
       "cache": false,
       "persistent": true
     }
-  }
+  },
+  "globalEnv": ["DATABASE_URL", "GITHUB_TOKEN"]
 }
