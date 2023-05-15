@@ -23,8 +23,9 @@ const format = async function format(resume) {
   - Bad spelling and grammar
   - Sentences that seem irrelvant
   - Better ways of saying things
+  - Jobs and skills that I could have described better
 
-  Do not give general tips.
+  Do not give general tips. Be as specific about my actual resume as possible.
   `;
 
   const res = await api.sendMessage(prompt);
