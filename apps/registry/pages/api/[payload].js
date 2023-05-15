@@ -3,6 +3,7 @@ const fs = require('fs');
 const find = require('lodash/find');
 const axios = require('axios');
 import coverletter from './formatters/coverletter';
+import suggest from './formatters/suggest';
 
 const FORMATTERS = {
   qr: require('./formatters/qr'),
@@ -10,8 +11,8 @@ const FORMATTERS = {
   tex: require('./formatters/tex'),
   txt: require('./formatters/text'),
   json: require('./formatters/json'),
-  // coverletter: require('./formatters/coverletter'),
-  coverletter: { format: coverletter },
+  suggest: { format: suggest },
+  letter: { format: coverletter },
   yaml: require('./formatters/yaml'),
 };
 
