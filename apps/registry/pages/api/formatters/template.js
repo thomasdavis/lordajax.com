@@ -74,6 +74,10 @@ const format = async function (resume, options) {
         key: 'Cache-control',
         value: 'public, max-age=90',
       },
+      {
+        key: 'Content-Type',
+        value: 'text/html',
+      },
     ],
   };
 };

@@ -12,3 +12,5 @@ export const render = (resume) => {
   console.log({ styles });
   return renderToString(<Document body={body} styles={styles} />);
 };
+
+export { Resume };
