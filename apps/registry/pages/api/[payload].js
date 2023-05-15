@@ -2,6 +2,8 @@ const sampleResume = require('./samples/resume');
 const fs = require('fs');
 const find = require('lodash/find');
 const axios = require('axios');
+const Validator = require('jsonschema').Validator;
+import schema from './schema';
 import letter from './formatters/letter';
 import suggest from './formatters/suggest';
 import qr from './formatters/qr';
@@ -35,7 +37,7 @@ const failMessage = (message) => {
 
 export default async function handler(req, res) {
   const { theme, payload } = req.query;
-
+  const v = new Validator();
   const payloadSplit = payload.split('.');
 
   const username = payloadSplit[0];
@@ -140,6 +142,23 @@ export default async function handler(req, res) {
   realTheme = realTheme.toLowerCase();
 
   const selectedResume = resumeRes?.data ?? sampleResume;
+  const validation = v.validate(selectedResume, schema);
+
+  if (!validation.valid) {
+    return res.status(200).send(
+      failMessage('Validation failed') +
+        `
+    
+Your resume does not conform to the schema, visit https://jsonresume.org/schema/ to double check why. But the error message below should contain all the information you need.
+
+=====
+
+${JSON.stringify(validation.errors, null, 2)}
+
+=====
+    `
+    );
+  }
 
   const options = { ...req.query, theme: realTheme, username };
   let formatted = '';

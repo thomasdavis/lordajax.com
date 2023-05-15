@@ -64,6 +64,7 @@
     "jsonresume-theme-techlead": "^1.0.1",
     "jsonresume-theme-verbum": "^0.0.5",
     "jsonresume-theme-wraypro": "^0.0.5",
+    "jsonschema": "^1.4.1",
     "lodash": "^4.17.21",
     "next": "latest",
     "qr-image": "^3.2.0",

@@ -222,6 +222,9 @@ importers:
       jsonresume-theme-wraypro:
         specifier: ^0.0.5
         version: 0.0.5
+      jsonschema:
+        specifier: ^1.4.1
+        version: 1.4.1
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -4586,6 +4589,10 @@ packages:
       gravatar: 1.8.2
       moment: 2.29.4
       underscore: 1.13.6
+    dev: false
+
+  /jsonschema@1.4.1:
+    resolution: {integrity: sha512-S6cATIPVv1z0IlxdN+zUk5EPjkGCdnhN4wVSBlvoUO1tOLJootbo9CquNJmbIh4yikWHiUedhRYrNPn1arpEmQ==}
     dev: false
 
   /jsprim@1.4.2:
