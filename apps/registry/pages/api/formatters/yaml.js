@@ -1,7 +1,7 @@
 const format = async function format(resume) {
   const YAML = require('json-to-pretty-yaml');
-  const data = YAML.stringify(resume);
-  return data;
+  const content = YAML.stringify(resume);
+  return { content, headers: [] };
 };
 
-export { format };
+export default { format };

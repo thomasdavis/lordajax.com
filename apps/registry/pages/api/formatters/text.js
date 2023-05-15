@@ -1,5 +1,5 @@
 const format = async function format(resume) {
-  return `
+  const content = `
 ${resume.basics.name}
 Pittsburgh, PA 15201
 (555) 555-5555
@@ -41,6 +41,8 @@ EDUCATION
 Park Point University Pittsburgh, PA
 Bachelor of Arts Hospitality Management
 `;
+
+  return { content, headers: [] };
 };
 
-export { format };
+export default { format };

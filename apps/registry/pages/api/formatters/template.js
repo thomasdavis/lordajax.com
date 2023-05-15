@@ -65,7 +65,16 @@ const format = async function (resume, options) {
   const theme = options.theme ?? 'elegant';
   const themeRenderer = getTheme(theme);
   const resumeHTML = themeRenderer.render(resume);
-  return resumeHTML;
+
+  return {
+    content: resumeHTML,
+    headers: [
+      {
+        key: 'Cache-control',
+        value: 'public, max-age=90',
+      },
+    ],
+  };
 };
 
-export { format };
+export default { format };

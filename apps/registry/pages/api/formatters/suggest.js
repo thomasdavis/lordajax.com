@@ -29,7 +29,7 @@ const format = async function format(resume) {
   `;
 
   const res = await api.sendMessage(prompt);
-  return res.text;
+  return { content: res.text, headers: [] };
 };
 
-export default format;
+export default { format };

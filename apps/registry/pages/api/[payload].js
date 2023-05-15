@@ -2,19 +2,15 @@ const sampleResume = require('./samples/resume');
 const fs = require('fs');
 const find = require('lodash/find');
 const axios = require('axios');
-import coverletter from './formatters/coverletter';
+import letter from './formatters/letter';
 import suggest from './formatters/suggest';
-
-const FORMATTERS = {
-  qr: require('./formatters/qr'),
-  template: require('./formatters/template'),
-  tex: require('./formatters/tex'),
-  txt: require('./formatters/text'),
-  json: require('./formatters/json'),
-  suggest: { format: suggest },
-  letter: { format: coverletter },
-  yaml: require('./formatters/yaml'),
-};
+import qr from './formatters/qr';
+import template from './formatters/template';
+import txt from './formatters/text';
+import tex from './formatters/tex';
+import json from './formatters/json';
+import yaml from './formatters/yaml';
+import { format } from 'path';
 
 // const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const GITHUB_TOKEN = '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'; // @todo - remove this
@@ -53,7 +49,19 @@ export default async function handler(req, res) {
     return res.status(200).send(failMessage('not supported file type'));
   }
 
+  const FORMATTERS = {
+    qr,
+    json,
+    tex,
+    txt,
+    template,
+    letter,
+    suggest,
+    yaml,
+  };
+
   const formatter = FORMATTERS[fileType];
+
   console.log({ formatter });
   if (!formatter) {
     return res.status(200).send(failMessage('not supported formatted'));
@@ -133,7 +141,7 @@ export default async function handler(req, res) {
 
   const selectedResume = resumeRes?.data ?? sampleResume;
 
-  const options = { ...req.query, theme: realTheme };
+  const options = { ...req.query, theme: realTheme, username };
   let formatted = '';
   console.log('asd', formatter);
   try {
@@ -149,8 +157,14 @@ export default async function handler(req, res) {
       );
   }
 
-  res.setHeader('Cache-control', 'public, max-age=90');
+  formatted.headers.forEach((header) => {
+    res.setHeader(header.key, header.value);
+  });
 
-  // res.status(200).json(rendered);
-  return res.status(200).send(formatted);
+  if (formatted.content instanceof Buffer) {
+    // handles images/binary
+    formatted.content.pipe(res);
+  } else {
+    return res.status(200).send(formatted.content);
+  }
 }

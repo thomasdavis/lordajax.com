@@ -1,5 +1,5 @@
 const format = async function format(resume) {
-  return JSON.stringify(resume, undefined, 4);
+  return { content: JSON.stringify(resume, undefined, 4), headers: [] };
 };
 
-export { format };
+export default { format };
