@@ -58,6 +58,7 @@
     "jsonresume-theme-srt": "^0.1.3",
     "jsonresume-theme-stackoverflow": "^2.0.0",
     "jsonresume-theme-stackoverflowed": "^1.1.5",
+    "jsonresume-theme-standard": "*",
     "jsonresume-theme-standard-resume": "^2.1.0",
     "jsonresume-theme-tachyons-clean": "^0.0.9",
     "jsonresume-theme-tan-responsive": "^0.0.7",

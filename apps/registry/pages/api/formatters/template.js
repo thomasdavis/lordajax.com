@@ -42,6 +42,7 @@ export const THEMES = {
   srt: require('jsonresume-theme-srt'),
   stackoverflowed: require('jsonresume-theme-stackoverflowed'),
   stackoverflow: require('jsonresume-theme-stackoverflow'),
+  standard: require('jsonresume-theme-standard'),
   'standard-resume': require('jsonresume-theme-standard-resume'),
   'tachyons-clean': require('jsonresume-theme-tachyons-clean'),
   'tan-responsive': require('jsonresume-theme-tan-responsive'),
