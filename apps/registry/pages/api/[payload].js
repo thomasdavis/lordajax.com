@@ -14,8 +14,9 @@ import json from './formatters/json';
 import yaml from './formatters/yaml';
 import { format } from 'path';
 
-// const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const GITHUB_TOKEN = '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'; // @todo - remove this
+const { Client } = require('pg');
+
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
 const FILE_TYPES = new Set([
   'qr',
@@ -159,6 +160,31 @@ ${JSON.stringify(validation.errors, null, 2)}
     `
     );
   }
+
+  console.log('======');
+  console.log('======');
+  console.log('======');
+  console.log('======');
+  console.log('======');
+  console.log('======');
+  console.log('======');
+  console.log(process.env.DATABASE_URL);
+  const client = new Client(process.env.DATABASE_URL);
+
+  (async () => {
+    await client.connect();
+    try {
+      const results = await client.query(
+        'INSERT INTO resumes (username, resume) VALUES ($1, $2)',
+        [username, JSON.stringify(selectedResume)]
+      );
+      console.log(results);
+    } catch (err) {
+      console.error('error executing query:', err);
+    } finally {
+      client.end();
+    }
+  })();
 
   const options = { ...req.query, theme: realTheme, username };
   let formatted = '';
