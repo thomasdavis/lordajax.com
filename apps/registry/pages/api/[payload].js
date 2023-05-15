@@ -25,7 +25,8 @@ const FILE_TYPES = new Set([
   'tex',
   'txt',
   'template',
-  'coverletter',
+  'letter',
+  'suggest',
   'yaml',
 ]);
 
