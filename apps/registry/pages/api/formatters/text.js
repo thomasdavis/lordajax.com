@@ -11,15 +11,13 @@ ${resume.basics.summary}
 
 WORK HISTORY
 ============================
-${resume.work.map(
-  (w) => `
+${(resume.work ?? []).map(
+  (work) => `
 March 2014 to Current
-Outback Steakhouse – Pittsburgh, PA
-Restaurant Manager
+${work.name} – ${work.location}
+${work.position}
 
-+ Reduced labor costs by 17% percent while maintaining excellent service and profit levels
-+ Managed a 7-person team of cooks and back of house staff and a team of 8 front house staff for a busy steakhouse restaurant
-+ Continuously evaluated business operations to effectively align workflows for optimal area coverage increasing customer satisfaction rating by 80%
+${(work.highlights ?? []).map((highlight) => `+ ${highlight}`).join('\n')}
 
 ---------------------------`
 )}
