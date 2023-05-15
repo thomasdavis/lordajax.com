@@ -175,7 +175,10 @@ ${JSON.stringify(validation.errors, null, 2)}
     await client.connect();
     try {
       const results = await client.query(
-        'INSERT INTO resumes (username, resume) VALUES ($1, $2)',
+        `INSERT INTO resumes (username, resume) VALUES ($1, $2)
+        ON CONFLICT (username) 
+        DO 
+          UPDATE SET resume = $2`,
         [username, JSON.stringify(selectedResume)]
       );
       console.log(results);
