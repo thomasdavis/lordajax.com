@@ -41,7 +41,7 @@ const Resumes = () => {
       <Images>
         {data.map((resume) => {
           return (
-            <div>
+            <div key={resume.updated_at}>
               <a href={`https://registry.jsonresume.org/${resume.username}`}>
                 <Image src={resume.image} />
               </a>
