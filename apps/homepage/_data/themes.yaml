@@ -4,17 +4,17 @@
   author: Mudassir
   link: https://github.com/mudassir0909
 
-- name: Actual
-  slug: actual
-  github: davcd
-  author: David Carvajal
-  link: https://github.com/davcd
-
 - name: Kendall
   slug: kendall
   github: LinuxBozo
   author: M. Adam Kendall
   link: https://registry.jsonresume.org/linuxbozo
+
+- name: Macchiato
+  slug: macchiato
+  github: biosan
+  author: Alessandro Biondi
+  link: https://registry.jsonresume.org/biosan
 
 - name: OnePage
   slug: onepage
@@ -39,3 +39,15 @@
   github: isnotahippy
   author: Graeme Maciver
   link: https://github.com/isnotahippy
+
+- name: Papirus
+  slug: papirus
+  github: konalexiou
+  author: Konstantinos Alexiou
+  link: https://github.com/konalexiou
+
+- name: Verbum
+  slug: verbum
+  github: konalexiou
+  author: Konstantinos Alexiou
+  link: https://github.com/konalexiou

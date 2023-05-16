@@ -3,6 +3,12 @@
   github: phoinixi
   author: Francesco Esposito
   link: https://github.com/phoinixi
+  
+- name: Actual
+  slug: actual
+  github: davcd
+  author: David Carvajal
+  link: https://github.com/davcd
 
 - name: Caffeine
   slug: caffeine
