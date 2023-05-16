@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 const Text = styled.div`
-  font-size: 26px;
-  color: #330000;
+  font-size: 22px;
+  font-weight: 600;
 `;
 
 const SubTitle = ({ children }) => {

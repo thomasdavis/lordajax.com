@@ -2,8 +2,9 @@ import styled from 'styled-components';
 import SubTitle from './SubTitle';
 
 const Title = styled.div`
-  font-size: 32px;
+  font-size: 34px;
   font-weight: 600;
+  padding: 20px 0;
 `;
 
 const Basics = ({ basics }) => {

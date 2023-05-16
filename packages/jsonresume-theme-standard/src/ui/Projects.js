@@ -3,36 +3,36 @@ import SubTitle from './SubTitle';
 import List from './List';
 import DateRange from './DateRange';
 
-const Company = styled.div`
+const Project = styled.div`
   font-size: 16px;
   font-weight: 500;
   display: flex;
 `;
 
-const CompanyPosition = styled.div`
+const ProjectPosition = styled.div`
   font-weight: 600;
 `;
 
-const CompanyName = styled.div`
+const ProjectName = styled.div`
   color: #444;
 `;
 
-const Work = ({ work }) => {
-  if (!work) {
+const Projects = ({ projects }) => {
+  if (!projects) {
     return null;
   }
 
   return (
     <div>
-      <SubTitle>Professional Experience</SubTitle>
-      {work.slice(0, 1).map((w) => {
+      <SubTitle>Projects</SubTitle>
+      {projects.slice(0, 1).map((w) => {
         return (
           <div>
-            <Company>
-              <CompanyPosition>{w.position}</CompanyPosition>
+            <Project>
+              <ProjectPosition>{w.position}</ProjectPosition>
               &nbsp;-&nbsp;
-              <CompanyName>{w.name}</CompanyName>
-            </Company>
+              <ProjectName>{w.name}</ProjectName>
+            </Project>
             <DateRange startDate={w.startDate} endDate={w.endDate} />
             <p>{w.summary}</p>
             <List items={w.highlights} />
@@ -43,4 +43,4 @@ const Work = ({ work }) => {
   );
 };
 
-export default Work;
+export default Projects;

@@ -255,6 +255,23 @@ const resume = {
       name: 'Open Source',
     },
   ],
+  projects: [
+    {
+      highlights: [
+        'Millions of sites use the CDN in production',
+        "Larger market share than Yahoo's, Microsoft's and Google's javascript content distribution networks",
+        'We serve hundreds of billions request a month',
+        'Contains over 3000 popular Javascript libraries',
+        'Millions of developers visit the site per year',
+      ],
+      summary:
+        'Following Googles CDN for jQuery, we decided to start a CDN for the less popular Javascript frameworks. The CDN is community moderated and open source on GitHub. We secured a partnership with Cloudflare who now supports the infrastructure.',
+      website: 'http://www.cdnjs.com',
+      name: 'Cdnjs',
+      position: 'Co-Founder',
+      startDate: '2011-01-08',
+    },
+  ],
 };
 
 module.exports = resume;

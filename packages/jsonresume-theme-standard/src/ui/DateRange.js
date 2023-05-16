@@ -6,11 +6,16 @@ const Text = styled.div`
   color: #666666;
 `;
 
+const Range = styled.div`
+  display: flex;
+`;
+
 const DateRange = ({ startDate, endDate }) => {
   return (
-    <>
-      <Date date={startDate} /> - <Date date={endDate} />
-    </>
+    <Range>
+      <Date date={startDate} />—
+      <Date date={endDate} />
+    </Range>
   );
 };
 

@@ -7,7 +7,7 @@ const Text = styled.div`
 
 const Date = ({ date }) => {
   // @todo - format date here
-  return <Text>{date}</Text>;
+  return <Text>{date ?? 'Present'}</Text>;
 };
 
 export default Date;
