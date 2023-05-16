@@ -1,0 +1,56 @@
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+
+const Image = styled.img`
+  width: 100px;
+`;
+
+const Images = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+`;
+
+const Resumes = () => {
+  // get all resumes
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/resumes');
+        setData(response.data);
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div>
+      <h1>Data from API:</h1>
+      {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
+      <Images>
+        {data.map((resume) => {
+          return (
+            <div>
+              <a href={`https://registry.jsonresume.org/${resume.username}`}>
+                <Image src={resume.image} />
+              </a>
+            </div>
+          );
+        })}
+      </Images>
+    </div>
+  );
+};
+
+export default Resumes;
