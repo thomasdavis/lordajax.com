@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const Image = styled.img`
-  width: 100px;
+  width: 200px;
 `;
 
 const Images = styled.div`
@@ -45,6 +45,7 @@ const Resumes = () => {
               <a href={`https://registry.jsonresume.org/${resume.username}`}>
                 <Image src={resume.image} />
               </a>
+              <div>{resume.label.substr(0, 30)}</div>
             </div>
           );
         })}

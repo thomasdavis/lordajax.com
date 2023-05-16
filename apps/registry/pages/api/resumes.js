@@ -14,6 +14,7 @@ export default async function handler(req, res) {
         const resume = JSON.parse(row.resume);
         return {
           username: row.username,
+          label: resume?.basics?.label,
           image:
             resume?.basics?.image ||
             gravatar.url(
