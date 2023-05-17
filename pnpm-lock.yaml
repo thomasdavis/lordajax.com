@@ -687,9 +687,6 @@ importers:
       jsonresume-theme-pillar:
         specifier: ^0.1.4
         version: 0.1.4
-      jsonresume-theme-polymer:
-        specifier: ^0.0.6
-        version: 0.0.6
       jsonresume-theme-print-flexbox:
         specifier: ^1.0.0
         version: 1.0.0
@@ -4344,19 +4341,6 @@ packages:
     resolution: {integrity: sha512-reGEWshDmTDQDsCec/HduOO9Wyj6yMOupMfhIf3ugN1TDlK2NQW4DDJSqNNtp380SNcvRfXtO8HSCQot0d0SMw==}
     dev: false
 
-  /CSSselect@0.4.1:
-    resolution: {integrity: sha512-r4HWARRbQ6enGbdPCrl3bNybORIcU0AcBLTyaxcWNTRd6EH2/w9RInHkUbUhwehrBFN1KQz+yFulhyIH31ZXAw==}
-    deprecated: the module is now available as 'css-select'
-    dependencies:
-      CSSwhat: 0.4.7
-      domutils: 1.4.3
-    dev: false
-
-  /CSSwhat@0.4.7:
-    resolution: {integrity: sha512-bU5cYG02crjQGDN6wm8USThp/sr/MUulMTrVA1CENSBhv3B+mlJfYDP1em/wJlMT0aYcWso0cuT9NXW74yPfog==}
-    deprecated: the module is now available as 'css-what'
-    dev: false
-
   /JSONStream@1.3.5:
     resolution: {integrity: sha512-E+iruNOY8VV9s4JEbe1aNEm6MiszPRr/UfcHMz0TQh1BXSxHK+ASV1R6W4HpjBhSeS+54PIsAMCBmwD06LLsqQ==}
     hasBin: true
@@ -6293,17 +6277,6 @@ packages:
     resolution: {integrity: sha512-HBiYvXvn9Z70Z88XKjz3AEKd4HJhBXsa3j7xFnITAzoS8+q6eIGi8qDB8FKPBAjtuxjI/zFpwuiCb8oDtKOYrA==}
     dev: false
 
-  /cheerio@0.17.0:
-    resolution: {integrity: sha512-pakQLw14btS8T4+Q3dgFbe7x447hjsQeEhMJ2kHg8YrOLSmKS0xGl9REnz/eic7dsxS0S9kMRbZcsqrlMAS0dQ==}
-    engines: {node: '>= 0.6'}
-    dependencies:
-      CSSselect: 0.4.1
-      dom-serializer: 0.0.1
-      entities: 1.1.2
-      htmlparser2: 3.7.3
-      lodash: 2.4.2
-    dev: false
-
   /cheerio@0.22.0:
     resolution: {integrity: sha512-8/MzidM6G/TgRelkzDG13y3Y9LxBjCb+8yOEZ9+wwq5gVF2w2pV0wmHvjfT0RvuxGyR7UEuK36r+yYMbT4uKgA==}
     engines: {node: '>= 0.6'}
@@ -6418,6 +6391,7 @@ packages:
     dependencies:
       commander: 2.2.0
     dev: false
+    optional: true
 
   /clean-css@3.4.28:
     resolution: {integrity: sha512-aTWyttSdI2mYi07kWqHi24NUU9YlELFKGOAgFzZjDN1064DMAOy2FBuoyGmkKRlXkbpXd0EVHmiVkbKhKoirTw==}
@@ -6624,6 +6598,7 @@ packages:
     resolution: {integrity: sha512-U6hBkeIsoeE81B+yas9uVF4YYVcVoBCwb1e314VPyvVQubFwvnTAuc1oUQ6VuMPYUS4Rf1gzr0wTVLvs4sb5Pw==}
     engines: {node: '>= 0.6.x'}
     dev: false
+    optional: true
 
   /commander@2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
@@ -7754,13 +7729,6 @@ packages:
       utila: 0.4.0
     dev: false
 
-  /dom-serializer@0.0.1:
-    resolution: {integrity: sha512-evvizoLtT5uMpDT3iKRAx1NmTCk2ZdOD7ATqmL27QJkCv8XQmGKv/eFuvAjHhySNBACREAcXGBqozYhV1dOdag==}
-    dependencies:
-      domelementtype: 1.1.3
-      entities: 1.1.2
-    dev: false
-
   /dom-serializer@0.1.1:
     resolution: {integrity: sha512-l0IU0pPzLWSHBcieZbpOKgkIn3ts3vAh7ZuFyXNwJxJXk/c4Gwj9xaTJwIDVQCXawWD0qb3IzMGH5rglQaO0XA==}
     dependencies:
@@ -7781,10 +7749,6 @@ packages:
     engines: {node: '>=0.4', npm: '>=1.2'}
     dev: false
 
-  /domelementtype@1.1.3:
-    resolution: {integrity: sha512-zEvAAsFY0DeHkrqWBRkSsmgaE7yADgpez40JUFjISb+uzSinl2F6QbG4lMEBE4P06gCGF6VnsykmbNgu7ZIHzA==}
-    dev: false
-
   /domelementtype@1.3.1:
     resolution: {integrity: sha512-BSKB+TSpMpFI/HOxCNr1O8aMOTZ8hT3pM3GQ0w/mWRmkhEDSFJkkyzz4XQsBV44BChwGkrDfMyjVD0eA2aFV3w==}
     dev: false
@@ -7798,12 +7762,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       webidl-conversions: 5.0.0
-    dev: false
-
-  /domhandler@2.2.1:
-    resolution: {integrity: sha512-MFFBQFGkyTuNe3vL9WEw9JdlCwIoBYpOGESLeZAvc/jClYNsOl6P1KzevJbWg76GovdEycfR7/2/Ra7NnqtMKw==}
-    dependencies:
-      domelementtype: 1.3.1
     dev: false
 
   /domhandler@2.3.0:
@@ -7823,12 +7781,6 @@ packages:
     engines: {node: '>= 4'}
     dependencies:
       domelementtype: 2.3.0
-    dev: false
-
-  /domutils@1.4.3:
-    resolution: {integrity: sha512-ZkVgS/PpxjyJMb+S2iVHHEZjVnOUtjGp0/zstqKGTE9lrZtNHlNQmLwP/lhLMEApYbzc08BKMx9IFpKhaSbW1w==}
-    dependencies:
-      domelementtype: 1.3.1
     dev: false
 
   /domutils@1.5.1:
@@ -10759,16 +10711,6 @@ packages:
       entities: 1.1.2
       inherits: 2.0.4
       readable-stream: 3.6.2
-    dev: false
-
-  /htmlparser2@3.7.3:
-    resolution: {integrity: sha512-XdyuCBH3/tTuRTCMFolbj5stKZek8FK7KVXm+aHYivHmXVo18jINvc2jR5zgFkp//z2KWl5vppTJ4DWhltYruA==}
-    dependencies:
-      domelementtype: 1.3.1
-      domhandler: 2.2.1
-      domutils: 1.5.1
-      entities: 1.0.0
-      readable-stream: 1.1.14
     dev: false
 
   /htmlparser2@3.8.3:
@@ -13990,16 +13932,6 @@ packages:
       - supports-color
     dev: false
 
-  /jsonresume-theme-polymer@0.0.6:
-    resolution: {integrity: sha512-ZPyzHN/VJxpt1kdKOw44KKlNxdPSoVT+DbKBMrRuqPiqN+nSIqtBc+UYyzWAatDZ8RcPrl8K4gLp0ICJIDoxIQ==}
-    dependencies:
-      gravatar: 1.8.2
-      handlebars: 2.0.0
-      lodash: 2.4.2
-      resume-schema: github.com/jsonresume/resume-schema/8996c2c99426ffc2606f592aad02a9038fbde692
-      vulcanize: 0.4.3
-    dev: false
-
   /jsonresume-theme-print-flexbox@1.0.0:
     resolution: {integrity: sha512-esiayG6TzO9gDLn05i/Cg9IgwZBw/6dhk7pV2zjn4BhfKwq+HcfP/j8NR2A9voLoxouDXLL/WvbAig46UgLL6w==}
     dependencies:
@@ -16061,13 +15993,6 @@ packages:
 
   /nopt@1.0.10:
     resolution: {integrity: sha512-NWmpvLSqUrgrAC9HCuxEvb+PSloHpqVu+FqcO4eeF2h5qYRhA7ev6KvelyQAKtegUbC6RypJnlEOhd8vloNKYg==}
-    hasBin: true
-    dependencies:
-      abbrev: 1.1.1
-    dev: false
-
-  /nopt@3.0.6:
-    resolution: {integrity: sha512-4GUt3kSEYmk4ITxzB/b9vaIDfUVWN/Ml1Fwl11IlnIG2iaJ9O6WXZ9SrYM9NLI8OCBieN2Y8SWC2oJV0RQ7qYg==}
     hasBin: true
     dependencies:
       abbrev: 1.1.1
@@ -21978,17 +21903,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /vulcanize@0.4.3:
-    resolution: {integrity: sha512-Xa3/pSOpOOF9lgsxKx35kiY+5svEKSnPdCTojWQDX5U8xuPUKGke5lG7UDBMPoc9D8ak9ClESWkMIpiGJGgOEw==}
-    hasBin: true
-    dependencies:
-      cheerio: 0.17.0
-      clean-css: 2.2.23
-      dom-serializer: github.com/azakus/dom-serializer/0d41a71761704338bece9d1af6b9c4f18cf571e6
-      nopt: 3.0.6
-      uglify-js: 2.8.29
-    dev: false
-
   /w3c-hr-time@1.0.2:
     resolution: {integrity: sha512-z8P5DvDNjKDoFIHK7q8r8lackT6l+jo/Ye3HOle7l9nICP9lf1Ci25fy9vHd0JOWewkIFzXIEig3TdKT7JQ5fQ==}
     deprecated: Use your platform's native performance.now() and performance.timeOrigin.
@@ -22869,28 +22783,10 @@ packages:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
     dev: false
 
-  github.com/azakus/dom-serializer/0d41a71761704338bece9d1af6b9c4f18cf571e6:
-    resolution: {commit: 0d41a71761704338bece9d1af6b9c4f18cf571e6, repo: git+ssh://git@github.com/azakus/dom-serializer.git, type: git}
-    name: dom-serializer
-    version: 0.0.1
-    dependencies:
-      domelementtype: 1.1.3
-      entities: 1.1.2
-    dev: false
-
   github.com/jsonresume/resume-schema/7095651fbbb593d2c5dc2db3095412b170d74d2e:
     resolution: {tarball: https://codeload.github.com/jsonresume/resume-schema/tar.gz/7095651fbbb593d2c5dc2db3095412b170d74d2e}
     name: resume-schema
     version: 0.1.3
-    engines: {node: '>=10'}
-    dependencies:
-      z-schema: 4.2.4
-    dev: false
-
-  github.com/jsonresume/resume-schema/8996c2c99426ffc2606f592aad02a9038fbde692:
-    resolution: {tarball: https://codeload.github.com/jsonresume/resume-schema/tar.gz/8996c2c99426ffc2606f592aad02a9038fbde692}
-    name: resume-schema
-    version: 0.1.4
     engines: {node: '>=10'}
     dependencies:
       z-schema: 4.2.4
