@@ -1,5 +1,5 @@
 export const THEMES = {
-  '8-bit-sheep': require('jsonresume-theme-8-bit-sheep'),
+  // '8-bit-sheep': require('jsonresume-theme-8-bit-sheep'),
   a11y: require('jsonresume-theme-a11y'),
   aboutcontent: require('jsonresume-theme-aboutcontent'),
   ace: require('jsonresume-theme-ace'),
