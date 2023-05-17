@@ -77,6 +77,9 @@ importers:
       jsonresume-theme-dave:
         specifier: ^1.0.1
         version: 1.0.1
+      jsonresume-theme-direct:
+        specifier: ^0.1.1
+        version: 0.1.1
       jsonresume-theme-el-santo:
         specifier: ^0.0.3
         version: 0.0.3
