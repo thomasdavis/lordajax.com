@@ -29,6 +29,9 @@ importers:
       chatgpt:
         specifier: ^5.2.4
         version: 5.2.4
+      compact:
+        specifier: ^1.0.0
+        version: 1.0.0
       dotenv-cli:
         specifier: ^7.2.1
         version: 7.2.1
@@ -3464,6 +3467,10 @@ packages:
     resolution: {integrity: sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==}
     dev: false
 
+  /async@0.1.22:
+    resolution: {integrity: sha512-2tEzliJmf5fHNafNwQLJXUasGzQCVctvsNkXmnlELHwypU0p08/rHohYvkqKIjyXpx+0rkrYv6QbhJ+UF4QkBg==}
+    dev: false
+
   /async@0.2.10:
     resolution: {integrity: sha512-eAkdoKxU6/LkKDBzLpT+t6Ff5EtfSF4wx1WfJiPEEV7WNLnDaRXk0oVysiEPm262roaachGexwUv94WhSgN5TQ==}
     dev: false
@@ -4401,6 +4408,16 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
+
+  /compact@1.0.0:
+    resolution: {integrity: sha512-BOjtt29uckWpz1XtOtDU24D0jV2jnHvkDZgDhuY+bUYSXbcT87LXky+sZiWVd0tjIU2aEg6swjFrydWgZ1c//w==}
+    engines: {node: '>=0.8'}
+    dependencies:
+      async: 0.1.22
+      lodash: 0.3.2
+      mkdirp: 0.3.5
+      uglify-js: 1.3.5
+    dev: false
 
   /component-emitter@1.3.0:
     resolution: {integrity: sha512-Rd3se6QB+sO1TwqZjscQrurpEPIfO0/yYnSin6Q/rD3mOutHvUrCAhJub3r90uNb+SESBuE0QYoB90YdfatsRg==}
@@ -9973,6 +9990,11 @@ packages:
       lodash.keys: 2.4.1
     dev: false
 
+  /lodash@0.3.2:
+    resolution: {integrity: sha512-v7NeemI3apXsXmkaOvSw5bqHBCH2uvVH1WK1YY0Jgs4QYvRLp0fd+Gs1quMxb8rjI42NhhsaHh2I8fLMuRXH/A==}
+    engines: {'0': node, '1': rhino}
+    dev: false
+
   /lodash@1.0.2:
     resolution: {integrity: sha512-0VSEDVec/Me2eATuoiQd8IjyBMMX0fahob8YJ96V1go2RjvCk1m1GxmtfXn8RNSaLaTtop7fsuhhu9oLk3hUgA==}
     engines: {'0': node, '1': rhino}
@@ -10413,6 +10435,11 @@ packages:
 
   /mkdirp-classic@0.5.3:
     resolution: {integrity: sha512-gKLcREMhtuZRwRAfqP3RFW+TK4JqApVBtOIftVgjuABpAtpxhPGaDcfvbhNvD0B8iD1oUr/txX35NjcaY6Ns/A==}
+    dev: false
+
+  /mkdirp@0.3.5:
+    resolution: {integrity: sha512-8OCq0De/h9ZxseqzCH8Kw/Filf5pF/vMI6+BH7Lu0jXz2pqYCjTAQRolSxRIi+Ax+oCCjlxoJMP0YQ4XlrQNHg==}
+    deprecated: Legacy versions of mkdirp are no longer supported. Please update to mkdirp 1.x. (Note that the API surface has changed to use Promises in 1.x.)
     dev: false
 
   /mkdirp@0.5.6:
@@ -13918,6 +13945,11 @@ packages:
 
   /uc.micro@1.0.6:
     resolution: {integrity: sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==}
+    dev: false
+
+  /uglify-js@1.3.5:
+    resolution: {integrity: sha512-YPX1DjKtom8l9XslmPFQnqWzTBkvI4N0pbkzLuPZZ4QTyig0uQqvZz9NgUdfEV+qccJzi7fVcGWdESvRIjWptQ==}
+    hasBin: true
     dev: false
 
   /uglify-js@2.3.6:
