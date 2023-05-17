@@ -8,7 +8,10 @@ export default async function handler(req, res) {
   packs.forEach((value) => {
     themes[
       value
-    ] = `https://jsonresume-org-themes.vercel.app/thomasdavis?theme=${value}`;
+    ] = `https://jsonresume-org-themes.vercel.app/thomasdavis?theme=${value.replace(
+      'jsonresume-theme-',
+      ''
+    )}`;
     boo += `'${value.replace(
       'jsonresume-theme-',
       ''
