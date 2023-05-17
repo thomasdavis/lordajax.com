@@ -45,7 +45,7 @@ const Resumes = () => {
               <a href={`https://registry.jsonresume.org/${resume.username}`}>
                 <Image src={resume.image} />
               </a>
-              <div>{resume.label.substr(0, 30)}</div>
+              <div>{resume.label?.substr(0, 30)}</div>
             </div>
           );
         })}
