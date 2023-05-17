@@ -102,7 +102,6 @@ export const THEMES = {
   paper_cn: require('jsonresume-theme-paper_cn'),
   paperalt: require('jsonresume-theme-paperalt'),
   papirus: require('jsonresume-theme-papirus'),
-  pillar: require('jsonresume-theme-pillar'),
   'print-flexbox': require('jsonresume-theme-print-flexbox'),
   printclassy: require('jsonresume-theme-printclassy'),
   pumpkin: require('jsonresume-theme-pumpkin'),

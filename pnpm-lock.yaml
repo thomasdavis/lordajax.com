@@ -561,9 +561,6 @@ importers:
       jsonresume-theme-papirus:
         specifier: ^0.0.5
         version: 0.0.5
-      jsonresume-theme-pillar:
-        specifier: ^0.1.4
-        version: 0.1.4
       jsonresume-theme-print-flexbox:
         specifier: ^1.0.0
         version: 1.0.0
@@ -9098,15 +9095,6 @@ packages:
       html-pdf: 2.2.0
       moment: 2.29.4
       pluralize: 7.0.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /jsonresume-theme-pillar@0.1.4:
-    resolution: {integrity: sha512-H3mu9dwDmEgx0lE+Qq4zxravkdZhzaQ56Id59acrisaehaFNrwCNkBSCKFrWlh7WBVSpdH1YHxnO4v4LAIiwCw==}
-    dependencies:
-      handlebars: 4.7.7
-      handlebars-helpers: 0.10.0
     transitivePeerDependencies:
       - supports-color
     dev: false
