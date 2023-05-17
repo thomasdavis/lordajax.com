@@ -134,6 +134,9 @@ importers:
       jsonresume-theme-onepage:
         specifier: ^0.0.3
         version: 0.0.3
+      jsonresume-theme-onepage-efficient:
+        specifier: ^0.0.2
+        version: 0.0.2
       jsonresume-theme-onepageresume:
         specifier: ^0.0.6
         version: 0.0.6
@@ -8957,6 +8960,12 @@ packages:
     dependencies:
       css: 2.2.4
       handlebars: 4.7.7
+    dev: false
+
+  /jsonresume-theme-onepage-efficient@0.0.2:
+    resolution: {integrity: sha512-DdodtuMTnb501JgixfQga2twVMX1YpZuvwuziziD2j8jmvSwxq/h4kKE60JFpVnNn8Gjc56TyeJa6fxuUMh79Q==}
+    dependencies:
+      handlebars: 2.0.0
     dev: false
 
   /jsonresume-theme-onepage-plus@1.0.1:
