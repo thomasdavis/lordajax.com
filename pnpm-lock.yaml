@@ -375,39 +375,6 @@ importers:
       jsonresume-theme-elegant:
         specifier: ^1.16.1
         version: 1.16.1
-      jsonresume-theme-elegant-custom:
-        specifier: ^1.0.4
-        version: 1.0.4
-      jsonresume-theme-elegant-fr:
-        specifier: ^1.2.1
-        version: 1.2.1
-      jsonresume-theme-elegant-jali:
-        specifier: ^1.2.2
-        version: 1.2.2
-      jsonresume-theme-elegant-leonth:
-        specifier: ^1.0.3
-        version: 1.0.3
-      jsonresume-theme-elegant-maksymgendin:
-        specifier: ^1.2.0
-        version: 1.2.0
-      jsonresume-theme-elegant-mobile:
-        specifier: ^0.0.3
-        version: 0.0.3
-      jsonresume-theme-elegant-mrseanryan:
-        specifier: ^1.10.7
-        version: 1.10.7
-      jsonresume-theme-elegant-projects:
-        specifier: ^1.10.2
-        version: 1.10.2
-      jsonresume-theme-elegant-tw:
-        specifier: ^1.0.0
-        version: 1.0.0
-      jsonresume-theme-eleganter:
-        specifier: ^1.0.3
-        version: 1.0.3
-      jsonresume-theme-elegantnew:
-        specifier: ^1.0.2
-        version: 1.0.2
       jsonresume-theme-elephant:
         specifier: ^1.1.4
         version: 1.1.4
@@ -5603,11 +5570,6 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  /dotenv@11.0.0:
-    resolution: {integrity: sha512-Fp/b504Y5W+e+FpCxTFMUZ7ZEQkQYF0rx+KZtmwixJxGQbLHrhCwo3FjZgNC8vIfrSi29PABNbMoCGD9YoiXbQ==}
-    engines: {node: '>=12'}
-    dev: false
-
   /dotenv@16.0.3:
     resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
     engines: {node: '>=12'}
@@ -9330,126 +9292,6 @@ packages:
       help: 3.0.2
     dev: false
 
-  /jsonresume-theme-elegant-custom@1.0.4:
-    resolution: {integrity: sha512-/9qnFH0ZwFP8jWbwPHBN0AsWjfGGlsfVfqMoUJKlFOfux4g5npWXI6xFfEoS5Ihu4D2klWwtmiFg//cBe2+gxQ==}
-    dependencies:
-      gravatar: 1.8.2
-      handlebars: 2.0.0
-      jsonresume-themeutils: 1.4.3
-      markdown-it: 6.1.1
-      markdown-it-abbr: 1.0.4
-      moment: 2.29.4
-      pug: 2.0.4
-      resume-schema: 0.0.16
-      tarball-extract: 0.0.3
-      underscore: 1.13.6
-    dev: false
-
-  /jsonresume-theme-elegant-fr@1.2.1:
-    resolution: {integrity: sha512-bWp8uz8QdqtgAGfCyLAhtAde3jRo0tCI3YcNzO2Ct/QZRjZe5gdsK7YmdYmQipbuZIOZXAtUqhBT6ca1HIImvQ==}
-    dependencies:
-      gravatar: 1.8.2
-      handlebars: 2.0.0
-      jsonresume-themeutils: 1.4.3
-      markdown-it: 6.1.1
-      markdown-it-abbr: 1.0.4
-      moment: 2.29.4
-      pug: 2.0.4
-      resume-schema: 0.0.16
-      tarball-extract: 0.0.3
-      underscore: 1.13.6
-    dev: false
-
-  /jsonresume-theme-elegant-jali@1.2.2:
-    resolution: {integrity: sha512-xWdB2Tpwx56bppzheX+615g9898ItYb9//AIH0zObECh70FY/B/sgfePCKjUsBZAeYC/kyCv5ohA0E093esiQw==}
-    hasBin: true
-    dependencies:
-      chalk: 2.4.2
-      jsonresume-themeutils: 1.4.3
-      lodash: 4.17.21
-      markdown-it: 8.4.2
-      markdown-it-abbr: 1.0.4
-      minimist: 1.2.7
-      moment: 2.29.4
-      pdf-parse: 1.1.1
-      pug: 2.0.4
-      puppeteer: 1.20.0
-      resume-schema: 0.0.16
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-    dev: false
-
-  /jsonresume-theme-elegant-leonth@1.0.3:
-    resolution: {integrity: sha512-rEDCxVWaH8I7TdLLxwEsdhe3JADLIHGIHPJ5dvGEtkXKtg8/kt+zOh4sLokdtK/rNczCf5hbfyeKcozpugKhHw==}
-    dependencies:
-      moment: 2.29.4
-      mustache: 0.8.2
-      resume-schema: 0.0.11
-      underscore: 1.13.6
-    dev: false
-
-  /jsonresume-theme-elegant-maksymgendin@1.2.0:
-    resolution: {integrity: sha512-lCIq9zh74Lj+sJpcUct8GA0fLZ5ElR+HrxlVFEpBqBcKLhvAJFHB1TfnvIfOpvRSYBR+0fHuj7+iK49VsDYVLg==}
-    dependencies:
-      gravatar: 1.8.2
-      handlebars: 4.7.7
-      jsonresume-themeutils: 1.4.3
-      markdown-it: 13.0.1
-      markdown-it-abbr: 1.0.4
-      moment: 2.29.4
-      pug: 3.0.2
-      resume-schema: 1.0.0
-      sshpk: 1.17.0
-      underscore: 1.13.4
-    dev: false
-
-  /jsonresume-theme-elegant-mobile@0.0.3:
-    resolution: {integrity: sha512-IX8GVqfdzJO5vVG5NUl18k9gZxpYmfQwFCgYs8TydbtI+3DRCFMLJ87G7ZPSwVc0r/96fH3TfZozuUdT2pk8hQ==}
-    dependencies:
-      gravatar: 1.8.2
-      handlebars: 2.0.0
-      moment: 2.29.4
-      resume-schema: 0.0.15
-      tarball-extract: 0.0.3
-      underscore: 1.13.6
-    dev: false
-
-  /jsonresume-theme-elegant-mrseanryan@1.10.7:
-    resolution: {integrity: sha512-C4ymIA8XsnsYbFyNQbJzBwiUXZevsNbqT5mLW9u9wDrshV/h/dqADk4LzjlyKSJVuh9NYq1q/gJPp55roD8V5Q==}
-    dependencies:
-      gravatar: 1.8.2
-      handlebars: 4.7.7
-      jsonresume-themeutils: 1.4.3
-      markdown-it: 6.1.1
-      markdown-it-abbr: 1.0.4
-      moment: 2.29.4
-      pug: 2.0.4
-      resume-schema: 0.0.16
-      tarball-extract: 0.0.3
-      underscore: 1.13.6
-    dev: false
-
-  /jsonresume-theme-elegant-projects@1.10.2:
-    resolution: {integrity: sha512-/Jl4ZH+uddH05Ay7++U2L/2LYrf2BUiJ5an4Gajf/x30lQv+ffwhCj768mrBhdTnI8HeLL4IWpnF6Z0FZFXV0Q==}
-    dependencies:
-      gravatar: 1.8.2
-      handlebars: 4.7.7
-      jsonresume-themeutils: 1.4.3
-      markdown-it: 6.1.1
-      markdown-it-abbr: 1.0.4
-      moment: 2.29.4
-      pug: 2.0.4
-      resume-schema: github.com/jsonresume/resume-schema/7095651fbbb593d2c5dc2db3095412b170d74d2e
-      tarball-extract: 0.0.3
-      underscore: 1.13.6
-    dev: false
-
-  /jsonresume-theme-elegant-tw@1.0.0:
-    resolution: {integrity: sha512-1U6uoiDyB68HmuExnB6WEVpNKfY93tdTrHmKe3dsYkE+EGEMyl4Pp6xEa2nRVEp2aNe9Zz9y87vX4fIAP4n82Q==}
-    dev: false
-
   /jsonresume-theme-elegant@1.16.1:
     resolution: {integrity: sha512-UHKZx+AoE/zGnsZBgV60b+kP5s7euzLp1wDfOItWCt90iwzXuiY++BETTsaRlQHt4nrKbb5GvjXHkE02xovS1w==}
     dependencies:
@@ -9462,38 +9304,6 @@ packages:
       pug: 2.0.4
       resume-schema: 1.0.0
       sshpk: 1.17.0
-      tarball-extract: 0.0.3
-      underscore: 1.13.6
-    dev: false
-
-  /jsonresume-theme-eleganter@1.0.3:
-    resolution: {integrity: sha512-Jus0QzH1A9TmaFc29GfGczx0GCW2UfO43ZaxJGwYGeyr4lQ4JumVrgc6b/c5aNpyIx/7A1jb5WhAyFZ4PtdhpA==}
-    dependencies:
-      dotenv: 11.0.0
-      gravatar: 1.8.2
-      handlebars: 4.7.7
-      jsonresume-themeutils: 1.4.3
-      markdown-it: 6.1.1
-      markdown-it-abbr: 1.0.4
-      moment: 2.29.4
-      pug: 2.0.4
-      resume-schema: 1.0.0
-      sshpk: 1.17.0
-      tarball-extract: 0.0.3
-      underscore: 1.13.6
-    dev: false
-
-  /jsonresume-theme-elegantnew@1.0.2:
-    resolution: {integrity: sha512-Wkb1DufrBVCTJlGDcHYe61wnrOX2XCV0jjdZhihFfRdk3glG+6RFyUNlo0rEytgGkDs9Gqr1uUM87M9obY0z+A==}
-    dependencies:
-      gravatar: 1.8.2
-      handlebars: 2.0.0
-      jsonresume-themeutils: 1.4.3
-      markdown-it: 6.1.1
-      markdown-it-abbr: 1.0.4
-      moment: 2.29.4
-      pug: 2.0.4
-      resume-schema: 0.0.16
       tarball-extract: 0.0.3
       underscore: 1.13.6
     dev: false
@@ -10832,12 +10642,6 @@ packages:
       uc.micro: 1.0.6
     dev: false
 
-  /linkify-it@2.2.0:
-    resolution: {integrity: sha512-GnAl/knGn+i1U/wjBz3akz2stz+HrHLsxMwHQGofCDfPvlf+gDKN58UtfmUquTY4/MXeE2x7k19KQmeoZi94Iw==}
-    dependencies:
-      uc.micro: 1.0.6
-    dev: false
-
   /linkify-it@4.0.1:
     resolution: {integrity: sha512-C7bfi1UZmoj8+PQx22XyeXCuBlokoyWQL5pWSP+EI6nzRylyThouddufc2c1NDIcP9k5agmN9fLpA7VNJfIiqw==}
     dependencies:
@@ -11312,17 +11116,6 @@ packages:
       argparse: 1.0.10
       entities: 1.1.2
       linkify-it: 1.2.4
-      mdurl: 1.0.1
-      uc.micro: 1.0.6
-    dev: false
-
-  /markdown-it@8.4.2:
-    resolution: {integrity: sha512-GcRz3AWTqSUphY3vsUqQSFMbgR38a4Lh3GWlHRh/7MRwz8mcu9n2IO7HOh+bXHrR9kOPDl5RNCaEsrneb+xhHQ==}
-    hasBin: true
-    dependencies:
-      argparse: 1.0.10
-      entities: 1.1.2
-      linkify-it: 2.2.0
       mdurl: 1.0.1
       uc.micro: 1.0.6
     dev: false
@@ -11842,10 +11635,6 @@ packages:
     resolution: {integrity: sha512-rmTZ9kz+f3rCvK2TD1Ue/oZlns7OGoIWP4fc3llxxRXlOkHKoWPPWJOfFYpITabSow43QJbRIoHQXtt10VldyQ==}
     dependencies:
       lower-case: 1.1.4
-    dev: false
-
-  /node-ensure@0.0.0:
-    resolution: {integrity: sha512-DRI60hzo2oKN1ma0ckc6nQWlHU69RH6xN0sjQTjMpChPfTYvKZdcQFfdYK2RWbJcKyUizSIy/l8OTGxMAM1QDw==}
     dev: false
 
   /node-fetch@2.6.7:
@@ -12625,16 +12414,6 @@ packages:
       ripemd160: 2.0.2
       safe-buffer: 5.2.1
       sha.js: 2.4.11
-    dev: false
-
-  /pdf-parse@1.1.1:
-    resolution: {integrity: sha512-v6ZJ/efsBpGrGGknjtq9J/oC8tZWq0KWL5vQrk2GlzLEQPUDB1ex+13Rmidl1neNN358Jn9EHZw5y07FFtaC7A==}
-    engines: {node: '>=6.8.1'}
-    dependencies:
-      debug: 3.2.7
-      node-ensure: 0.0.0
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /peek-readable@5.0.0:
@@ -15650,10 +15429,6 @@ packages:
     resolution: {integrity: sha512-yxkabuCaIBnzfIvX3kBxQqCs0ar/bfJwDnFEHJUm/ZrRVhT3IItdRF5cZjARLzEnyQYtIUhsZ2LG2j3HidFOFQ==}
     dev: false
 
-  /underscore@1.13.4:
-    resolution: {integrity: sha512-BQFnUDuAQ4Yf/cYY5LNrK9NCJFKriaRbD9uR1fTeXnBeoa97W0i41qkZfGO9pSo8I5KzjAcSY2XYtdf0oKd7KQ==}
-    dev: false
-
   /underscore@1.13.6:
     resolution: {integrity: sha512-+A5Sja4HP1M08MaXya7p5LvjuM7K6q/2EaC0+iovj/wOcMsTzMvDFbasi/oSapiwOlt252IqsKqPjCl7huKS0A==}
     dev: false
@@ -16403,13 +16178,4 @@ packages:
 
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
-    dev: false
-
-  github.com/jsonresume/resume-schema/7095651fbbb593d2c5dc2db3095412b170d74d2e:
-    resolution: {tarball: https://codeload.github.com/jsonresume/resume-schema/tar.gz/7095651fbbb593d2c5dc2db3095412b170d74d2e}
-    name: resume-schema
-    version: 0.1.3
-    engines: {node: '>=10'}
-    dependencies:
-      z-schema: 4.2.4
     dev: false
