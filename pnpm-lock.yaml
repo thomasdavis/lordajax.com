@@ -179,12 +179,27 @@ importers:
       jsonresume-theme-pumpkin:
         specifier: ^1.1.4
         version: 1.1.4
+      jsonresume-theme-resu:
+        specifier: ^0.0.1
+        version: 0.0.1
+      jsonresume-theme-rickosborne:
+        specifier: 2022.9.16-T1450
+        version: 2022.9.16-T1450
+      jsonresume-theme-riga:
+        specifier: ^1.0.16
+        version: 1.0.16
       jsonresume-theme-rocketspacer:
         specifier: ^1.2.2
         version: 1.2.2
+      jsonresume-theme-sceptile:
+        specifier: ^1.0.5
+        version: 1.0.5
       jsonresume-theme-short:
         specifier: ^0.1.7
         version: 0.1.7
+      jsonresume-theme-simple:
+        specifier: ^1.0.0
+        version: 1.0.0
       jsonresume-theme-simple-red:
         specifier: ^1.0.4
         version: 1.0.4
@@ -218,6 +233,9 @@ importers:
       jsonresume-theme-techlead:
         specifier: ^1.0.1
         version: 1.0.1
+      jsonresume-theme-timeline-fixed:
+        specifier: ^0.0.9
+        version: 0.0.9
       jsonresume-theme-verbum:
         specifier: ^0.0.5
         version: 0.0.5
