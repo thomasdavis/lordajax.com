@@ -357,9 +357,6 @@ importers:
       jsonresume-theme-even:
         specifier: ^0.18.1
         version: 0.18.1
-      jsonresume-theme-even-gdpr:
-        specifier: ^0.17.0
-        version: 0.17.0
       jsonresume-theme-flat:
         specifier: ^0.3.7
         version: 0.3.7
@@ -8522,18 +8519,6 @@ packages:
       handlebars: 4.7.7
       handlebars-intl: 1.1.2
       helper-date: 1.0.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /jsonresume-theme-even-gdpr@0.17.0:
-    resolution: {integrity: sha512-OK9pUYrxjw0G9KPVmAfvRTKjY+Upu7zF4+0jTHyKsdSxMmVEH/n6FRcWQhEZ7SomZkBeqYWkGr8R3hcwvbx1tA==}
-    hasBin: true
-    dependencies:
-      feather-icons: 4.29.0
-      handlebars: 4.7.7
-      micromark: 2.11.4
-      striptags: 3.2.0
     transitivePeerDependencies:
       - supports-color
     dev: false
