@@ -32,8 +32,6 @@ export const THEMES = {
   elegant: require('jsonresume-theme-elegant'),
   elephant: require('jsonresume-theme-elephant'),
   elite: require('jsonresume-theme-elite'),
-  'eloquent-mod': require('jsonresume-theme-eloquent-mod'),
-  'eloquent-ru': require('jsonresume-theme-eloquent-ru'),
   'eternal-de': require('jsonresume-theme-eternal-de'),
   even: require('jsonresume-theme-even'),
   'even-gdpr': require('jsonresume-theme-even-gdpr'),

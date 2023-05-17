@@ -351,12 +351,6 @@ importers:
       jsonresume-theme-elite:
         specifier: ^1.2.0
         version: 1.2.0(jquery@3.6.4)(popper.js@1.16.1)
-      jsonresume-theme-eloquent-mod:
-        specifier: ^4.24.0
-        version: 4.24.0
-      jsonresume-theme-eloquent-ru:
-        specifier: 5.1.0-ru
-        version: 5.1.0-ru
       jsonresume-theme-eternal-de:
         specifier: ^0.0.10
         version: 0.0.10
@@ -8511,24 +8505,6 @@ packages:
       - jquery
       - popper.js
       - supports-color
-    dev: false
-
-  /jsonresume-theme-eloquent-mod@4.24.0:
-    resolution: {integrity: sha512-ni5tKB79OIxr/i5pbN3+8EFHhqqbBqoVFm+H/4LazZg/5Z2VDylM4IBrpTd0gnw0iyy25fYH30Erp9vqapvRfg==}
-    engines: {node: '>=4.0'}
-    dependencies:
-      email-scramble: 2.0.1
-      handlebars: 4.7.7
-      moment: 2.29.4
-    dev: false
-
-  /jsonresume-theme-eloquent-ru@5.1.0-ru:
-    resolution: {integrity: sha512-KiFYI4yXf47xeYPd9UAu4CpK42OCdYKbwfYqEJD01u+lcwmUsBQZiiert8P+Sb/gb1xb3Foq1VyGRBumKzW9rA==}
-    engines: {node: '>=4.0'}
-    dependencies:
-      email-scramble: 2.0.1
-      handlebars: 4.7.7
-      moment: 2.29.4
     dev: false
 
   /jsonresume-theme-eloquent@4.1.0:
