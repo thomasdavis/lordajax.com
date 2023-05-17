@@ -116,6 +116,9 @@ importers:
       jsonresume-theme-jacrys:
         specifier: ^1.0.4
         version: 1.0.4
+      jsonresume-theme-joeytall:
+        specifier: ^1.0.1
+        version: 1.0.1
       jsonresume-theme-kards:
         specifier: ^1.0.2
         version: 1.0.2
@@ -155,6 +158,9 @@ importers:
       jsonresume-theme-onepage-efficient:
         specifier: ^0.0.2
         version: 0.0.2
+      jsonresume-theme-onepage-plus:
+        specifier: ^1.0.1
+        version: 1.0.1
       jsonresume-theme-onepageresume:
         specifier: ^0.0.6
         version: 0.0.6

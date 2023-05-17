@@ -21,6 +21,8 @@ export const THEMES = {
   'flat-fr': require('jsonresume-theme-flat-fr'),
   fresh: require('jsonresume-theme-fresh'),
   full: require('jsonresume-theme-full'),
+  joeytall: require('jsonresume-theme-joeytall'),
+  'kwan-linkedin': require('jsonresume-theme-kwan-linkedin'),
   github: require('jsonresume-theme-github'),
   jacrys: require('jsonresume-theme-jacrys'),
   kards: require('jsonresume-theme-kards'),
