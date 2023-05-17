@@ -65,6 +65,12 @@ importers:
       jsonresume-theme-classy:
         specifier: ^1.0.9
         version: 1.0.9
+      jsonresume-theme-compact:
+        specifier: ^1.0.4
+        version: 1.0.4
+      jsonresume-theme-contempo:
+        specifier: ^0.0.3
+        version: 0.0.3
       jsonresume-theme-cora:
         specifier: ^0.1.1
         version: 0.1.1
