@@ -40,8 +40,6 @@ export const THEMES = {
   direct: require('jsonresume-theme-direct'),
   'el-santo': require('jsonresume-theme-el-santo'),
   elegant: require('jsonresume-theme-elegant'),
-  eleganter: require('jsonresume-theme-eleganter'),
-  elegantnew: require('jsonresume-theme-elegantnew'),
   elephant: require('jsonresume-theme-elephant'),
   elite: require('jsonresume-theme-elite'),
   eloquent: require('jsonresume-theme-eloquent'),
