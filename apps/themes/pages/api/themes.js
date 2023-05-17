@@ -1,5 +1,3 @@
-const sampleResume = require('./samples/resume');
-const fs = require('fs');
 import packages from './packages';
 
 export default async function handler(req, res) {
