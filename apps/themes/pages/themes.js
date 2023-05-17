@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const Image = styled.img`
-  width: 200px;
+  width: 600px;
 `;
 
 const Images = styled.div`
