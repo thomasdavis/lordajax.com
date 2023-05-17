@@ -450,9 +450,6 @@ importers:
       jsonresume-theme-kwan-linkedin:
         specifier: ^0.0.2
         version: 0.0.2
-      jsonresume-theme-latex:
-        specifier: ^0.1.2
-        version: 0.1.2
       jsonresume-theme-lemonlabs:
         specifier: ^1.0.0
         version: 1.0.0
@@ -474,12 +471,6 @@ importers:
       jsonresume-theme-macchiato:
         specifier: ^1.1.0
         version: 1.1.0
-      jsonresume-theme-macchiato-ibic:
-        specifier: ^1.0.5
-        version: 1.0.5
-      jsonresume-theme-macchiato-macea:
-        specifier: ^1.0.7
-        version: 1.0.7
       jsonresume-theme-macea:
         specifier: ^0.0.1
         version: 0.0.1
@@ -8852,26 +8843,6 @@ packages:
       gravatar: 1.8.2
       lodash: 2.4.2
       mustache: 2.3.2
-    dev: false
-
-  /jsonresume-theme-macchiato-ibic@1.0.5:
-    resolution: {integrity: sha512-SK73+YDRHDfme3L0Kc3ysPPvfaLEE8zG6eyI6rESOd8r8OrOrr2apEQotzoHZbaYm+Ee8KlxCnGcRI3V80j+gw==}
-    dependencies:
-      address-format: 0.0.3
-      handlebars: 4.7.7
-      handlebars-wax: 6.1.0
-      moment: 2.29.4
-      swag: 0.7.0
-    dev: false
-
-  /jsonresume-theme-macchiato-macea@1.0.7:
-    resolution: {integrity: sha512-LLr9mtTCFPb6GtaDKtnArLK93+Ra7BASNQDL+g80KLr2ul/G+V/aPYW/6uZTJtodI8n0+yxBFqBNGNJIX971RQ==}
-    dependencies:
-      address-format: 0.0.3
-      handlebars: 4.7.7
-      handlebars-wax: 6.1.0
-      moment: 2.29.4
-      swag: 0.7.0
     dev: false
 
   /jsonresume-theme-macchiato@1.1.0:
