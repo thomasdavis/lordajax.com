@@ -77,6 +77,9 @@ importers:
       jsonresume-theme-dave:
         specifier: ^1.0.1
         version: 1.0.1
+      jsonresume-theme-dinesh:
+        specifier: ^0.0.7
+        version: 0.0.7
       jsonresume-theme-direct:
         specifier: ^0.1.1
         version: 0.1.1
@@ -101,6 +104,9 @@ importers:
       jsonresume-theme-flat-fr:
         specifier: ^0.0.1
         version: 0.0.1
+      jsonresume-theme-fresh:
+        specifier: ^0.0.3
+        version: 0.0.3
       jsonresume-theme-full:
         specifier: ^0.0.4
         version: 0.0.4
