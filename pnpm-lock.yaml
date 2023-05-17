@@ -288,9 +288,6 @@ importers:
       jsonresume-theme-class:
         specifier: ^0.1.2
         version: 0.1.2
-      jsonresume-theme-class-vforesee:
-        specifier: ^0.0.4
-        version: 0.0.4
       jsonresume-theme-classy:
         specifier: ^1.0.9
         version: 1.0.9
@@ -303,21 +300,9 @@ importers:
       jsonresume-theme-compact-extended:
         specifier: ^1.0.3
         version: 1.0.3
-      jsonresume-theme-compact-new:
-        specifier: ^1.0.0
-        version: 1.0.0
-      jsonresume-theme-compact-pt-br:
-        specifier: ^1.0.7
-        version: 1.0.7
-      jsonresume-theme-compactbr:
-        specifier: ^1.0.1
-        version: 1.0.1
       jsonresume-theme-contempo:
         specifier: ^0.0.3
         version: 0.0.3
-      jsonresume-theme-contempo-vforesee:
-        specifier: ^0.0.4
-        version: 0.0.4
       jsonresume-theme-cora:
         specifier: ^0.1.1
         version: 0.1.1
@@ -8313,12 +8298,6 @@ packages:
       swag: 0.7.0
     dev: false
 
-  /jsonresume-theme-class-vforesee@0.0.4:
-    resolution: {integrity: sha512-vlTJDDtfhDtZQOvoXIWNp7mfC5snGEzEui/CATCLbvQvu8EcWfiRFDo1Kn7R/0Pbj/OaombI1JiA8BgqfOSTRg==}
-    dependencies:
-      handlebars: 2.0.0
-    dev: false
-
   /jsonresume-theme-class@0.1.2:
     resolution: {integrity: sha512-xzeDTFJek/F4GE+hE+Y7/vuEzGP7JTSORykuhawdDKbjgstXahTeASDAYt6MoTd4igrTPd8G5HAn+/zhVfV7SQ==}
     dependencies:
@@ -8358,40 +8337,11 @@ packages:
       moment: 2.29.4
     dev: false
 
-  /jsonresume-theme-compact-new@1.0.0:
-    resolution: {integrity: sha512-jYZzVdBdtvezO5Z6wgUUMFfmnHVi8RczUqE/Cb77wweou6tlW81jiqryTQyFk+VbElP7Mtw4XomvRnkGP3HJEw==}
-    dependencies:
-      handlebars: 4.7.7
-      moment: 2.29.4
-    dev: false
-
-  /jsonresume-theme-compact-pt-br@1.0.7:
-    resolution: {integrity: sha512-kQsrxKW2DXyJHByCNPGT/BpNbcNoklD24miT2LxlfyqTMnDk0wr1dItMMjYFTY4QKoeDMyBDJImHwA/QfyeiSg==}
-    dependencies:
-      handlebars: 2.0.0
-      moment: 2.29.4
-    dev: false
-
   /jsonresume-theme-compact@1.0.4:
     resolution: {integrity: sha512-F9xRvpI/AF0czNvF9o3OuxLvgSNczTIl7oB7AcNHxqiCcX6FZQmVWdpCHL2LtwDZsFt9WqTiOBVwxkXavmLv+A==}
     dependencies:
       handlebars: 2.0.0
       moment: 2.29.4
-    dev: false
-
-  /jsonresume-theme-compactbr@1.0.1:
-    resolution: {integrity: sha512-8j3hnCr1EyBrMaQVKhMuEsiAY8cYTMBtaDF5VRlRBFIQEj3TVARYJ7AKw9BuAjwTnyQALbwMIZCrIDqK9FP3sA==}
-    dependencies:
-      handlebars: 2.0.0
-      moment: 2.29.4
-    dev: false
-
-  /jsonresume-theme-contempo-vforesee@0.0.4:
-    resolution: {integrity: sha512-X26106AF21a12uYx0JOArhNMa9AcE54+66+Hg74rRo+EslOG1hgMD655ib85Nt9fVpi/fCno5MSrmfhyk9uUxw==}
-    dependencies:
-      handlebars: 2.0.0
-      moment: 2.29.4
-      underscore: 1.13.6
     dev: false
 
   /jsonresume-theme-contempo@0.0.3:
