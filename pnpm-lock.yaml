@@ -206,6 +206,9 @@ importers:
       jsonresume-theme-slick:
         specifier: ^0.1.16
         version: 0.1.16
+      jsonresume-theme-spartacus:
+        specifier: ^1.0.0
+        version: 1.0.0
       jsonresume-theme-spartan:
         specifier: ^0.3.0
         version: 0.3.0

@@ -49,6 +49,7 @@ export const THEMES = {
   slick: require('jsonresume-theme-slick'),
   sceptile: require('jsonresume-theme-sceptile'),
   simple: require('jsonresume-theme-simple'),
+  spartacus: require('jsonresume-theme-spartacus'),
   'timeline-fixed': require('jsonresume-theme-timeline-fixed'),
   spartan: require('jsonresume-theme-spartan'),
   srt: require('jsonresume-theme-srt'),
