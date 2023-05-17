@@ -1,7 +1,4 @@
 export const THEMES = {
-  // '8-bit-sheep': require('jsonresume-theme-8-bit-sheep'),
-  a11y: require('jsonresume-theme-a11y'),
-  aboutcontent: require('jsonresume-theme-aboutcontent'),
   ace: require('jsonresume-theme-ace'),
   actual: require('jsonresume-theme-actual'),
   'actual-letter': require('jsonresume-theme-actual-letter'),
@@ -12,7 +9,6 @@ export const THEMES = {
   boilerplate: require('jsonresume-theme-boilerplate'),
   'boilerplate-vforesee': require('jsonresume-theme-boilerplate-vforesee'),
   boldstatement: require('jsonresume-theme-boldstatement'),
-  briefstrap: require('jsonresume-theme-briefstrap'),
   'business-professional-compact': require('jsonresume-theme-business-professional-compact'),
   // caffeine: require('jsonresume-theme-caffeine'),
   // class: require('jsonresume-theme-class'),
