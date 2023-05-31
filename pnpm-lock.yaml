@@ -23,6 +23,9 @@ importers:
 
   apps/registry:
     dependencies:
+      '@faker-js/faker':
+        specifier: ^8.0.2
+        version: 8.0.2
       '@pinecone-database/pinecone':
         specifier: ^0.1.6
         version: 0.1.6
@@ -38,9 +41,15 @@ importers:
       dotenv-cli:
         specifier: ^7.2.1
         version: 7.2.1
+      eventsource-parser:
+        specifier: ^1.0.0
+        version: 1.0.0
       express:
         specifier: ^4.18.2
         version: 4.18.2
+      faker:
+        specifier: ^6.6.6
+        version: 6.6.6
       gravatar:
         specifier: ^1.8.2
         version: 1.8.2
@@ -287,6 +296,9 @@ importers:
       ui:
         specifier: workspace:*
         version: link:../../packages/ui
+      uuid:
+        specifier: ^9.0.0
+        version: 9.0.0
     devDependencies:
       eslint-config-custom:
         specifier: workspace:*
@@ -2307,6 +2319,11 @@ packages:
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
+
+  /@faker-js/faker@8.0.2:
+    resolution: {integrity: sha512-Uo3pGspElQW91PCvKSIAXoEgAUlRnH29sX2/p89kg7sP1m2PzCufHINd0FhTXQf6DYGiUlVncdSPa2F9wxed2A==}
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0, npm: '>=6.14.13'}
+    dev: false
 
   /@humanwhocodes/config-array@0.5.0:
     resolution: {integrity: sha512-FagtKFz74XrTl7y6HCzQpwDfXP0yhxe9lHLD1UZxjvZIcbyRz8zTFF/yYNfSfzU414eDwZ1SrO0Qvtyf+wFMQg==}
@@ -5983,6 +6000,10 @@ packages:
   /extsprintf@1.3.0:
     resolution: {integrity: sha512-11Ndz7Nv+mvAC1j0ktTa7fAb0vLyGGX+rMHNBYQviQDGU0Hw7lhctJANqbPhu9nV9/izT/IntTgZ7Im/9LJs9g==}
     engines: {'0': node >=0.6.0}
+    dev: false
+
+  /faker@6.6.6:
+    resolution: {integrity: sha512-9tCqYEDHI5RYFQigXFwF1hnCwcWCOJl/hmll0lr5D2Ljjb0o4wphb69wikeJDz5qCEzXCoPvG6ss5SDP6IfOdg==}
     dev: false
 
   /falsey@0.3.2:
