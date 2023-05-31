@@ -13,6 +13,10 @@ const Container = styled.div`
   justify-content: center;
 `;
 
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 const Input = styled.input`
   position: fixed;
   bottom: 50px;
@@ -43,7 +47,7 @@ const InputContainer = styled.div`
 const Switch = styled.div`
   position: fixed;
   top: 20px;
-  width: 200px;
+  width: 300px;
   height: 30px;
   display: flex;
   justify-content: center;
@@ -51,10 +55,16 @@ const Switch = styled.div`
 `;
 
 const Option = styled.div`
-  background-color: ${(props) => (props.active ? '#ff0000' : '#00ff00')};
-  width: 100px;
+  background-color: ${(props) => (props.active ? '#333' : '#999')};
+  width: 140px;
   cursor: pointer;
   height: 30px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  color: ${(props) => (props.active ? '#888' : '#222')};
   &:hover {
     background-color: #f76000;
   }
@@ -62,18 +72,30 @@ const Option = styled.div`
 
 const MessagesContainer = styled.div`
   background: orange;
+  background: #fbfbfb;
   height: calc(100vh - 200px);
 `;
 
 const Messages = styled.div`
   background: yellow;
+  background: #fbfbfb;
   width: 600px;
   padding-bottom: 200px;
 `;
 const Message = styled.div`
   background: blue;
-  padding: 20px;
-  margin-bottom: 20px;
+  background: #fbfbfb;
+  padding: 0 20px;
+  margin-bottom: 10px;
+  display: flex;
+`;
+
+const Name = styled.span`
+  font-weight: 600;
+  flex: 0 0 100px;
+  display: inline-block;
+  text-align: right;
+  margin-right: 5px;
 `;
 
 const INTERVIEWER = 'interviewer';
@@ -88,7 +110,7 @@ export default function Talk() {
   const [replying, setReplying] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [position, setPosition] = useState(INTERVIEWER);
+  const [position, setPosition] = useState(CANDIDATE);
 
   const bottomRef = useRef(null);
 
@@ -213,25 +235,25 @@ export default function Talk() {
           Candidate
         </Option>
       </Switch>
-      <button
-        onClick={() => {
-          postMessage(text);
-        }}
-      >
-        Add Message
-      </button>
       <MessagesContainer>
         <Messages>
           {messages.map((message) => {
             return (
               <Message key={message.id}>
-                {message.position}: {message.content}
+                <Name>{capitalizeFirstLetter(message.position)}:</Name>{' '}
+                {message.content}
               </Message>
             );
           })}
           {replying && (
             <Message key="replying">
-              {position === INTERVIEWER ? CANDIDATE : INTERVIEWER}: {reply}
+              <Name>
+                {capitalizeFirstLetter(
+                  position === INTERVIEWER ? CANDIDATE : INTERVIEWER
+                )}
+                :
+              </Name>{' '}
+              {reply}
             </Message>
           )}
           <div ref={bottomRef} />
@@ -245,10 +267,17 @@ export default function Talk() {
           value={text}
         />
       </InputContainer>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet"
+      />
       <style jsx global>{`
         body {
           margin: 0px;
           padding: 0px;
+          font-family: 'IBM Plex Sans', sans-serif;
         }
       `}</style>
     </Container>
