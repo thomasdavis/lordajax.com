@@ -1,12 +1,15 @@
 module.exports = {
   reactStrictMode: true,
-  transpilePackages: ["ui"],
+  transpilePackages: ['ui'],
   async rewrites() {
     return [
       {
-        source: "/:payload",
-        destination: "/api/:payload",
+        source: '/:payload',
+        destination: '/api/:payload',
       },
     ];
+  },
+  compiler: {
+    styledComponents: true,
   },
 };

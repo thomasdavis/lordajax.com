@@ -5,6 +5,7 @@ const axios = require('axios');
 const Validator = require('jsonschema').Validator;
 import schema from './schema';
 import letter from './formatters/letter';
+import interview from './formatters/interview';
 import suggest from './formatters/suggest';
 import qr from './formatters/qr';
 import template from './formatters/template';
@@ -24,6 +25,7 @@ const FILE_TYPES = new Set([
   'tex',
   'txt',
   'template',
+  'interview',
   'letter',
   'suggest',
   'yaml',
@@ -43,7 +45,6 @@ export default async function handler(req, res) {
 
   const username = payloadSplit[0];
   let fileType = 'template';
-  console.log('asdas');
   if (payloadSplit.length === 2) {
     fileType = payloadSplit[1];
   }
@@ -57,6 +58,7 @@ export default async function handler(req, res) {
     json,
     tex,
     txt,
+    interview,
     template,
     letter,
     suggest,
@@ -65,7 +67,6 @@ export default async function handler(req, res) {
 
   const formatter = FORMATTERS[fileType];
 
-  console.log({ formatter });
   if (!formatter) {
     return res.status(200).send(failMessage('not supported formatted'));
   }
@@ -161,14 +162,6 @@ ${JSON.stringify(validation.errors, null, 2)}
     );
   }
 
-  console.log('======');
-  console.log('======');
-  console.log('======');
-  console.log('======');
-  console.log('======');
-  console.log('======');
-  console.log('======');
-  console.log(process.env.DATABASE_URL);
   const client = new Client(process.env.DATABASE_URL);
 
   (async () => {
@@ -181,7 +174,6 @@ ${JSON.stringify(validation.errors, null, 2)}
           UPDATE SET resume = $2`,
         [username, JSON.stringify(selectedResume)]
       );
-      console.log(results);
     } catch (err) {
       console.error('error executing query:', err);
     } finally {
@@ -191,7 +183,6 @@ ${JSON.stringify(validation.errors, null, 2)}
 
   const options = { ...req.query, theme: realTheme, username };
   let formatted = '';
-  console.log('asd', formatter);
   try {
     formatted = await formatter.format(selectedResume, options);
   } catch (e) {
