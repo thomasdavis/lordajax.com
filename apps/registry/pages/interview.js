@@ -72,7 +72,7 @@ const Option = styled.div`
 `;
 
 const MessagesContainer = styled.div`
-  background: orange;
+  background: #fbfbfb;
   max-width: 600px;
   width: 100%;
   height: calc(100vh - 200px);
