@@ -42,6 +42,9 @@ const Input = styled.input`
   width: 100%;
   max-width: 600px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  &:disabled {
+    background-color: #555;
+  }
 `;
 
 // switch is fixed to the center top
@@ -114,6 +117,7 @@ export default function Talk() {
   const [position, setPosition] = useState(CANDIDATE);
 
   const bottomRef = useRef(null);
+  const textInput = useRef(null);
 
   const togglePosition = () => {
     setPosition(position === INTERVIEWER ? CANDIDATE : INTERVIEWER);
@@ -181,6 +185,7 @@ export default function Talk() {
         },
       ]);
       setReply("");
+      textInput.current.focus();
     }
   }, [replying]);
 
@@ -262,10 +267,12 @@ export default function Talk() {
       </MessagesContainer>
       <InputContainer>
         <Input
+          autoFocus
           onChange={handleInputChange}
           onKeyPress={handleInputKeyPress}
           disabled={replying}
           value={text}
+          ref={textInput}
         />
       </InputContainer>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
