@@ -1,8 +1,8 @@
-import { Button } from 'ui';
-import styled from 'styled-components';
-import { useEffect, useRef, useState } from 'react';
-import { faker } from '@faker-js/faker';
-import { v4 as uuidv4 } from 'uuid';
+import { Button } from "ui";
+import styled from "styled-components";
+import { useEffect, useRef, useState } from "react";
+import { faker } from "@faker-js/faker";
+import { v4 as uuidv4 } from "uuid";
 const Container = styled.div`
   height: 100vh;
   width: 100vw;
@@ -17,6 +17,17 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+const InputContainer = styled.div`
+  position: fixed;
+  background: #444;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+`;
+
 const Input = styled.input`
   position: fixed;
   bottom: 50px;
@@ -28,19 +39,9 @@ const Input = styled.input`
   box-sizing: border-box;
   outline: none;
   background-color: #fff;
-  width: 600px;
+  width: 100%;
+  max-width: 600px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-`;
-
-const InputContainer = styled.div`
-  position: fixed;
-  background: #444;
-  bottom: 0;
-  left: 0;
-  width: 100vw;
-  height: 150px;
-  display: flex;
-  justify-content: center;
 `;
 
 // switch is fixed to the center top
@@ -55,7 +56,7 @@ const Switch = styled.div`
 `;
 
 const Option = styled.div`
-  background-color: ${(props) => (props.active ? '#333' : '#999')};
+  background-color: ${(props) => (props.active ? "#333" : "#999")};
   width: 140px;
   cursor: pointer;
   height: 30px;
@@ -64,7 +65,7 @@ const Option = styled.div`
   justify-content: center;
   align-items: center;
   text-transform: uppercase;
-  color: ${(props) => (props.active ? '#888' : '#222')};
+  color: ${(props) => (props.active ? "#888" : "#222")};
   &:hover {
     background-color: #f76000;
   }
@@ -72,14 +73,14 @@ const Option = styled.div`
 
 const MessagesContainer = styled.div`
   background: orange;
-  background: #fbfbfb;
+  max-width: 600px;
+  width: 100%;
   height: calc(100vh - 200px);
 `;
 
 const Messages = styled.div`
   background: yellow;
   background: #fbfbfb;
-  width: 600px;
   padding-bottom: 200px;
 `;
 const Message = styled.div`
@@ -98,15 +99,15 @@ const Name = styled.span`
   margin-right: 5px;
 `;
 
-const INTERVIEWER = 'interviewer';
-const CANDIDATE = 'candidate';
+const INTERVIEWER = "interviewer";
+const CANDIDATE = "candidate";
 
-const interviewId = 'axyz';
+const interviewId = "axyz";
 
 export default function Talk() {
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
   const [messages, setMessages] = useState([]);
-  const [reply, setReply] = useState('');
+  const [reply, setReply] = useState("");
   const [replying, setReplying] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -120,7 +121,7 @@ export default function Talk() {
 
   const postMessage = async () => {
     setReplying(true);
-    console.log('what is the value of text', text);
+    console.log("what is the value of text", text);
     // const message = {
     //   id: uuidv4(),
     //   content: faker.lorem.lines({ min: 1, max: 10 }),
@@ -128,10 +129,10 @@ export default function Talk() {
     // setMessages([...messages, message]);
     const prompt = text;
 
-    const response = await fetch('/api/interview', {
-      method: 'POST',
+    const response = await fetch("/api/interview", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         prompt,
@@ -154,7 +155,7 @@ export default function Talk() {
     const decoder = new TextDecoder();
     let done = false;
 
-    let reply = '';
+    let reply = "";
     while (!done) {
       const { value, done: doneReading } = await reader.read();
       done = doneReading;
@@ -162,15 +163,15 @@ export default function Talk() {
       reply = reply + chunkValue;
       setReply(reply);
     }
-    console.log('set reply');
+    console.log("set reply");
     console.log({ reply });
-    console.log('sdasdasda', { messages });
+    console.log("sdasdasda", { messages });
 
     setReplying(false);
   };
 
   useEffect(() => {
-    if (replying !== null && reply !== '') {
+    if (replying !== null && reply !== "") {
       setMessages([
         ...messages,
         {
@@ -179,7 +180,7 @@ export default function Talk() {
           position: position === INTERVIEWER ? CANDIDATE : INTERVIEWER,
         },
       ]);
-      setReply('');
+      setReply("");
     }
   }, [replying]);
 
@@ -190,8 +191,8 @@ export default function Talk() {
   };
 
   const handleInputKeyPress = (ev) => {
-    if (ev.key === 'Enter') {
-      console.log('do validate');
+    if (ev.key === "Enter") {
+      console.log("do validate");
       setMessages([
         ...messages,
         {
@@ -201,7 +202,7 @@ export default function Talk() {
         },
       ]);
       postMessage();
-      setText('');
+      setText("");
     }
   };
 
@@ -222,7 +223,7 @@ export default function Talk() {
 
   useEffect(() => {
     // 👇️ scroll to bottom every time messages change
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   return (
@@ -240,7 +241,7 @@ export default function Talk() {
           {messages.map((message) => {
             return (
               <Message key={message.id}>
-                <Name>{capitalizeFirstLetter(message.position)}:</Name>{' '}
+                <Name>{capitalizeFirstLetter(message.position)}:</Name>{" "}
                 {message.content}
               </Message>
             );
@@ -252,7 +253,7 @@ export default function Talk() {
                   position === INTERVIEWER ? CANDIDATE : INTERVIEWER
                 )}
                 :
-              </Name>{' '}
+              </Name>{" "}
               {reply}
             </Message>
           )}
@@ -277,7 +278,7 @@ export default function Talk() {
         body {
           margin: 0px;
           padding: 0px;
-          font-family: 'IBM Plex Sans', sans-serif;
+          font-family: "IBM Plex Sans", sans-serif;
         }
       `}</style>
     </Container>
