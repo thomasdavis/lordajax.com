@@ -1,12 +1,12 @@
 import { Button } from "ui";
 import styled from "styled-components";
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { faker } from "@faker-js/faker";
 import { v4 as uuidv4 } from "uuid";
 const Container = styled.div`
   height: 100vh;
   width: 100vw;
-  background-color: #f5f5f5;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,7 +19,7 @@ function capitalizeFirstLetter(string) {
 
 const InputContainer = styled.div`
   position: fixed;
-  background: #444;
+  background: #fff18f;
   bottom: 0;
   left: 0;
   width: 100vw;
@@ -34,7 +34,7 @@ const Input = styled.input`
   height: 50px;
   border: none;
   border-radius: 5px;
-  padding: 10px;
+  padding: 20px;
   font-size: 20px;
   box-sizing: border-box;
   outline: none;
@@ -43,7 +43,7 @@ const Input = styled.input`
   max-width: 600px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   &:disabled {
-    background-color: #555;
+    background-color: #777;
   }
 `;
 
@@ -77,6 +77,7 @@ const Option = styled.div`
 const MessagesContainer = styled.div`
   background: #fbfbfb;
   max-width: 600px;
+  padding: 30px;
   width: 100%;
   height: calc(100vh - 200px);
 `;
@@ -108,6 +109,10 @@ const CANDIDATE = "candidate";
 const interviewId = "axyz";
 
 export default function Talk() {
+  const router = useRouter();
+  const parts = router.asPath.split("/");
+  const username = parts[1];
+  console.log({ username });
   const [text, setText] = useState("");
   const [reply, setReply] = useState("");
   const [replying, setReplying] = useState(null);
@@ -143,9 +148,10 @@ export default function Talk() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        username,
         prompt,
         position,
-        messages: messages.slice(-4),
+        messages: messages.slice(-6),
       }),
     });
 
@@ -271,6 +277,7 @@ export default function Talk() {
       </MessagesContainer>
       <InputContainer>
         <Input
+          placeholder="Write here..."
           autoFocus
           onChange={handleInputChange}
           onKeyPress={handleInputKeyPress}
@@ -290,6 +297,7 @@ export default function Talk() {
           margin: 0px;
           padding: 0px;
           font-family: "IBM Plex Sans", sans-serif;
+          background-color: #f5f5f5;
         }
       `}</style>
     </Container>

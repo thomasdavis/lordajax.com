@@ -1,5 +1,7 @@
 import { OpenAIStream } from "./openAIStream";
 import resume from "./samples/resume";
+const { Client } = require("pg");
+
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("Missing env var from OpenAI");
 }
@@ -28,13 +30,20 @@ Do not apologize when you don't understand them or when you ask them to repeat t
     `,
 };
 
-const handler = async (req) => {
-  const { prompt, position, messages } = await req.json();
+export default async function handler(req, res) {
+  const { prompt, position, messages, username } = req.body;
+  // const { prompt, position, messages, username } = await req.json();
+  const client = new Client(process.env.DATABASE_URL);
 
+  await client.connect();
+  const results = await client.query(
+    `SELECT username, resume, updated_at from resumes ORDER BY updated_at DESC`
+  );
+  console.log({ results });
   if (!prompt) {
     return new Response("No prompt in the request", { status: 400 });
   }
-
+  // get resume from database
   const lastMessages = messages;
   console.log("lastMessages", lastMessages);
   // make last messages into a string where the interviwer and candidate are on different lines
@@ -44,18 +53,14 @@ const handler = async (req) => {
       return `${m.position}: ${m.content}\n`;
     })
     .join("\n");
-
   lastMessagesString += `${
-    position === "candidate" ? "interviewer" : "candidate"
+    position === "candidate" ? "candidate" : "interviewer"
   }:${prompt}\n`;
-
   // add the candiate or interviwer to end of last messages with a colon
   lastMessagesString += `${
     position === "candidate" ? "interviewer" : "candidate"
   }:`;
-
   console.log("lastMessagesString", lastMessagesString);
-
   const payload = {
     // model: "gpt-3.5-turbo",
     model: "text-davinci-003",
@@ -72,19 +77,13 @@ const handler = async (req) => {
       //
       position,
     ].join("\n\n"),
-    // ${SYSTEM_PROMPT[position]}
-    // For context, here is the resume in question: ${JSON.stringify(resume)}
     // @todo - make conversation prompt new lines and jazz
     prompt: `
-
-
+    ${SYSTEM_PROMPT[position]}
+    For context, here is the resume in question: ${JSON.stringify(resume)}
     The last messages of your conversation were;
-    
     ${lastMessagesString}
-
-    
     `,
-
     //
     // messages: [
     //   { role: "system", content: SYSTEM_PROMPT[position] },
@@ -116,6 +115,4 @@ const handler = async (req) => {
   console.log(JSON.stringify(payload, null, 2));
   const stream = await OpenAIStream(payload);
   return new Response(stream);
-};
-
-export default handler;
+}
