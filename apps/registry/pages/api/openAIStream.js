@@ -20,7 +20,7 @@ export async function OpenAIStream(payload) {
     body: JSON.stringify(payload),
   });
 
-  console.log("res", res);
+  // console.log("res", res);
 
   // get response body
   // const body = await res.text();
@@ -30,7 +30,6 @@ export async function OpenAIStream(payload) {
     async start(controller) {
       // callback
       function onParse(event) {
-        console.log(event);
         if (event.type === "event") {
           const data = event.data;
           // https://beta.openai.com/docs/api-reference/completions/create#completions/create-stream
@@ -51,7 +50,6 @@ export async function OpenAIStream(payload) {
             counter++;
           } catch (e) {
             // maybe parse error
-            console.log("ass", e);
             controller.error(e);
           }
         }

@@ -109,12 +109,16 @@ const interviewId = "axyz";
 
 export default function Talk() {
   const [text, setText] = useState("");
-  const [messages, setMessages] = useState([]);
   const [reply, setReply] = useState("");
   const [replying, setReplying] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [position, setPosition] = useState(CANDIDATE);
+  const initialMessage =
+    position === CANDIDATE
+      ? { position: INTERVIEWER, content: "Hello, I am here to interview you" }
+      : { position: CANDIDATE, content: "Hi, I am ready to be interviewed" };
+  const [messages, setMessages] = useState([initialMessage]);
 
   const bottomRef = useRef(null);
   const textInput = useRef(null);

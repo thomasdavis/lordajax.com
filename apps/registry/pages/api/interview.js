@@ -10,6 +10,11 @@ export const config = {
 
 // @todo - send the count of all messages or store them in database, progress them to next stage after 10 messages.
 // @todo - end the interview if they are being rude
+// @todo - give the interviewer a name
+// @todo - rick roll
+// @todo - gta death scene
+// @todo - handle time outs
+// @todo - store all conversations in database, make sharable links
 
 const SYSTEM_PROMPT = {
   interviewer:
@@ -30,6 +35,27 @@ const handler = async (req) => {
     return new Response("No prompt in the request", { status: 400 });
   }
 
+  const lastMessages = messages;
+  console.log("lastMessages", lastMessages);
+  // make last messages into a string where the interviwer and candidate are on different lines
+  // @todo - make this a function
+  let lastMessagesString = lastMessages
+    .map((m) => {
+      return `${m.position}: ${m.content}\n`;
+    })
+    .join("\n");
+
+  lastMessagesString += `${
+    position === "candidate" ? "interviewer" : "candidate"
+  }:${prompt}\n`;
+
+  // add the candiate or interviwer to end of last messages with a colon
+  lastMessagesString += `${
+    position === "candidate" ? "interviewer" : "candidate"
+  }:`;
+
+  console.log("lastMessagesString", lastMessagesString);
+
   const payload = {
     // model: "gpt-3.5-turbo",
     model: "text-davinci-003",
@@ -41,9 +67,25 @@ const handler = async (req) => {
         messages.map((m) => {
           return `${m.position}: ${m.content}\n`;
         })
-      )}`,
-      prompt,
+      )}
+      `,
+      //
+      position,
     ].join("\n\n"),
+    // ${SYSTEM_PROMPT[position]}
+    // For context, here is the resume in question: ${JSON.stringify(resume)}
+    // @todo - make conversation prompt new lines and jazz
+    prompt: `
+
+
+    The last messages of your conversation were;
+    
+    ${lastMessagesString}
+
+    
+    `,
+
+    //
     // messages: [
     //   { role: "system", content: SYSTEM_PROMPT[position] },
     //   {
@@ -70,9 +112,8 @@ const handler = async (req) => {
     stream: true,
     // n: 1,
   };
-
-  console.log({ payload });
-
+  console.log("im dead");
+  console.log(JSON.stringify(payload, null, 2));
   const stream = await OpenAIStream(payload);
   return new Response(stream);
 };
