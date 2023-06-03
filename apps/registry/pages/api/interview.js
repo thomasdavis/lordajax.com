@@ -1,5 +1,4 @@
 import { OpenAIStream } from "./openAIStream";
-import resume from "./samples/resume";
 import prisma from "../../lib/prisma";
 
 if (!process.env.OPENAI_API_KEY) {
@@ -31,12 +30,16 @@ Do not apologize when you don't understand them or when you ask them to repeat t
 };
 
 export default async function handler(req, res) {
-  const { prompt, position, messages, username } = req.body;
-  // const { prompt, position, messages, username } = await req.json();
-  const count = await prisma.resume.aggregate({
-    _count: true,
+  // const { prompt, position, messages, username } = req.body;
+  const { prompt, position, messages, username } = await req.json();
+
+  const resume = await prisma.resumes.findUnique({
+    where: {
+      id: 1,
+    },
   });
-  console.log({ count });
+
+  console.log("asdasd", prompt);
   if (!prompt) {
     return new Response("No prompt in the request", { status: 400 });
   }
