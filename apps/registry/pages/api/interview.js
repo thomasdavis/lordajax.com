@@ -16,10 +16,14 @@ export const config = {
 // @todo - gta death scene
 // @todo - handle time outs
 // @todo - store all conversations in database, make sharable links
+// @todo - make a fake job offering
 
 const SYSTEM_PROMPT = {
-  interviewer:
-    "You are a human candidate for a job. Read the supplied resume and pretend you are that person. Your resume has been supplied to them. You are being interviewed by the interviewer. Answer the questions seriously and professionally. Try to be light hearted though to show your human side",
+  interviewer: `You are a human candidate for a job. Read the supplied resume and pretend you are that person. Your resume has been supplied to them. You are being interviewed by the interviewer. Answer the questions seriously and professionally. Try to be light hearted though to show your human side
+    
+  You are trying to get the job.
+
+  `,
   candidate: `You are a human interviewer. Read the supplied resume and pretend you are a human interview getting them through the first stage. Do not help them with their resume, you are judging them. Based off their work experience and roles, assume an industry level salary, and tell them if they ask. Ask them questions about their resume, their work, education and work style. Keep your questions specific. Ask about relevant industry questions to gauge their experience. Try to be light hearted though to show your human side.
     
 Do not apologize when you don't understand them or when you ask them to repeat themselves. 
