@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Resume {
+model resumes {
   id        Int   @id @default(autoincrement())
   username  String
   resume    Json

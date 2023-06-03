@@ -1,6 +1,6 @@
 import { OpenAIStream } from "./openAIStream";
 import resume from "./samples/resume";
-const { Client } = require("pg");
+import prisma from "../../lib/prisma";
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("Missing env var from OpenAI");
@@ -33,13 +33,10 @@ Do not apologize when you don't understand them or when you ask them to repeat t
 export default async function handler(req, res) {
   const { prompt, position, messages, username } = req.body;
   // const { prompt, position, messages, username } = await req.json();
-  const client = new Client(process.env.DATABASE_URL);
-
-  await client.connect();
-  const results = await client.query(
-    `SELECT username, resume, updated_at from resumes ORDER BY updated_at DESC`
-  );
-  console.log({ results });
+  const count = await prisma.resume.aggregate({
+    _count: true,
+  });
+  console.log({ count });
   if (!prompt) {
     return new Response("No prompt in the request", { status: 400 });
   }
