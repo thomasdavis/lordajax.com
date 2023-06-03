@@ -35,11 +35,11 @@ export default async function handler(req, res) {
 
   const resume = await prisma.resumes.findUnique({
     where: {
-      id: 1,
+      username,
     },
   });
 
-  console.log("asdasd", prompt);
+  console.log("asdasd", resume);
   if (!prompt) {
     return new Response("No prompt in the request", { status: 400 });
   }
