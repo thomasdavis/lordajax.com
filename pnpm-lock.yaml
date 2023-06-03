@@ -4,9 +4,6 @@ importers:
 
   .:
     dependencies:
-      '@prisma/client':
-        specifier: latest
-        version: 4.15.0(prisma@4.15.0)
       dotenv:
         specifier: ^16.0.3
         version: 16.0.3
@@ -20,9 +17,6 @@ importers:
       prettier:
         specifier: ^2.5.1
         version: 2.8.0
-      prisma:
-        specifier: latest
-        version: 4.15.0
       turbo:
         specifier: latest
         version: 1.10.1
@@ -287,6 +281,9 @@ importers:
       pinecone-client:
         specifier: ^1.1.0
         version: 1.1.0
+      prisma:
+        specifier: ^4.15.0
+        version: 4.15.0
       qr-image:
         specifier: ^3.2.0
         version: 3.2.0
@@ -312,9 +309,6 @@ importers:
       eslint-config-custom:
         specifier: workspace:*
         version: link:../../packages/eslint-config-custom
-      prisma:
-        specifier: ^4.15.0
-        version: 4.15.0
 
   apps/themes:
     dependencies:
@@ -2614,6 +2608,7 @@ packages:
   /@prisma/engines@4.15.0:
     resolution: {integrity: sha512-FTaOCGs0LL0OW68juZlGxFtYviZa4xdQj/rQEdat2txw0s3Vu/saAPKjNVXfIgUsGXmQ72HPgNr6935/P8FNAA==}
     requiresBuild: true
+    dev: false
 
   /@rushstack/eslint-patch@1.2.0:
     resolution: {integrity: sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg==}
@@ -11725,6 +11720,7 @@ packages:
     requiresBuild: true
     dependencies:
       '@prisma/engines': 4.15.0
+    dev: false
 
   /process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
