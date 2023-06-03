@@ -5,12 +5,10 @@
     "dev": "dotenv -- turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "db:generate": "prisma generate"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
-    "prisma": "latest",
     "prettier": "^2.5.1",
     "turbo": "latest"
   },
@@ -18,6 +16,5 @@
   "name": "jsonresume.org",
   "dependencies": {
     "dotenv": "^16.0.3",
-    "@prisma/client": "latest"
   }
 }
