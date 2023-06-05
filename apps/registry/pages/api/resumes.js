@@ -2,7 +2,7 @@ const { Client } = require('pg');
 const gravatar = require('gravatar');
 
 export default async function handler(req, res) {
-  const client = new Client(process.env.DATABASE_URL);
+  const client = new Client(process.env.DATABASE_URL_RAW);
 
   await client.connect();
   const results = await client.query(
