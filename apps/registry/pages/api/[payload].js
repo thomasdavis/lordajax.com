@@ -162,7 +162,7 @@ ${JSON.stringify(validation.errors, null, 2)}
     );
   }
 
-  const client = new Client(process.env.DATABASE_URL);
+  const client = new Client(process.env.DATABASE_URL_RAW);
 
   (async () => {
     await client.connect();
