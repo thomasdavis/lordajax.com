@@ -220,7 +220,7 @@ export default function Talk() {
   const [reply, setReply] = useState('');
   const [replying, setReplying] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [showAbout, setShowAbout] = useState(true);
+  const [showAbout, setShowAbout] = useState(false);
   const [error, setError] = useState(null);
   const [position, setPosition] = useState(CANDIDATE);
   const initialMessage =
