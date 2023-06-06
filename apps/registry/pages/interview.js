@@ -37,6 +37,7 @@ const Header = styled.div`
 
 const Logo = styled.a`
   text-decoration: none;
+  color: #000;
   &:active {
     color: #000;
   }
@@ -55,12 +56,40 @@ const AboutLink = styled.div`
     color: #df4848;
   }
 `;
-
+const AboutContainer = styled.div`
+  max-width: 400px;
+  text-align: left;
+  margin: 0 20px;
+`;
 const About = styled.div`
   position: fixed;
   width: 100vw;
   height: 100vh;
   background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  flex-direction: column;
+
+  & p {
+    margin-bottom: 15px;
+`;
+
+const Close = styled.div`
+  background-color: #df4848;
+  width: 140px;
+  cursor: pointer;
+  height: 30px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fbfbfb;
+  &:hover {
+    background-color: #ea8989;
+  }
+  border-radius: 5px;
 `;
 
 function capitalizeFirstLetter(string) {
@@ -129,6 +158,7 @@ const Option = styled.div`
   }
   &:last-child {
     border-radius: 0px 5px 5px 0px;
+  }
 `;
 
 const MessagesContainer = styled.div`
@@ -190,7 +220,7 @@ export default function Talk() {
   const [reply, setReply] = useState('');
   const [replying, setReplying] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [showAbout, setShowAbout] = useState(false);
+  const [showAbout, setShowAbout] = useState(true);
   const [error, setError] = useState(null);
   const [position, setPosition] = useState(CANDIDATE);
   const initialMessage =
@@ -332,7 +362,27 @@ export default function Talk() {
       {' '}
       {showAbout && (
         <About>
-          <div onClick={onShowAbout}>close</div>
+          <AboutContainer>
+            <p>Hi there, this is just a bit of fun for now.</p>
+            <p>
+              It uses OpenAI GPT-3, and creates a prompt that is made up of;
+            </p>
+            <ul>
+              <li>A preconfigured personality for the interview/er/ee</li>
+              <li>The hosted resume.json based off the url</li>
+              <li>The last 6-8 messages of your conversation so far</li>
+            </ul>
+            <p>
+              You can use any resume that is hosted on the registry, see this{' '}
+              <a
+                target="__blank"
+                href="https://registry.jsonresume.org/resumes"
+              >
+                list of resumes
+              </a>
+            </p>
+            <Close onClick={onShowAbout}>Close</Close>
+          </AboutContainer>
         </About>
       )}
       {!showAbout && (
@@ -422,17 +472,17 @@ export default function Talk() {
               href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
               rel="stylesheet"
             />
-            <style jsx global>{`
-              body {
-                margin: 0px;
-                padding: 0px;
-                background-color: #f5f5f5;
-                font-family: 'Open Sans', sans-serif;
-              }
-            `}</style>
           </Container>
         </>
       )}
+      <style jsx global>{`
+        body {
+          margin: 0px;
+          padding: 0px;
+          background-color: #f5f5f5;
+          font-family: 'Open Sans', sans-serif;
+        }
+      `}</style>
     </>
   );
 }
