@@ -473,6 +473,21 @@ export default function Talk() {
               rel="stylesheet"
             />
           </Container>
+          <script
+            async
+            data-id="101412887"
+            src="//static.getclicky.com/js"
+          ></script>
+          <noscript>
+            <p>
+              <img
+                alt="Clicky"
+                width="1"
+                height="1"
+                src="//in.getclicky.com/101412887ns.gif"
+              />
+            </p>
+          </noscript>
         </>
       )}
       <style jsx global>{`
