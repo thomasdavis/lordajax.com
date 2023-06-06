@@ -73,13 +73,14 @@ const InputContainer = styled.div`
   bottom: 0;
   left: 0;
   width: 100vw;
-  height: 150px;
+  height: 120px;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Input = styled.input`
-  position: fixed;
   bottom: 50px;
   height: 50px;
   border: none;
@@ -90,7 +91,8 @@ const Input = styled.input`
   outline: none;
   background-color: #fff;
   width: 100%;
-  max-width: 600px;
+  max-width: 570px;
+  margin: 0 30px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   &:disabled {
     background-color: #f5f5f5;
@@ -132,9 +134,9 @@ const Option = styled.div`
 const MessagesContainer = styled.div`
   background: #fbfbfb;
   max-width: 600px;
-  padding: 30px;
+  padding: 90px 30px;
   width: 100%;
-  height: calc(100vh - 200px);
+  height: calc(100vh - 170px);
 `;
 
 const Messages = styled.div`
@@ -158,6 +160,22 @@ const Name = styled.span`
   margin-right: 5px;
 `;
 
+const Helper = styled.div`
+  font-size: 13px;
+  margin-bottom: 15px;
+  & a {
+    text-decoration: none;
+    font-weight: 600;
+  }
+  & a:hover {
+    text-decoration: underline;
+    color: #df4848;
+  }
+  & a:visited {
+    color: #000;
+  }
+`;
+
 const INTERVIEWER = 'interviewer';
 const CANDIDATE = 'candidate';
 
@@ -177,7 +195,10 @@ export default function Talk() {
   const [position, setPosition] = useState(CANDIDATE);
   const initialMessage =
     position === CANDIDATE
-      ? { position: INTERVIEWER, content: 'Hello, I am here to interview you' }
+      ? {
+          position: INTERVIEWER,
+          content: 'Hello, I am here to interview you',
+        }
       : { position: CANDIDATE, content: 'Hi, I am ready to be interviewed' };
   const [messages, setMessages] = useState([initialMessage]);
 
@@ -362,6 +383,25 @@ export default function Talk() {
               </Messages>
             </MessagesContainer>
             <InputContainer>
+              {position === INTERVIEWER && (
+                <Helper>
+                  You are currentlying interviewing&nbsp;
+                  <a href={`https://registry.jsonresume.org/${username}`}>
+                    {username}
+                  </a>
+                </Helper>
+              )}
+              {position === CANDIDATE && (
+                <Helper>
+                  You are being interviewed as&nbsp;
+                  <a
+                    target="__blank"
+                    href={`https://registry.jsonresume.org/${username}`}
+                  >
+                    {username}
+                  </a>
+                </Helper>
+              )}
               <Input
                 placeholder="Write here..."
                 autoFocus
