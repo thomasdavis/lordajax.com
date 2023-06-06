@@ -1,12 +1,12 @@
-import { OpenAIStream } from "./openAIStream";
-import prisma from "../../lib/prisma";
+import { OpenAIStream } from './openAIStream';
+import prisma from '../../lib/prisma';
 
 if (!process.env.OPENAI_API_KEY) {
-  throw new Error("Missing env var from OpenAI");
+  throw new Error('Missing env var from OpenAI');
 }
 
 export const config = {
-  runtime: "edge",
+  runtime: 'edge',
 };
 
 // @todo - send the count of all messages or store them in database, progress them to next stage after 10 messages.
@@ -43,31 +43,29 @@ export default async function handler(req, res) {
     },
   });
 
-  console.log("asdasd", resume);
   if (!prompt) {
-    return new Response("No prompt in the request", { status: 400 });
+    return new Response('No prompt in the request', { status: 400 });
   }
   // get resume from database
   const lastMessages = messages;
-  console.log("lastMessages", lastMessages);
+  console.log('STUFF', { username, prompt, position, lastMessages });
   // make last messages into a string where the interviwer and candidate are on different lines
   // @todo - make this a function
   let lastMessagesString = lastMessages
     .map((m) => {
       return `${m.position}: ${m.content}\n`;
     })
-    .join("\n");
+    .join('\n');
   lastMessagesString += `${
-    position === "candidate" ? "candidate" : "interviewer"
+    position === 'candidate' ? 'candidate' : 'interviewer'
   }:${prompt}\n`;
   // add the candiate or interviwer to end of last messages with a colon
   lastMessagesString += `${
-    position === "candidate" ? "interviewer" : "candidate"
+    position === 'candidate' ? 'interviewer' : 'candidate'
   }:`;
-  console.log("lastMessagesString", lastMessagesString);
   const payload = {
     // model: "gpt-3.5-turbo",
-    model: "text-davinci-003",
+    model: 'text-davinci-003',
     // prompt: "hey wat you doing",
     prompt: [
       SYSTEM_PROMPT[position],
@@ -80,7 +78,7 @@ export default async function handler(req, res) {
       `,
       //
       position,
-    ].join("\n\n"),
+    ].join('\n\n'),
     // @todo - make conversation prompt new lines and jazz
     prompt: `
     ${SYSTEM_PROMPT[position]}
@@ -115,8 +113,6 @@ export default async function handler(req, res) {
     stream: true,
     // n: 1,
   };
-  console.log("im dead");
-  console.log(JSON.stringify(payload, null, 2));
   const stream = await OpenAIStream(payload);
   return new Response(stream);
 }
