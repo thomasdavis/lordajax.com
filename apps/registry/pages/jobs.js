@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from 'react';
 import { faker } from '@faker-js/faker';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
+import { NodeHtmlMarkdown, NodeHtmlMarkdownOptions } from 'node-html-markdown';
+import ReactMarkdown from 'react-markdown';
 
 const Container = styled.div`
   height: 100vh;
@@ -180,7 +182,6 @@ const Message = styled.div`
   background: #fbfbfb;
   padding: 0 20px;
   margin-bottom: 10px;
-  display: flex;
 `;
 
 const Name = styled.span`
@@ -281,13 +282,22 @@ export default function Talk() {
               <Messages>
                 {jobs &&
                   jobs.map((job) => {
+                    let content = job.content.replace('<code>', '');
+                    content = job.content.replace('</code>', '');
+                    content = job.content.replace('<pre>', '');
+                    content = job.content.replace('</pre>', '');
                     return (
                       <Message key={job.uuid}>
                         <Name>{capitalizeFirstLetter(job.type)}</Name>
-                        <div
+                        {/* <div
                           dangerouslySetInnerHTML={{ __html: job.content }}
-                        />
-                        {/* <div>{JSON.stringify(job)}</div> */}
+                        /> */}{' '}
+                        <ReactMarkdown>
+                          {NodeHtmlMarkdown.translate(content).replace(
+                            '```',
+                            ''
+                          )}
+                        </ReactMarkdown>
                       </Message>
                     );
                   })}
