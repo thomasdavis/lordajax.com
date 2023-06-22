@@ -1,6 +1,7 @@
 module.exports = {
   reactStrictMode: true,
   transpilePackages: ['ui'],
+  distDir: 'build',
   async rewrites() {
     return [
       {
