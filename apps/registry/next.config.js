@@ -11,6 +11,10 @@ module.exports = {
         source: "/:payload/interview",
         destination: "/interview",
       },
+      {
+        source: '/:payload/jobs',
+        destination: '/jobs',
+      },
     ];
   },
   compiler: {
