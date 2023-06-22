@@ -1,40 +1,33 @@
-const { Client } = require('pg');
-const gravatar = require('gravatar');
 import { PineconeClient } from '@pinecone-database/pinecone';
 const { Configuration, OpenAIApi } = require('openai');
-import prisma from '../../lib/prisma';
+const { Client } = require('pg');
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error('Missing env var from OpenAI');
 }
 
-export const config = {
-  runtime: 'edge',
-};
-
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
-const openai = new OpenAIApi(configuration);
-
-const indexName = 'jsonresume-jobs';
-// Create a client
-const pinecone = new PineconeClient();
 
 export default async function handler(req, res) {
-  const client = new Client(process.env.DATABASE_URL_RAW);
-  console.log('GOT REQUEST TO GET JOBS');
-  console.log('GOT REQUEST TO GET JOBS');
-  console.log('GOT REQUEST TO GET JOBS');
-  console.log('GOT REQUEST TO GET JOBS');
-  console.log('GOT REQUEST TO GET JOBS');
-  await client.connect();
+  const openai = new OpenAIApi(configuration);
 
-  const resume = await prisma.resumes.findUnique({
-    where: {
-      username,
-    },
-  });
+  const indexName = 'jsonresume-jobs';
+  // Create a client
+  const pinecone = new PineconeClient();
+  const { username } = req.body;
+  console.log({ username });
+
+  const client = new Client(process.env.DATABASE_URL_RAW);
+  await client.connect();
+  console.log('Asdasds');
+  const results = await client.query(
+    `SELECT username, resume, updated_at from resumes WHERE username = $1 ORDER BY updated_at DESC`,
+    [username]
+  );
+
+  const resume = results.rows[0];
 
   await pinecone.init({
     apiKey: process.env.PINECONE_API_KEY,
@@ -42,9 +35,6 @@ export default async function handler(req, res) {
   });
 
   const index = await pinecone.Index(indexName);
-  const results = await client.query(
-    `SELECT * from jobs ORDER BY created_at DESC`
-  );
 
   const completion1 = await openai.createEmbedding({
     model: 'text-embedding-ada-002',
@@ -74,6 +64,7 @@ export default async function handler(req, res) {
 
   const queryResponse = await index.query({ queryRequest });
   const matches = queryResponse.matches.map((match) => {
+    console.log(match.metadata.job);
     return JSON.parse(match.metadata.job);
   });
   return res.status(200).send(matches);

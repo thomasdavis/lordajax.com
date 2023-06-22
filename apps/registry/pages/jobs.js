@@ -287,6 +287,7 @@ export default function Talk() {
                         <div
                           dangerouslySetInnerHTML={{ __html: job.content }}
                         />
+                        {/* <div>{JSON.stringify(job)}</div> */}
                       </Message>
                     );
                   })}
