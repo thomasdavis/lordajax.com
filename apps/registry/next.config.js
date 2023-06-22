@@ -12,8 +12,8 @@ module.exports = {
         destination: "/interview",
       },
       {
-        source: '/:payload/jobs',
-        destination: '/jobs',
+        source: "/:payload/jobs",
+        destination: "/jobs",
       },
     ];
   },
@@ -21,3 +21,4 @@ module.exports = {
     styledComponents: true,
   },
 };
+
