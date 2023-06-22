@@ -817,7 +817,7 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       next:
-        specifier: latest
+        specifier: 13.4.6
         version: 13.4.6(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)
       pg:
         specifier: ^8.11.0
