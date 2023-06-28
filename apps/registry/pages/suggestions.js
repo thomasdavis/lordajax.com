@@ -241,25 +241,7 @@ export default function Talk() {
 
   return (
     <Layout>
-      <MessagesContainer>
-        <Messages>
-          {jobs &&
-            jobs.map((job) => {
-              let content = job.content.replace('<code>', '');
-              content = job.content.replace('</code>', '');
-              content = job.content.replace('<pre>', '');
-              content = job.content.replace('</pre>', '');
-              return (
-                <Message key={job.uuid}>
-                  <Name>{capitalizeFirstLetter(job.type)}</Name>
-                  <ReactMarkdown>
-                    {NodeHtmlMarkdown.translate(content).replace('```', '')}
-                  </ReactMarkdown>
-                </Message>
-              );
-            })}
-        </Messages>
-      </MessagesContainer>
+      <h1>Suggestions goes here</h1>
     </Layout>
   );
 }

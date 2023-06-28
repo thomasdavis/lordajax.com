@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { faker } from '@faker-js/faker';
 import { v4 as uuidv4 } from 'uuid';
+import Layout from '../ui/Layout';
 
 const Container = styled.div`
   height: 100vh;
@@ -358,8 +359,7 @@ export default function Talk() {
   }, [messages]);
 
   return (
-    <>
-      {' '}
+    <Layout>
       {showAbout && (
         <About>
           <AboutContainer>
@@ -387,117 +387,70 @@ export default function Talk() {
       )}
       {!showAbout && (
         <>
-          <Container>
-            <Header>
-              <HeaderContainer>
-                <Logo href="https://jsonresume.org" target="__blank">
-                  JSON Resume
-                </Logo>
-                <AboutLink onClick={onShowAbout}>About</AboutLink>
-              </HeaderContainer>
-            </Header>
-
-            <Switch>
-              <Option
-                active={position === INTERVIEWER}
-                onClick={togglePosition}
-              >
-                Interviewer
-              </Option>
-              <Option active={position === CANDIDATE} onClick={togglePosition}>
-                Candidate
-              </Option>
-            </Switch>
-            <MessagesContainer>
-              <Messages>
-                {messages.map((message) => {
-                  return (
-                    <Message key={message.id}>
-                      <Name>{capitalizeFirstLetter(message.position)}:</Name>{' '}
-                      {message.content}
-                    </Message>
-                  );
-                })}
-                {replying && (
-                  <Message key="replying">
-                    <Name>
-                      {capitalizeFirstLetter(
-                        position === INTERVIEWER ? CANDIDATE : INTERVIEWER
-                      )}
-                      :
-                    </Name>{' '}
-                    {reply}
+          <Switch>
+            <Option active={position === INTERVIEWER} onClick={togglePosition}>
+              Interviewer
+            </Option>
+            <Option active={position === CANDIDATE} onClick={togglePosition}>
+              Candidate
+            </Option>
+          </Switch>
+          <MessagesContainer>
+            <Messages>
+              {messages.map((message) => {
+                return (
+                  <Message key={message.id}>
+                    <Name>{capitalizeFirstLetter(message.position)}:</Name>{' '}
+                    {message.content}
                   </Message>
-                )}
-                <div ref={bottomRef} />
-              </Messages>
-            </MessagesContainer>
-            <InputContainer>
-              {position === INTERVIEWER && (
-                <Helper>
-                  You are currentlying interviewing&nbsp;
-                  <a href={`https://registry.jsonresume.org/${username}`}>
-                    {username}
-                  </a>
-                </Helper>
+                );
+              })}
+              {replying && (
+                <Message key="replying">
+                  <Name>
+                    {capitalizeFirstLetter(
+                      position === INTERVIEWER ? CANDIDATE : INTERVIEWER
+                    )}
+                    :
+                  </Name>{' '}
+                  {reply}
+                </Message>
               )}
-              {position === CANDIDATE && (
-                <Helper>
-                  You are being interviewed as&nbsp;
-                  <a
-                    target="__blank"
-                    href={`https://registry.jsonresume.org/${username}`}
-                  >
-                    {username}
-                  </a>
-                </Helper>
-              )}
-              <Input
-                placeholder="Write here..."
-                autoFocus
-                onChange={handleInputChange}
-                onKeyPress={handleInputKeyPress}
-                disabled={replying}
-                value={replying ? 'Thinking...' : text}
-                ref={textInput}
-              />
-            </InputContainer>
-            <link rel="preconnect" href="https://fonts.googleapis.com" />
-            <link
-              rel="preconnect"
-              href="https://fonts.gstatic.com"
-              crossorigin
+              <div ref={bottomRef} />
+            </Messages>
+          </MessagesContainer>
+          <InputContainer>
+            {position === INTERVIEWER && (
+              <Helper>
+                You are currentlying interviewing&nbsp;
+                <a href={`https://registry.jsonresume.org/${username}`}>
+                  {username}
+                </a>
+              </Helper>
+            )}
+            {position === CANDIDATE && (
+              <Helper>
+                You are being interviewed as&nbsp;
+                <a
+                  target="__blank"
+                  href={`https://registry.jsonresume.org/${username}`}
+                >
+                  {username}
+                </a>
+              </Helper>
+            )}
+            <Input
+              placeholder="Write here..."
+              autoFocus
+              onChange={handleInputChange}
+              onKeyPress={handleInputKeyPress}
+              disabled={replying}
+              value={replying ? 'Thinking...' : text}
+              ref={textInput}
             />
-            <link
-              href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
-              rel="stylesheet"
-            />
-          </Container>
-          <script
-            async
-            data-id="101412887"
-            src="//static.getclicky.com/js"
-          ></script>
-          <noscript>
-            <p>
-              <img
-                alt="Clicky"
-                width="1"
-                height="1"
-                src="//in.getclicky.com/101412887ns.gif"
-              />
-            </p>
-          </noscript>
+          </InputContainer>
         </>
       )}
-      <style jsx global>{`
-        body {
-          margin: 0px;
-          padding: 0px;
-          background-color: #f5f5f5;
-          font-family: 'Open Sans', sans-serif;
-        }
-      `}</style>
-    </>
+    </Layout>
   );
 }
