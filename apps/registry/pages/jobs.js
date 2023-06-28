@@ -213,7 +213,6 @@ export default function Talk() {
   const parts = router.asPath.split('/');
   const username = parts[1];
 
-  const [showAbout, setShowAbout] = useState(false);
   const [jobs, setJobs] = useState(null);
 
   useEffect(() => {
@@ -230,14 +229,6 @@ export default function Talk() {
 
     fetchData();
   }, []);
-
-  const onShowAbout = () => {
-    console.log('show about');
-    // toggle showAbout
-    setShowAbout(!showAbout);
-  };
-
-  console.log({ jobs });
 
   return (
     <Layout>
