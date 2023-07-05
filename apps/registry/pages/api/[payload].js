@@ -93,7 +93,7 @@ export default async function handler(req, res) {
   // @todo - abstract the gh client
   try {
     gistData = await axios.get(
-      `https://api.github.com/users/${username}/gists`,
+      `https://api.github.com/users/${username}/gists?per_page=100`,
       {
         headers: {
           Authorization: 'Bearer ' + GITHUB_TOKEN,
