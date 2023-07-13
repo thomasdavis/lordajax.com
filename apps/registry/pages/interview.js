@@ -6,93 +6,6 @@ import { faker } from '@faker-js/faker';
 import { v4 as uuidv4 } from 'uuid';
 import Layout from '../ui/Layout';
 
-const Container = styled.div`
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const HeaderContainer = styled.div`
-  max-width: 600px;
-  margin: auto;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 15px;
-  height: 100%;
-`;
-
-const Header = styled.div`
-  background: #fff18f;
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 40px;
-  font-weight: 500;
-`;
-
-const Logo = styled.a`
-  text-decoration: none;
-  color: #000;
-  &:active {
-    color: #000;
-  }
-  &:visited {
-    color: #000;
-  }
-
-  &:hover {
-    color: #df4848;
-  }
-`;
-const AboutLink = styled.div`
-  cursor: pointer;
-
-  &:hover {
-    color: #df4848;
-  }
-`;
-const AboutContainer = styled.div`
-  max-width: 400px;
-  text-align: left;
-  margin: 0 20px;
-`;
-const About = styled.div`
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  background: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 18px;
-  flex-direction: column;
-
-  & p {
-    margin-bottom: 15px;
-`;
-
-const Close = styled.div`
-  background-color: #df4848;
-  width: 140px;
-  cursor: pointer;
-  height: 30px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fbfbfb;
-  &:hover {
-    background-color: #ea8989;
-  }
-  border-radius: 5px;
-`;
-
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -339,52 +252,12 @@ export default function Talk() {
   console.log({ showAbout });
 
   useEffect(() => {
-    // 👇️ simulate chat messages flowing in
-    // setInterval(
-    // () =>
-    // setMessages((current) => {
-    //   const message = {
-    //     id: uuidv4(),
-    //     content: faker.lorem.lines({ min: 1, max: 10 }),
-    //   };
-    //   console.log({ current });
-    //   return [...current, message];
-    // });
-    // );
-  }, []);
-
-  useEffect(() => {
     // 👇️ scroll to bottom every time messages change
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
   return (
     <Layout>
-      {showAbout && (
-        <About>
-          <AboutContainer>
-            <p>Hi there, this is just a bit of fun for now.</p>
-            <p>
-              It uses OpenAI GPT-3, and creates a prompt that is made up of;
-            </p>
-            <ul>
-              <li>A preconfigured personality for the interview/er/ee</li>
-              <li>The hosted resume.json based off the url</li>
-              <li>The last 6-8 messages of your conversation so far</li>
-            </ul>
-            <p>
-              You can use any resume that is hosted on the registry, see this{' '}
-              <a
-                target="__blank"
-                href="https://registry.jsonresume.org/resumes"
-              >
-                list of resumes
-              </a>
-            </p>
-            <Close onClick={onShowAbout}>Close</Close>
-          </AboutContainer>
-        </About>
-      )}
       {!showAbout && (
         <>
           <Switch>

@@ -1,5 +1,3 @@
-const sampleResume = require('./samples/resume');
-const fs = require('fs');
 const { THEMES } = require('./formatters/template');
 
 export default async function handler(req, res) {

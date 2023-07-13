@@ -1,3 +1,5 @@
+// @todo - shows a list of all cached github gists
+
 const { Client } = require('pg');
 const gravatar = require('gravatar');
 

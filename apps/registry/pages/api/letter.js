@@ -1,6 +1,5 @@
 const { Client } = require('pg');
 import { ChatGPTAPI } from 'chatgpt';
-import YAML from 'json-to-pretty-yaml';
 
 export default async function handler(req, res) {
   const { username } = req.body;

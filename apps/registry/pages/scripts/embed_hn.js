@@ -1,8 +1,9 @@
+/*
+  @todo - this is a work in progress file that creates embeddings for hacker news who is hiring posts
+
+*/
+
 const { Client } = require('pg');
-const gravatar = require('gravatar');
-import { ChatGPTAPI } from 'chatgpt';
-var hash = require('object-hash');
-import YAML from 'json-to-pretty-yaml';
 import { PineconeClient } from '@pinecone-database/pinecone';
 const { Configuration, OpenAIApi } = require('openai');
 import eachOfLimit from 'async/eachOfLimit';

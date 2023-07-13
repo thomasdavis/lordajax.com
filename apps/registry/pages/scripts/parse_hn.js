@@ -1,3 +1,4 @@
+// @todo - this is a work in progress file that creates embeddings for hacker news who is hiring posts
 const { Client } = require('pg');
 const gravatar = require('gravatar');
 import axios from 'axios';

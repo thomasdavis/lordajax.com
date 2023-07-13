@@ -1,2 +1,1 @@
-
-his is where the talk chatgpt resume thing goes
+This is where all the apps that live on the registry.jsonresume.org domain live

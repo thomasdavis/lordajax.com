@@ -1,3 +1,5 @@
+// @todo - needs a lot of work
+
 const format = async function format(resume) {
   let content = `
 ${resume.basics.name}

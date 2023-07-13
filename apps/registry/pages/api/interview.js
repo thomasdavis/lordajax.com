@@ -86,32 +86,13 @@ export default async function handler(req, res) {
     The last messages of your conversation were;
     ${lastMessagesString}
     `,
-    //
-    // messages: [
-    //   { role: "system", content: SYSTEM_PROMPT[position] },
-    //   {
-    //     role: "assistant",
-    //     content: `For context, here is the resume in question: ${JSON.stringify(
-    //       resume
-    //     )}`,
-    //   },
-    //   {
-    //     role: "assistant",
-    // content: `The last messages of your conversation were: ${JSON.stringify(
-    //   messages.map((m) => {
-    //     return `${m.position}: ${m.content}\n`;
-    //   })
-    // )}`,
-    //   },
-    //   { role: "user", content: prompt },
-    // ],
     temperature: 0.7,
     top_p: 1,
     frequency_penalty: 0,
     presence_penalty: 0,
     max_tokens: 200,
     stream: true,
-    // n: 1,
+    n: 1,
   };
   const stream = await OpenAIStream(payload);
   return new Response(stream);

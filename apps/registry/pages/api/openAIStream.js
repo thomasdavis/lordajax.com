@@ -2,7 +2,7 @@ import {
   createParser,
   ParsedEvent,
   ReconnectInterval,
-} from "eventsource-parser";
+} from 'eventsource-parser';
 
 export async function OpenAIStream(payload) {
   const encoder = new TextEncoder();
@@ -11,36 +11,30 @@ export async function OpenAIStream(payload) {
   let counter = 0;
 
   // const res = await fetch('https://api.openai.com/v1/chat/completions', {
-  const res = await fetch("https://api.openai.com/v1/completions", {
+  const res = await fetch('https://api.openai.com/v1/completions', {
     headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.OPENAI_API_KEY ?? ""}`,
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.OPENAI_API_KEY ?? ''}`,
     },
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify(payload),
   });
-
-  // console.log("res", res);
-
-  // get response body
-  // const body = await res.text();
-  // console.log("body", body);
 
   const stream = new ReadableStream({
     async start(controller) {
       // callback
       function onParse(event) {
-        if (event.type === "event") {
+        if (event.type === 'event') {
           const data = event.data;
           // https://beta.openai.com/docs/api-reference/completions/create#completions/create-stream
-          if (data === "[DONE]") {
+          if (data === '[DONE]') {
             controller.close();
             return;
           }
           try {
             const json = JSON.parse(data);
             // const text = json.choices[0].delta?.content || "";
-            const text = json.choices[0].text || "";
+            const text = json.choices[0].text || '';
             if (counter < 2 && (text.match(/\n/) || []).length) {
               // this is a prefix character (i.e., "\n\n"), do nothing
               return;

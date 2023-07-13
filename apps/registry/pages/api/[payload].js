@@ -1,35 +1,20 @@
 const sampleResume = require('./samples/resume');
-const fs = require('fs');
 const find = require('lodash/find');
 const axios = require('axios');
 const Validator = require('jsonschema').Validator;
 import schema from './schema';
-import letter from './formatters/letter';
-import interview from './formatters/interview';
-import suggest from './formatters/suggest';
 import qr from './formatters/qr';
 import template from './formatters/template';
 import txt from './formatters/text';
 import tex from './formatters/tex';
 import json from './formatters/json';
 import yaml from './formatters/yaml';
-import { format } from 'path';
 
 const { Client } = require('pg');
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
-const FILE_TYPES = new Set([
-  'qr',
-  'json',
-  'tex',
-  'txt',
-  'template',
-  'interview',
-  'letter',
-  'suggest',
-  'yaml',
-]);
+const FILE_TYPES = new Set(['qr', 'json', 'tex', 'txt', 'template', 'yaml']);
 
 const failMessage = (message) => {
   return (
@@ -164,6 +149,7 @@ ${JSON.stringify(validation.errors, null, 2)}
 
   const client = new Client(process.env.DATABASE_URL_RAW);
 
+  // @todo - using as a resume cache for extra features
   (async () => {
     await client.connect();
     try {
