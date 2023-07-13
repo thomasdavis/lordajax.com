@@ -43,10 +43,7 @@ export default async function handler(req, res) {
     json,
     tex,
     txt,
-    interview,
     template,
-    letter,
-    suggest,
     yaml,
   };
 

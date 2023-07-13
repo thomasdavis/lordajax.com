@@ -149,9 +149,6 @@ importers:
       jsonresume-theme-kendall:
         specifier: ^0.2.0
         version: 0.2.0
-      jsonresume-theme-kwan-linkedin:
-        specifier: ^0.0.2
-        version: 0.0.2
       jsonresume-theme-latex:
         specifier: ^0.1.2
         version: 0.1.2
@@ -6728,18 +6725,6 @@ packages:
       mustache: 2.3.2
     dev: false
 
-  /jsonresume-theme-kwan-linkedin@0.0.2:
-    resolution: {integrity: sha512-HO/w3SM9Y83XQL2cLhQxbvtohH2iyfS7aDZhbVI3d22nmM8f2l5wH8YzHrQ2w4+AcZWzhEM7gC0U1bZezDI1ig==}
-    dependencies:
-      gravatar: 1.8.2
-      handlebars: 2.0.0
-      moment: 2.29.4
-      optimist: 0.6.1
-      resume-schema: 0.0.15
-      tarball-extract: 0.0.3
-      underscore: 1.13.6
-    dev: false
-
   /jsonresume-theme-latex@0.1.2:
     resolution: {integrity: sha512-aTWSVgQWH01sQhQ5AOGp0fd+NXuTfa4V5OVppy23Tb5lUagwbrY0Z2BB3fGjiODDclHLtZOXJMHKXJ8khg7qZA==}
     dependencies:
@@ -7993,10 +7978,6 @@ packages:
       brace-expansion: 2.0.1
     dev: false
 
-  /minimist@0.0.10:
-    resolution: {integrity: sha512-iotkTvxc+TwOm5Ieim8VnSNvCDjCK9S8G3scJ50ZthspSxa7jx50jkhYduuAtAjvfDUwSgOwf8+If99AlOEhyw==}
-    dev: false
-
   /minimist@0.2.4:
     resolution: {integrity: sha512-Pkrrm8NjyQ8yVt8Am9M+yUt74zE3iokhzbG1bFVNjLB92vwM71hf40RkEsryg98BujhVOncKm/C1xROxZ030LQ==}
     dev: false
@@ -8543,13 +8524,6 @@ packages:
   /optimist@0.3.7:
     resolution: {integrity: sha512-TCx0dXQzVtSCg2OgY/bO9hjM9cV4XYx09TVK+s3+FhkjT6LovsLe+pPMzpWf+6yXK/hUizs2gUoTw3jHM0VaTQ==}
     dependencies:
-      wordwrap: 0.0.3
-    dev: false
-
-  /optimist@0.6.1:
-    resolution: {integrity: sha512-snN4O4TkigujZphWLN0E//nQmm7790RYaE53DdL7ZYwee2D8DDo9/EyYiKUfN3rneWUjhJnueija3G9I2i0h3g==}
-    dependencies:
-      minimist: 0.0.10
       wordwrap: 0.0.3
     dev: false
 
