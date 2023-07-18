@@ -39,6 +39,7 @@ export const THEMES = {
   'onepage-efficient': require('jsonresume-theme-onepage-efficient'),
   onepageresume: require('jsonresume-theme-onepageresume'),
   orbit: require('jsonresume-theme-orbit'),
+  relaxed: require('jsonresume-theme-relaxed'),
   riga: require('jsonresume-theme-riga'),
   paper: require('jsonresume-theme-paper'),
   'paper-plus-plus': require('jsonresume-theme-paper-plus-plus'),
