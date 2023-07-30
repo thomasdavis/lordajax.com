@@ -1,0 +1,126 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+    <title>An Open Source Computer vision model to identify the Australian Aboriginal Flag - Lord Ajax</title>
+  <meta name="description" content="i write software and shitty poetry">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:title" content="An Open Source Computer vision model to identify the Australian Aboriginal Flag - Lord Ajax" />
+
+  <!-- Place favicon.ico in the root directory -->
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#fafafa">
+  <link rel="stylesheet" href="/main.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.0/styles/solarized-dark.min.css" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="title">Lord Ajax</div>
+    <div class="byline">i write software and shitty poetry</div>
+    <div class="pages">
+      <a href="/">Home</a>
+        <a href="/About">About</a>
+    </div>
+
+    <div class="content">
+      <h1>An Open Source Computer vision model to identify the Australian Aboriginal Flag</h1>
+<p>I've been recently paying attention to the <a href="https://clothingthegap.com.au/pages/free-the-flag">#freetheflag</a> debate, in short;</p>
+<blockquote>
+<p>The Aboriginal flag <a href="https://www.legislation.gov.au/Details/F2008L00209">of Australia</a> is widely used by indigenous Australians as a symbol of their heritage. Though, the flag is actually copyrighted by an <a href="https://aiatsis.gov.au/explore/articles/aboriginal-flag#:~:text=Flag%20copyright,the%20author%20of%20the%20flag.&amp;text=The%20copyright%20license%20for%20the,to%20Carroll%20and%20Richardson%20Flags.">indigenous individual</a> who has exclusive control of the licensing rightfully. This has become a debate because a lot of Aboriginals believe they should have a right to print or copy the Aboriginal flag as they would like.</p>
+</blockquote>
+<p>Over the years I've been trying to learn machine learning but never got anywhere because I couldn't think of a use case. I recently read a cool resource from <a href="https://clothingthegap.com.au/pages/aboriginal-flag-timeline">Clothing The Gap</a>, which explains the current copyright debate on a timeline. They had an image that contains the Aboriginal flag done by a European artist several years earlier and how this could maybe be used to invalidate copy right as the design was perhaps already in existence. This gave me the idea to think about if there was perhaps other artworks throughout history that may have contained the flag design.</p>
+<p>So my main idea was that if I could use machine learning to train a model and then run it over historical archives of images/paintings to see if I can find any other places the Aboriginal flag seemingly appeared throughout history.</p>
+<p><img src="https://i.imgur.com/9BuOp46.jpg" alt="asdas"></p>
+<p>If you look in the top left of the image, you will see an Aboriginal flag in this painting. I considered my model a success once it could find the flag in this sample</p>
+<p>It does actually work and as you can see in the above image, the model is able to draw a bounding box around the &quot;flag&quot;.</p>
+<p>I've only scanned 100,000 historical images so far and yet to find any pre-existing artworks that contain the flag. I still have a couple million images to get through and hope to add a couple million more.</p>
+<p>But here is a gallery of false positives, images that the model thought were aboriginal flags but not quite... (if you look at the image for long enough you can see why maybe the model thought it was an aboriginal flag)</p>
+<p><a href="https://imgur.com/a/Q22VnGK">Results</a></p>
+<p>I will keep working on it to improve the results, all of the code is open source and free to use.</p>
+<p>The rest of this post is for people who would like to run the code themselves and learn how to train an object recognition model. It is less than 20 lines of code in total and I've made everything as simple as possible with all resources available in the repo.</p>
+<p>You need to know a bit of programming, not much, just a junior level of understanding. Knowing a little Python would be great but it is also an easy language to understand.</p>
+<p>If anyone would like to help me train a better model then please <a href="mailto:thomasalwyndavis@gmail.com">reach out</a>!</p>
+<h2>Technical</h2>
+<p>I had no idea how I might train a model to do this, and managed to do it in a week, it is super easy for anyone with a bit of programming knowledge. But the CV community is big and beautiful so after wrestling with Tensorflow (Don't recommend for beginners) I got my idea working with PyTorch in a night.</p>
+<p>This tutorial is self contained and can be found in the <a href="https://github.com/australia/aboriginal-flag-cv-model">repo</a>. It is only around 20 lines of code so don't be intimidated. I also had a problem with the complexity of the language in the CV community so I'm going to purposely over simplify things here.</p>
+<p>This is super easy and you could likely have it working in an hour or two. (Then add ML to your <a href="https://jsonresume.org">resume</a>)</p>
+<p>We are going to split the tutorial into three steps;</p>
+<ol>
+<li><strong>Classification</strong> - We need to manually draw boxes around the objects we are looking for in some sample images. The machine learning will use this human curated data to train itself.</li>
+<li><strong>Training</strong> - Once we have a classified data-set of images, we can use <a href="https://pytorch.org/">PyTorch</a> to train a a reusable model.</li>
+<li><strong>Identification</strong> - Now that we have a model, we want to see if it can correctly find the desired object in a given sample image</li>
+</ol>
+<p>Let's do it!</p>
+<h2>Getting Started</h2>
+<p><a href="https://gist.github.com/aaafe5bbb5aefb2245b65680bbaabf52">https://gist.github.com/aaafe5bbb5aefb2245b65680bbaabf52</a></p>
+<h3>Classification</h3>
+<p>For the purposes of this tutorial, we are just going to train a model to find Aboriginal flags. But after you've finished this, you should be able to train a model to detect any object you would like. (Simple things, not hard things like if a person is <em>sad</em>).</p>
+<p>So the initial classification is a human step, but it's kinda fun to do and will help you understand what the model can detect.</p>
+<p>We start with an <code>images</code> folder which is in the <a href="https://github.com/australia/aboriginal-flag-cv-model">repo</a>.</p>
+<p><a href="https://gist.github.com/e6a9e29f5ebc2d2d0079d5b0a6a5f58f">https://gist.github.com/e6a9e29f5ebc2d2d0079d5b0a6a5f58f</a></p>
+<p>Essentially we have to use our monkey minds to draw bounding boxes around images that contain the desired object we are looking for.</p>
+<p>And generate an associated XML file for each file that describes those bounding boxes.</p>
+<p>After we are finished our directory should look like</p>
+<p><a href="https://gist.github.com/300ed6c249fd117adb89a8cc24f4d28d">https://gist.github.com/300ed6c249fd117adb89a8cc24f4d28d</a></p>
+<p>The easiest program to do this in (and a kind of nostalgic ui) is called <code>labelImg</code></p>
+<p><a href="https://github.com/tzutalin/labelImg">https://github.com/tzutalin/labelImg</a></p>
+<p>You will have to figure out how to install and run it yourself.</p>
+<p>Once open, point it at the <code>images</code> folder from the <a href="https://github.com/australia/aboriginal-flag-cv-model">repo</a>, once you figure out how to use the program, you will start drawing boxes and saving the XML to the <code>images</code> directory. And by the end of it, it should look like the directory structure above.</p>
+<p><img src="https://i.imgur.com/yWL5vcb.jpg" alt="labelImg screenshot"></p>
+<p>The XML contains a label that you will be able to define when drawing bounding boxes. The model will require you later to use the same label in the training, for this example you should just use the label <code>aboriginal_flag</code>.</p>
+<p><img src="https://i.imgur.com/xc7RMDR.jpg" alt="labelImg screenshot"></p>
+<p>The way you draw your boxes does change the outcome of the model, for the Aboriginal flag I tended to;</p>
+<ul>
+<li>Leave a bit of outer space around the shape of flag</li>
+<li>Choose images at all angles and depths</li>
+<li>Didn't worry if a limb or object was in front of the flag</li>
+<li>Chose real flags, paintings of flags, full scale images of the flag</li>
+<li>A mixture of single or multiple instances of the object</li>
+</ul>
+<p>Once you have your images and associated XML files generated, you are ready to start training.</p>
+<blockquote>
+<p>If you get too lazy to classify the 40 images in the <a href="https://github.com/australia/aboriginal-flag-cv-model">repo</a>, just copy the files in <code>images_classified</code> into <code>images</code>. I do recommend classifying them manually yourself to see how small nuances might influence the learning model. Choosing images of different shapes, colors, angles, sizes, depth and so on will make your model more robust.</p>
+</blockquote>
+<h3>Training</h3>
+<p>So next we want to generate a model, and PyTorch/Detecto makes this easy by letting us generate one file to store all of our learned data  in e.g. <code>model.pth</code></p>
+<p>We point PyTorch/Detecto at our classified data set and it should spit out a <code>model.pth</code> which we will use later to find our object (flag) in samples.</p>
+<p>What really makes this whole tutorial so easy is the fact we will be using a python library called <a href="https://github.com/alankbi/detecto">Detecto</a> written by <a href="https://github.com/alankbi/">Alan Bi</a> (thanks man, beautiful job)</p>
+<p>The entire code to go from <code>dataset</code>(folder of images and XML) to <code>reusable object recognition model</code> is below.</p>
+<p><a href="https://gist.github.com/26fb81eaad5582409d39fd805cb08369">https://gist.github.com/26fb81eaad5582409d39fd805cb08369</a></p>
+<p>To run it from within the <a href="https://github.com/australia/aboriginal-flag-cv-model">repo</a>;</p>
+<p><a href="https://gist.github.com/ba99708449c6c60272505252e922345a">https://gist.github.com/ba99708449c6c60272505252e922345a</a></p>
+<blockquote>
+<p>The PTH file type is primarily associated with PyTorch. PTH is a data file for Machine Learning with PyTorch. PyTorch is an open source machine learning library based on the Torch library. It is primarily developed by Facebooks artificial intelligence research group.</p>
+</blockquote>
+<p>(If the above code didn't run for you, please make an <a href="https://github.com/australia/aboriginal-flag-cv-model/issues">issue</a>.</p>
+<p>Now onto the fun part, let's see if our generated model can find what we are looking for!</p>
+<h3>Identification</h3>
+<p>So now we should have a <code>model.pth</code> and a <code>samples/sample.jpg</code> in the <a href="https://github.com/australia/aboriginal-flag-cv-model">repo</a>, let's run it to see if our model is smart enough to find the object.</p>
+<p>Finding the objects coordinates in the picture is easy, but we also want to draw a box around the coordinates which requires just a bit more code.</p>
+<p>To run it from the repo</p>
+<p><a href="https://gist.github.com/5bb9cab07b9ffb7a4d982b7fc82c0dd1">https://gist.github.com/5bb9cab07b9ffb7a4d982b7fc82c0dd1</a></p>
+<p>The code for that file is below, I've commented in how it works.</p>
+<p><a href="https://gist.github.com/cb768a64a2315e303ed5c882f7f4144d">https://gist.github.com/cb768a64a2315e303ed5c882f7f4144d</a></p>
+<p>If you are having a good day, an image should have appeared on your screen. And if you are having a lucky day, then the Python script should have also drawn a rectangle over the image.</p>
+<p>That is all there is really, you obviously can just take the outputted prediction data (boxes and scores) and save it to where ever you would like e.g. a database.</p>
+<p>If something didn't work feel free to complain in the tutorial repo <a href="https://github.com/australia/aboriginal-flag-cv-model/issues">issues</a>.</p>
+<h3>Conclusion</h3>
+<p>I do hope it worked, those steps above worked for me. I drew an Aboriginal flag on paper and took selfies at many algorithms and the model picked it up. (I manually classified 150 images instead of 40 though) (and if I call recall correctly, around 20 epochs)</p>
+<insert selfie with paper flag here>
+<p>This tutorial is meant to be a complete noob guide (written by a noob), how I've described things and the way they are in computer vision - are two different things.</p>
+<p>Though this task has allowed me to introduce myself to the computer vision sector and I'm sure I will learn more over time.</p>
+<p>The difficulty of trying to identify objects differs by magnitudes depending on what you are trying to achieve.</p>
+<p>Again, all feedback is welcome on the <a href="https://github.com/australia/aboriginal-flag-cv-model">repo</a> or just <a href="mailto:thomasalwyndavis@gmail.com">contact me</a>.</p>
+<p>p.s. do not invent Skynet</p>
+
+
+    </div>
+    <br />
+    Built by <a href="https://github.com/jsonblog/jsonblog-cli">JSON Blog</a>
+  </div>
+</body>
+
+</html>
