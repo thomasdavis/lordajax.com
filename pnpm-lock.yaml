@@ -26,6 +26,9 @@ importers:
       jsonblog-cli:
         specifier: ^1.1.0
         version: 1.1.0
+      jsonblog-generator-boilerplate:
+        specifier: ^1.0.13
+        version: 1.0.13
 
   apps/playground:
     dependencies:
