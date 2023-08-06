@@ -131,4 +131,3 @@ Are you lonely?
 Include links to the 12 types of prompt engineering
 Use a local vector db
 Store every message and show the prompt they can all hear each other
-````
