@@ -14,5 +14,5 @@
       "persistent": true
     }
   },
-  "globalEnv": ["NODE_ENV"]
+  "globalEnv": ["NODE_ENV", "OPENAI_API_KEY"]
 }
