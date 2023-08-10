@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3002",
+    "dev": "./node_modules/jsonblog-cli/index.js serve",
     "build": "node ./node_modules/jsonblog-cli/index.js build"
   },
   "dependencies": {

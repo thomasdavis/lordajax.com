@@ -1,15 +1,14 @@
 # THIS IS A COMPLETE WORK IN PROGRESS, DON'T READ IT
 
-
 Noobs guide to all the ai jazz
 
 Purposefully I am going to write this in simple language, there will be incorrect truths but my goal is to get you from A to B.
 
-In short, I am going to give a shitty answer as how things like ChatGPT seemingly "remembers" what is going on. Replace any chatgpt with any llm. This can be extrapolated in a million ways.
+In short, I am going to give a shitty answer as how things like ChatGPT seemingly "remembers" what is going on. Replace any ChatGPT with any LLM. This can be extrapolated in a million ways.
 
 Unnecessary side note: This shit is cool as fuck, if you are disgruntled, then Hope would want to change your mind.
 
-The solution to solve
+_The solution to solve_
 
 Imagine building a chat bot, that could "remember" everything you have said, and also "remembered" what it replied.
 
