@@ -17,7 +17,9 @@ Using the system described above, Omega is able to converse with people using th
 <iframe width="560" height="315" src="https://www.youtube.com/embed/es-Xcz_n6f8?start=331" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <!-- TOC titleSize:3 tabSpaces:2 depthFrom:2 depthTo:7 withLinks:0 updateOnSave:1 orderedList:1 skip:0 title:1 charForUnorderedList:* -->
+
 ### Table of Contents
+
     1. Implementation
       1. Clubhouse / Clubdeck
       2. VB-Audio CABLE
@@ -33,6 +35,7 @@ Using the system described above, Omega is able to converse with people using th
     2. Conclusion
     3. Next Steps
     4. Credits
+
 <!-- /TOC -->
 
 ### Implementation
@@ -270,7 +273,7 @@ These are just some ideas for improvements to be made:
 - Use Omega to perform a Turing test on Clubhouse.
 
 ### Credits
+
 - All of the technologies already referenced in this post.
 - All of the Clubhouse folk who have played with Omega.
 - test/
-- boo
