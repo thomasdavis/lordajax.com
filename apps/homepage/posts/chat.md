@@ -1,31 +1,40 @@
 # THIS IS A COMPLETE WORK IN PROGRESS, DON'T READ IT
 
-Noobs guide to all the ai jazz
+# Noobs guide to all the LLM jazz
 
 Purposefully I am going to write this in simple language, there will be incorrect truths but my goal is to get you from A to B.
 
-In short, I am going to give a shitty answer as how things like ChatGPT seemingly "remembers" what is going on. Replace any ChatGPT with any LLM. This can be extrapolated in a million ways.
+In short, I am going to give a shitty answer as how things like ChatGPT seemingly "remembers" what is going on. Replace any ChatGPT with any LLM.
 
 Unnecessary side note: This shit is cool as fuck, if you are disgruntled, then Hope would want to change your mind.
 
-_The solution to solve_
+## The solution to solve
 
 Imagine building a chat bot, that could "remember" everything you have said, and also "remembered" what it replied.
 
 As if to infer that the "conversation" has "memories".
 
-When talking to a large language model, like most things all you have is an input and an output. So how to write a prompt;
+When talking to a large language model, like most things all you have is an input and an output.
+
+So how to write a prompt; (no one actually knows)
 
 ```
 User: Hey beautiful
-System: Hello World
+```
+
+Then the LLM replies
+
+```
+LLM: Oh so beautiful, don't make me blush
 ```
 
 Now if I reply, I might ask it "What did I call you when I said hello"?
 
 So the prompt would be
 
+```
 User: What did I call you when I said hello
+```
 
 It will have no idea with that prompt so you append text yada yada
 
@@ -43,6 +52,8 @@ System: Hello World
 User: What did I call you when I said hello
 System: You called me beautiful
 ```
+
+## Solution kind of solved
 
 In short, you feed the prompt a transcript. A history of the conversation, for better or worse.
 
