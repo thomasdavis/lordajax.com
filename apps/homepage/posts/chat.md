@@ -16,6 +16,8 @@ When talking to a large language model, like most things all you have is an inpu
 
 So how to write a prompt; (no one actually knows)
 
+explain instruct vs chat
+
 **PROMPT-1:**
 
 ```
@@ -34,7 +36,7 @@ Now if I reply, I might ask it "What did I call you when I said hello"?
 
 So the prompt would be
 
-PROMPT:
+**PROMPT-2:**
 
 ```
 User: What did I call you when I said hello
@@ -42,7 +44,7 @@ User: What did I call you when I said hello
 
 It will have no idea with that, it has no context, it might reply
 
-RESPONSE:
+**RESPONSE-2:**
 
 ```
 System: You have never said hello to me before
@@ -50,7 +52,7 @@ System: You have never said hello to me before
 
 So in a prompt, you have to include the context.
 
-PROMPT:
+**PROMPT-3:**
 
 ```
 User: Hey beautiful
@@ -60,7 +62,7 @@ User: What did I call you when I said hello"
 
 Now the system can respond
 
-RESPONSE:
+**RESPONSE-3:**
 
 ```
 User: Hey beautiful
@@ -78,6 +80,8 @@ Now how can it "remember" across prompts.
 In short, you feed the prompt a transcript.
 
 A history of the conversation, for better or worse.
+
+**PROMPT-4:**
 
 ```
 User: Hey beautiful
