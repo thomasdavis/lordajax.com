@@ -16,7 +16,7 @@ When talking to a large language model, like most things all you have is an inpu
 
 So how to write a prompt; (no one actually knows)
 
-PROMPT:
+**PROMPT-1:**
 
 ```
 User: Hey beautiful
@@ -24,7 +24,7 @@ User: Hey beautiful
 
 Then the LLM replies
 
-RESPONSE:
+**RESPONSE-1**:
 
 ```
 System: Oh so beautiful, don't make me blush
@@ -50,6 +50,8 @@ System: You have never said hello to me before
 
 So in a prompt, you have to include the context.
 
+PROMPT:
+
 ```
 User: Hey beautiful
 System: Hello World
@@ -57,6 +59,8 @@ User: What did I call you when I said hello"
 ```
 
 Now the system can respond
+
+RESPONSE:
 
 ```
 User: Hey beautiful
@@ -67,7 +71,7 @@ System: You called me beautiful
 
 Great.
 
-Now how can it remember across prompts.
+Now how can it "remember" across prompts.
 
 ## Solution kind of solved
 
