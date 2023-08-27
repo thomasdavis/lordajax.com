@@ -120,6 +120,8 @@ Now we want to programmatically construct a prompt.
 
 In this situational prompt, "memories" are just lines of a conversation.
 
+## Embeddings ?!?
+
 This part is complex™ but simple at the end of the day.
 
 // explain memories more
@@ -138,20 +140,24 @@ If we go looking for "love", it is more conversationally closer to "family"
 
 When we want to collate some "memories"
 
-The word that gets thrown around is "embeddings". #todo
+The word that gets thrown around is "embeddings".
 
-Take a line of the following sentences
-
-No idea what it means, but they are useful.
+Take a line of the following conversation.
 
 ```
-There was once a dog who called a cat a bad person
-Some camels drew their portrait and the sand designed
-No paper was appropriate, but the sphinx still won
-No werewolf could have a man ride its back
+User: There was once a dog who called a cat a bad person
+System: Some camels drew their portrait and the sand designed
+User: No paper was appropriate, but the sphinx still won
+System: No werewolf could have a man ride its back
 ```
 
-Take those four strange sentences, and pass them to an embedding model. It creates an index of "shit" for each one. #wrong
+// insert why any of that is relevant
+
+Take those four strange sentences, and pass them individually to an embedding model.
+
+// insert a vector version #mebe
+
+// what would be "similar"
 
 So if I search for "mammal that loves sand", given the trained model, it would likely rank the sentence about a camel the highest.
 
@@ -164,19 +170,9 @@ You have to create an embedding for everything.
 
 Why does it matter?
 
+## Back to Memories
+
 There is only so much you can put in a prompt. Using natural language you have found the most relevant "memories".
-
-Include in your prompt
-
-```
-System: I am a god that grows humans
-
-Memories: some biblical quote
-
-Conversation: some past messages
-
-Question:
-```
 
 The LLM loves the context.
 
