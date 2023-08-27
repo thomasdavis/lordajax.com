@@ -4,9 +4,7 @@
 
 Purposefully I am going to write this in simple language, there will be incorrect truths but my goal is to get you from A to B.
 
-In short, I am going to give a shitty answer as how things like ChatGPT seemingly "remembers" what is going on. Replace any ChatGPT with any LLM.
-
-Unnecessary side note: This shit is cool as fuck, if you are disgruntled, then Hope would want to change your mind.
+In short, I am going to give a shitty answer as how things like ChatGPT seemingly "remembers" what is going on.
 
 ## The solution to solve
 
@@ -18,25 +16,39 @@ When talking to a large language model, like most things all you have is an inpu
 
 So how to write a prompt; (no one actually knows)
 
+PROMPT:
+
 ```
 User: Hey beautiful
 ```
 
 Then the LLM replies
 
+RESPONSE:
+
 ```
-LLM: Oh so beautiful, don't make me blush
+System: Oh so beautiful, don't make me blush
 ```
 
 Now if I reply, I might ask it "What did I call you when I said hello"?
 
 So the prompt would be
 
+PROMPT:
+
 ```
 User: What did I call you when I said hello
 ```
 
-It will have no idea with that prompt so you append text yada yada
+It will have no idea with that, it has no context, it might reply
+
+RESPONSE:
+
+```
+System: You have never said hello to me before
+```
+
+So in a prompt, you have to include the context.
 
 ```
 User: Hey beautiful
@@ -53,14 +65,20 @@ User: What did I call you when I said hello
 System: You called me beautiful
 ```
 
+Great.
+
+Now how can it remember across prompts.
+
 ## Solution kind of solved
 
-In short, you feed the prompt a transcript. A history of the conversation, for better or worse.
+In short, you feed the prompt a transcript.
+
+A history of the conversation, for better or worse.
 
 ```
 User: Hey beautiful
 System: Hello World
-User: What did I call you when I said hello"
+User: What did I call you when I said hello
 System: You called me beautiful
 User: How to find happiness?
 System: If you go looking happiness, you’ve already lost it
@@ -73,7 +91,7 @@ Now imagine you have been talking to the thing for ten thousand messages, the LL
 When you want it to ask about happiness, you may have alluded to that question before, and it may have answered it before. So how could you re-ask the question.
 
 ```
-=== Memories ===----------------------------------------------------------------------------------
+=== Memories ===
 User: How to find happiness?
 System: If you go looking happiness, you’ve already lost it
 
@@ -81,7 +99,7 @@ System: If you go looking happiness, you’ve already lost it
 User: Hey ugly
 System: Ouch
 User: What is happiness?
-System: You have already asked me that before,if you going looking for it you already have lost it
+System: You have already asked me that before, if you going looking for it you already have lost it
 ```
 
 So you want to inject some notes inside the limits
