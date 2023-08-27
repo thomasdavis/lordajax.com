@@ -57,7 +57,7 @@ So in a prompt, you have to include the context.
 ```
 User: Hey beautiful
 System: Hello World
-User: What did I call you when I said hello"
+User: What did I call you when I said hello
 ```
 
 Now the system can respond
@@ -75,13 +75,9 @@ Great.
 
 Now how can it "remember" across prompts.
 
-## Solution kind of solved
+Take this example prompt/response below.
 
-In short, you feed the prompt a transcript.
-
-A history of the conversation, for better or worse.
-
-**PROMPT-4:**
+**RESPONSE-4:**
 
 ```
 User: Hey beautiful
@@ -92,11 +88,21 @@ User: How to find happiness?
 System: If you go looking happiness, you’ve already lost it
 ```
 
+In short, you feed the prompt a transcript.
+
+A history of the conversation, for better or worse.
+
 In simple prompt engineering you can just pass a transcript, it works quite well.
 
 Now imagine you have been talking to the thing for ten thousand messages, the LLM cannot contain the context. It is limited by the amount of tokens.
 
-When you want it to ask about happiness, you may have alluded to that question before, and it may have answered it before. So how could you re-ask the question.
+When you want it to ask about happiness, you may have alluded to that question before, and it may have answered it before.
+
+We will adapt the prompt, give it some structure.
+
+Move some of the "conversation" to memories.
+
+**RESPONSE-5:**
 
 ```
 === Memories ===
@@ -110,15 +116,31 @@ User: What is happiness?
 System: You have already asked me that before, if you going looking for it you already have lost it
 ```
 
-So you want to inject some notes inside the limits
+Now we want to programmatically construct a prompt.
 
-This part is complex but simple at the end of the day.
+In this situational prompt, "memories" are just lines of a conversation.
 
-There is some cool shit called vector similarity.
+This part is complex™ but simple at the end of the day.
 
-Imagine a simple string similarity search, the word "ghost" is kind of similar to "jost" (fix this)
+// explain memories more
+
+So a quick primer.
+
+// explain pre-trained models
+
+We gonna use some cool shit called vector similarity.
+
+Imagine a simple string similarity search, the word "love" is similar to "dove"
+
+The next phase is vector similarity.
+
+If we go looking for "love", it is more conversationally closer to "family"
+
+When we want to collate some "memories"
 
 The word that gets thrown around is "embeddings". #todo
+
+Take a line of the following sentences
 
 No idea what it means, but they are useful.
 
@@ -129,7 +151,7 @@ No paper was appropriate, but the sphinx still won
 No werewolf could have a man ride its back
 ```
 
-Take those four strange sentences, and pass them to an embedding model. It creates an index of "shit" for each one.
+Take those four strange sentences, and pass them to an embedding model. It creates an index of "shit" for each one. #wrong
 
 So if I search for "mammal that loves sand", given the trained model, it would likely rank the sentence about a camel the highest.
 
