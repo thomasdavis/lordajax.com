@@ -19,6 +19,7 @@ I love meeting new people, please reach out;
 
 - [cdnjs](https://en.wikipedia.org/wiki/Cdnjs) - co-founded a javascript cdn
 - [jsonresume](https://jsonresume.org) - co-founded an open source schema for resumes with a built in ecosystem
+- [mobtranslate](https://mobtranslate.com) - an opensource ecosystem for Australian indiginous languages
 - [taskforce](https://github.com/tfrce) - core team on hacktavist/civic tools and campaigns
 - [jsonblog](https://github.com/jsonblog) - founded a blog generator that builds from 1 blog.json file
 - [backbonetutorials](https://leanpub.com/backbonetutorials) - an old series of tutorials I wrote turned into an ebook
