@@ -7,7 +7,7 @@
     "build": "node ./node_modules/jsonblog-cli/index.js build"
   },
   "dependencies": {
-    "jsonblog-cli": "^1.1.0",
-    "jsonblog-generator-boilerplate": "^1.0.13"
+    "jsonblog-cli": "2.0.0",
+    "jsonblog-generator-boilerplate": "1.4.0"
   }
 }
