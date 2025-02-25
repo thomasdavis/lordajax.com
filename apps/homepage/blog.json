@@ -14,6 +14,10 @@
   ],
   "posts": [
     {
+      "title": "JSON Blog 2.0",
+      "source": "./posts/json-blog-2.0.md"
+    },
+    {
       "title": "Building a Smart Job Recommendation Engine with JSON Resume",
       "source": "./posts/jobs-graph.md"
     },
