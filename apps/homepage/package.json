@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "./node_modules/jsonblog-cli/index.js serve",
-    "build": "node ./node_modules/jsonblog-cli/index.js build"
+    "dev": "./node_modules/jsonblog-cli/dist/index.js serve blog.json",
+    "build": "node ./node_modules/jsonblog-cli/dist/index.js build blog.json"
   },
   "dependencies": {
-    "jsonblog-cli": "2.4.0",
-    "jsonblog-generator-boilerplate": "1.5.0"
+    "jsonblog-cli": "2.6.0",
+    "jsonblog-generator-boilerplate": "1.6.0"
   }
 }
