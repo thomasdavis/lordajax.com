@@ -15,27 +15,33 @@
   "posts": [
     {
       "title": "JSON Blog 2.0",
-      "source": "./posts/json-blog-2.0.md"
+      "source": "./posts/json-blog-2.0.md",
+      "createdAt": "2024-10-19"
     },
     {
       "title": "Building a Smart Job Recommendation Engine with JSON Resume",
-      "source": "./posts/jobs-graph.md"
+      "source": "./posts/jobs-graph.md",
+      "createdAt": "2024-10-09"
     },
     {
       "title": "Omega - Clubhouse GPT-3 bot",
-      "source": "./posts/omega.md"
+      "source": "./posts/omega.md",
+      "createdAt": "2022-10-19"
     },
     {
       "title": "How to write a trading bot in ~50 lines of code",
-      "source": "https://gist.githubusercontent.com/thomasdavis/aabc762ea2792beb08d01fddc9a9a8da/raw/f60522ec885fa3d6cb4f60b9f6622751a5be8b39/trading-bot.md"
+      "source": "https://gist.githubusercontent.com/thomasdavis/aabc762ea2792beb08d01fddc9a9a8da/raw/f60522ec885fa3d6cb4f60b9f6622751a5be8b39/trading-bot.md",
+      "createdAt": "2022-4-19"
     },
     {
       "title": "An Open Source Computer vision model to identify the Australian Aboriginal Flag",
-      "source": "https://gist.githubusercontent.com/thomasdavis/8621e0cc446912dcd00f3edbc78def19/raw/925f742667662ac603dab105b43f5a31c31a91e9/blog.md"
+      "source": "https://gist.githubusercontent.com/thomasdavis/8621e0cc446912dcd00f3edbc78def19/raw/925f742667662ac603dab105b43f5a31c31a91e9/blog.md",
+      "createdAt": "2021-4-19"
     },
     {
       "title": "Introducing JSON Blog",
-      "source": "https://gist.githubusercontent.com/thomasdavis/db7db8d07ccb086504261802edf3069a/raw/7c893c02f8e31e39201695cecee2f058e48b65ee/introducing.md"
+      "source": "https://gist.githubusercontent.com/thomasdavis/db7db8d07ccb086504261802edf3069a/raw/7c893c02f8e31e39201695cecee2f058e48b65ee/introducing.md",
+      "createdAt": "2020-4-11"
     }
   ]
 }
