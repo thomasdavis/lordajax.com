@@ -14,6 +14,11 @@
   ],
   "posts": [
     {
+      "title": "Mob Translate - more work complete",
+      "source": "./posts/mob-translate.md",
+      "createdAt": "2025-02-27"
+    },
+    {
       "title": "JSON Blog 2.0",
       "source": "./posts/json-blog-2.0.md",
       "createdAt": "2025-02-26"
