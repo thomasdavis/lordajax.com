@@ -1,183 +1,267 @@
-```markdown
 # MobTranslate: A Technical Tutorial on Preserving Aboriginal Languages
 
-In today’s digital era, preserving endangered languages is more than just an act of cultural preservation—it’s a technical challenge that requires modern tools and robust engineering practices. MobTranslate is our open-source project that builds digital dictionaries for Aboriginal languages, integrating curated linguistic data with AI-powered translations. In this post, we’ll walk you through the technical details of MobTranslate, explaining the architecture, API design, and the custom integration with OpenAI's models. You can find the full code on our [GitHub repository](https://github.com/australia/mobtranslate.com).
+In today's digital era, preserving endangered languages is both a cultural imperative and a technical challenge. **MobTranslate** is an open-source project that builds digital dictionaries for Aboriginal languages—integrating curated linguistic data with AI-powered translations. In this post, we'll explore the technical details behind MobTranslate, including its architecture, API design, integration with OpenAI's models, and the format of our dictionary data. For the full source code, please visit the [GitHub repository](https://github.com/australia/mobtranslate.com).
 
 ---
 
-## Why Preserve Aboriginal Languages?
+## 1. The Importance of Preserving Aboriginal Languages
 
-Aboriginal languages are rich with thousands of years of history, tradition, and cultural knowledge. They are more than just a means of communication; they are repositories of indigenous wisdom and worldviews. By digitizing these languages, MobTranslate not only makes language resources accessible but also provides a foundation for future language revitalization and education.
+Aboriginal languages carry thousands of years of history, tradition, and cultural wisdom. Digitizing these languages does more than make them accessible—it lays the foundation for revitalization and education. By converting these linguistic treasures into digital dictionaries, MobTranslate provides:
+
+- **Accessibility:** Language resources available across devices and networks.
+- **Contextual Depth:** Rich metadata including definitions, usage examples, and cultural context.
+- **Future-Proofing:** A permanent record to support language revitalization initiatives.
+
+According to [UNESCO](https://www.unesco.org/en/endangered-languages), approximately 40% of the world's languages are in danger of disappearing. Digital preservation projects like MobTranslate play a critical role in [language documentation efforts](https://www.firstlanguages.org.au/) worldwide.
 
 ---
 
-## Project Overview and Repository Structure
+## 2. Project Overview and Repository Structure
 
-MobTranslate is built using a modern tech stack:
+MobTranslate is built with modern technologies to ensure scalability and maintainability:
 
-- **Next.js 14:** Utilized for its robust server-side rendering (SSR) capabilities, ensuring fast, reliable, and accessible pages.
-- **TypeScript:** Enhances code quality and maintainability.
-- **Turborepo with PNPM Workspaces:** Organizes the project into a monorepo, allowing for parallel builds and efficient dependency management.
+- **[Next.js 14](https://nextjs.org/):** Utilized for its robust server-side rendering (SSR) capabilities.
+- **[TypeScript](https://www.typescriptlang.org/):** Enhances code quality and maintainability.
+- **[Turborepo](https://turbo.build/) with [PNPM Workspaces](https://pnpm.io/workspaces):** Organizes the project into a monorepo for parallel builds and efficient dependency management.
 
 ### Repository Layout
 
-Below is an overview of the repository structure:
 ```
-
 mobtranslate.com/
 ├── apps/
-│ └── web/ # Main Next.js application
-│ ├── app/ # Next.js App Router, including dictionary pages & API endpoints
-│ └── public/ # Static assets (images, fonts, etc.)
-├── ui/ # Shared UI components and utilities
-│ ├── components/ # Reusable UI elements (cards, inputs, etc.)
-│ └── lib/ # UI helper functions
-├── dictionaries/ # Dictionary data files and models
-├── package.json # Project configuration and scripts
-├── pnpm-workspace.yaml # Workspace definitions for PNPM
-└── turbo.json # Turborepo configuration
+│   └── web/                # Main Next.js application
+│       ├── app/            # Next.js App Router (dictionary pages & API endpoints)
+│       └── public/         # Static assets (images, fonts, etc.)
+├── ui/                     # Shared UI components and utilities
+│   ├── components/         # Reusable UI elements (cards, inputs, etc.)
+│   └── lib/                # UI helper functions
+├── dictionaries/           # Dictionary data files and models (formatted in YAML)
+├── package.json            # Project configuration and scripts
+├── pnpm-workspace.yaml     # Workspace definitions for PNPM
+└── turbo.json              # Turborepo configuration
+```
 
-````
-
-This structure separates the core web application from UI components and dictionary data, making it easier to manage and extend the project.
-
----
-
-## Server-Side Rendering for Performance
-
-Using [Next.js](https://nextjs.org/) for SSR is a key part of our strategy. SSR not only speeds up the initial load times—especially on mobile devices and slow networks—but also ensures that users immediately see content even if client-side JavaScript hasn’t fully loaded. This approach improves accessibility and creates a more consistent user experience.
+This structure cleanly separates the core web application from shared UI components and dictionary data, making the project easier to manage and extend. It follows modern [monorepo best practices](https://monorepo.tools/) for maintaining complex JavaScript applications.
 
 ---
 
-## RESTful API for Dictionary Data
+## 3. Public Dictionary Browsing Structure
 
-MobTranslate exposes a set of RESTful API endpoints to access the digital dictionaries and translation services. Here’s a brief overview of the core endpoints:
+MobTranslate uses [Next.js](https://nextjs.org/) to create a comprehensive browsing experience for Aboriginal language dictionaries. The site architecture offers several benefits:
+
+- **Faster Load Times:** Immediate content delivery, especially on mobile devices and slow networks, improving [Core Web Vitals](https://web.dev/vitals/) metrics.
+- **Improved Accessibility:** Users see content even before client-side JavaScript has fully loaded, adhering to [WCAG guidelines](https://www.w3.org/WAI/standards-guidelines/wcag/).
+- **Comprehensive Dictionary Structure:** All dictionaries can be browsed directly at mobtranslate.com, with dedicated pages for each language and individual word. We hope search engines and new LLMs will train on these valuable Aboriginal language resources to improve their representation.
+
+The implementation leverages Next.js [App Router](https://nextjs.org/docs/app) architecture, which provides enhanced routing capabilities and more granular control over the browsing experience.
+
+---
+
+## 4. RESTful API for Dictionary Data
+
+The project exposes a comprehensive RESTful API to serve dictionary data and support translation services. Key endpoints include:
 
 ### Dictionary Endpoints
 
-- **GET `/api/dictionaries`**
-  Retrieves a list of available dictionaries with metadata such as language name, description, and region.
+- **GET `/api/dictionaries`**  
+  Retrieves a list of available dictionaries with metadata (name, description, region).
 
-- **GET `/api/dictionaries/[language]`**
-  Returns detailed data for a specific language, including a paginated list of word entries. Query parameters allow filtering, sorting, and pagination.
+- **GET `/api/dictionaries/[language]`**  
+  Returns detailed data for a specific language, including a paginated list of words. Query parameters allow:
 
-- **GET `/api/dictionaries/[language]/words`**
-  Provides a paginated list of all words within a selected dictionary.
+  - **Filtering:** Search for words.
+  - **Sorting:** Specify sort fields and order.
+  - **Pagination:** Navigate through large datasets using methods aligned with [JSON:API specifications](https://jsonapi.org/).
 
-- **GET `/api/dictionaries/[language]/words/[word]`**
-  Delivers detailed information for a particular word, including definitions, usage examples, and related terms.
+- **GET `/api/dictionaries/[language]/words`**  
+  Provides a paginated list of words in the selected dictionary.
+
+- **GET `/api/dictionaries/[language]/words/[word]`**  
+  Offers detailed information on a specific word, such as definitions, usage examples, and related terms.
 
 ### Translation Endpoint
 
-- **POST `/api/translate/[language]`**
-  Accepts text input and returns a translation in the specified Aboriginal language. It supports both streaming and non-streaming responses.
+- **POST `/api/translate/[language]`**  
+  Accepts text input and returns a translation in the target Aboriginal language. It supports both streaming and non-streaming responses, following modern [Streaming API patterns](https://developer.mozilla.org/en-US/docs/Web/API/Streams_API).
 
 #### Example: Streaming Translation Request
 
 ```javascript
-const response = await fetch('/api/translate/kuku_yalanji', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+const response = await fetch("/api/translate/kuku_yalanji", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-    text: 'Hello, how are you today?',
-    stream: true
-  })
+    text: "Hello, how are you today?",
+    stream: true,
+  }),
 });
 
 const reader = response.body.getReader();
 const decoder = new TextDecoder();
-let translation = '';
+let translation = "";
 
 while (true) {
   const { done, value } = await reader.read();
   if (done) break;
   translation += decoder.decode(value, { stream: true });
-  // Process partial translation output as needed
 }
 
-console.log('Final Translation:', translation);
-````
+console.log("Final Translation:", translation);
+```
 
-This endpoint is implemented as a Next.js API route, enabling server-side handling of requests and secure management of OpenAI API keys.
+This endpoint is implemented as a Next.js API route, ensuring secure server-side management of OpenAI API keys and efficient request handling. For more on API security best practices, see the [OWASP API Security Project](https://owasp.org/www-project-api-security/).
 
----
+## 5. Integrating Dictionary Data with OpenAI
 
-## Integrating Dictionary Data with OpenAI
-
-One of the innovative aspects of MobTranslate is the integration of dictionary data with OpenAI’s language models to generate context-aware translations.
+A standout feature of MobTranslate is its ability to generate context-aware translations by integrating dictionary data into the translation process.
 
 ### How It Works
 
-1. **Fetching Dictionary Context:**  
-   When a translation request is initiated, the system retrieves the relevant dictionary entries from the REST API. For example, if a user wants to translate a sentence into Kuku Yalanji, the system gathers definitions, usage examples, and related terms from the Kuku Yalanji dictionary.
+**Fetching Dictionary Context:**
+When a translation request is received, the system retrieves relevant dictionary entries (definitions, usage examples, etc.) from the API.
 
-2. **Aggregating Context into a Prompt:**  
-   The retrieved data is then formatted into a structured prompt. A sample prompt might look like this:
+**Aggregating Data into a Prompt:**
+The retrieved data is formatted into a structured prompt to guide OpenAI's model. For example:
 
-   ```
-   Using the following dictionary context:
-   Word: "babaji" — Definition: "ask. 'Ngayu nyungundu babajin, Wanju nyulu?' means 'I asked him, Who is he?'"
-   Translate the sentence: "Hello, how are you today?"
-   ```
+```
+Using the following dictionary context:
+Word: "babaji" — Definition: "ask. 'Ngayu nyungundu babajin, Wanju nyulu?' means 'I asked him, Who is he?'"
+Translate the sentence: "Hello, how are you today?"
+```
 
-   This helps steer the model to generate a translation that respects the linguistic and cultural nuances of the target language.
+This helps steer the model to produce culturally sensitive and accurate translations using techniques from [prompt engineering research](https://arxiv.org/abs/2302.11382).
 
-3. **Server-Side Translation Request:**  
-   The prompt is sent from the server to OpenAI’s API. With token usage logged and managed server-side, the system ensures that resource use is monitored and API keys remain secure.
+**Server-Side Translation Processing:**
+The aggregated prompt is sent to [OpenAI's API](https://platform.openai.com/docs/api-reference), and the response is streamed back in real time, providing an interactive translation experience.
 
-4. **Streaming Response:**  
-   OpenAI’s response is streamed back to the client in real-time. This approach improves the interactive experience, as users see the translation build in real time.
+**Token Management:**
+All prompt and response token usage is logged and managed server-side, ensuring efficient resource utilization and cost monitoring in line with [OpenAI's usage guidelines](https://platform.openai.com/usage).
 
-For more details on prompt engineering, you might find [OpenAI’s documentation](https://platform.openai.com/docs/guides) useful.
+For more on prompt engineering, see [OpenAI's documentation](https://platform.openai.com/docs/guides/prompt-engineering).
 
----
+## 6. Dictionary Format and Supported Languages
 
-## Running and Developing MobTranslate
+MobTranslate uses [YAML](https://yaml.org/) files to store dictionary data. Each dictionary is maintained in its own folder within the `dictionaries/` directory. For instance, the Kuku Yalanji dictionary is defined in the `dictionaries/kuku_yalanji/dictionary.yaml` file.
+
+### Example YAML Structure
+
+The YAML file for Kuku Yalanji is structured as follows:
+
+**meta**: Contains metadata about the dictionary, such as the language name.
+
+```yaml
+meta:
+  name: Kuku Yalanji
+```
+
+**words**: A list of word entries. Each entry includes:
+
+- `word`: The term in the language.
+- `type`: The part of speech (e.g., noun, transitive-verb, intransitive-verb, adjective).
+- `definitions`: A list of definitions, sometimes accompanied by example sentences.
+- `translations`: A list of translations or English equivalents.
+- Optional: `synonyms` may also be provided.
+
+```yaml
+words:
+  - word: ba
+    type: intransitive-verb
+    definitions:
+      - come. Baby talk, usually used with very small children only. Used only as a command.
+    translations:
+      - come
+  - word: babaji
+    type: transitive-verb
+    definitions:
+      - ask. "Ngayu nyungundu babajin, Wanju nyulu?" "I asked him, Who is he?"
+    translations:
+      - ask
+      - asked
+```
+
+This structure is inspired by lexicographical best practices from projects like [Lexonomy](https://lexonomy.eu/) and the [Open Dictionary Format](https://github.com/freedict/fd-dictionaries).
+
+### Supported Languages
+
+So far, the repository includes dictionaries for:
+
+- [Kuku Yalanji](https://www.ethnologue.com/language/kky/) (as detailed above)
+- [Mi'gmaq](https://www.ethnologue.com/language/mic/)
+- [Anindilyakwa](https://www.ethnologue.com/language/aoi/)
+
+Each language's dictionary follows a similar YAML structure, ensuring consistency across the project while respecting the unique linguistic features of each language.
+
+## 7. Development Workflow
 
 ### Prerequisites
 
-Before you begin, make sure you have the following installed:
+Ensure you have the following installed:
 
-- **[Node.js](https://nodejs.org/)** (v18 or later)
-- **[pnpm](https://pnpm.io/)** (v8 or later)
+- [Node.js](https://nodejs.org/) (v18 or later)
+- [pnpm](https://pnpm.io/) (v8 or later)
 
 ### Getting Started
 
-1. **Clone the Repository:**
+**Clone the Repository:**
 
-   ```bash
-   git clone https://github.com/australia/mobtranslate.com.git
-   cd mobtranslate.com
-   ```
-
-2. **Install Dependencies:**
-
-   ```bash
-   pnpm install
-   ```
-
-3. **Start the Development Server:**
-
-   ```bash
-   pnpm dev
-   ```
-
-4. **Build the Project for Production:**
-
-   ```bash
-   pnpm build
-   ```
-
-These commands set up your local development environment, enabling you to work on the web application, API endpoints, or any part of the codebase.
-
----
-
-## Conclusion
-
-MobTranslate is an example of how modern web technologies and AI can work together to preserve and revitalize endangered languages. By carefully combining curated dictionary data with the capabilities of OpenAI’s models, we are able to offer translations that honor the depth and nuance of Aboriginal languages.
-
-If you’re interested in contributing or learning more, please explore our [GitHub repository](https://github.com/australia/mobtranslate.com) and join the discussion on our issue tracker. Happy coding, and let’s work together to keep these languages alive for future generations!
-
+```bash
+git clone https://github.com/australia/mobtranslate.com.git
+cd mobtranslate.com
 ```
 
+**Install Dependencies:**
+
+```bash
+pnpm install
 ```
+
+**Start the Development Server:**
+
+```bash
+pnpm dev
+```
+
+**Build the Project for Production:**
+
+```bash
+pnpm build
+```
+
+This workflow leverages Turborepo for parallel builds and efficient dependency management, streamlining development across all workspaces. For more on modern JavaScript build workflows, see the [Web Performance Working Group](https://www.w3.org/webperf/) resources.
+
+## 8. Contributing to the Project
+
+MobTranslate welcomes contributions from developers, linguists, and community members. Here are ways to get involved:
+
+- **Code Contributions**: Submit [pull requests](https://github.com/australia/mobtranslate.com/pulls) for bug fixes or new features.
+- **Language Contributions**: Help expand our dictionary coverage by contributing YAML files for additional Aboriginal languages.
+- **Documentation**: Improve our [documentation](https://github.com/australia/mobtranslate.com/wiki) or write tutorials.
+- **Community Support**: Join our [discussions](https://github.com/australia/mobtranslate.com/discussions) to help answer questions.
+
+For contribution guidelines, please refer to our [CONTRIBUTING.md](https://github.com/australia/mobtranslate.com/blob/master/CONTRIBUTING.md) file.
+
+## 9. Future Roadmap
+
+The MobTranslate project has several exciting developments planned:
+
+- **Audio Integration**: Adding native speaker recordings for pronunciation guidance.
+- **Mobile Applications**: Developing offline-capable apps for use in remote areas.
+- **Expanded Language Coverage**: Adding support for more Aboriginal languages.
+- **Enhanced Learning Tools**: Building interactive exercises for language learning.
+- **Community Editing**: Enabling community-driven dictionary updates with approval workflows.
+
+These initiatives align with global efforts in computational linguistics such as the [ELDP](https://www.eldp.net/) (Endangered Languages Documentation Programme).
+
+## 10. Conclusion
+
+MobTranslate exemplifies how modern web technologies and AI can be combined to support the preservation of endangered languages. By merging curated dictionary data (stored in a consistent YAML format) with OpenAI's translation capabilities, MobTranslate delivers context-aware translations that honor the cultural richness of Aboriginal languages.
+
+If you're interested in contributing or exploring the code further, please visit our [GitHub repository](https://github.com/australia/mobtranslate.com). Together, we can ensure these languages continue to thrive in the digital age.
+
+For more information on Aboriginal language preservation efforts, please visit:
+
+- [First Languages Australia](https://www.firstlanguages.org.au/)
+- [AIATSIS](https://aiatsis.gov.au/research/languages)
+- [Living Languages](https://livinglanguages.org.au/)
+
+Happy coding!
