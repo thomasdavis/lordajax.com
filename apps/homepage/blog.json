@@ -14,9 +14,14 @@
   ],
   "posts": [
     {
+      "title": "LLM-friendly Language",
+      "source": "./posts/llm-friendly-language.md",
+      "createdAt": "2025-02-27"
+    },
+    {
       "title": "Mob Translate - more work complete",
       "source": "./posts/mob-translate.md",
-      "createdAt": "2025-02-27"
+      "createdAt": "2025-02-26"
     },
     {
       "title": "JSON Blog 2.0",

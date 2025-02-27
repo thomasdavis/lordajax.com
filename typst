@@ -1,0 +1,50 @@
+// Define the JSON resume data
+let resume = {
+  basics: {
+    name: "John Doe",
+    label: "Software Engineer",
+    email: "john.doe@example.com",
+    phone: "(912) 555-4321",
+    summary: "A passionate software engineer with 5 years of experience."
+  },
+  work: [
+    {
+      company: "Tech Company",
+      position: "Senior Developer",
+      startDate: "2020-01-01",
+      endDate: "2023-01-01",
+      summary: "Led a team of developers in building scalable web applications."
+    }
+  ],
+  education: [
+    {
+      institution: "University of Technology",
+      area: "Computer Science",
+      studyType: "Bachelor",
+      startDate: "2015-09-01",
+      endDate: "2019-06-01"
+    }
+  ]
+};
+
+// Render the basics section
+= #heading[1](resume.basics.name)
+= #heading[2](resume.basics.label)
+= #text["Email: \(resume.basics.email)"]
+= #text["Phone: \(resume.basics.phone)"]
+= #text[resume.basics.summary]
+
+// Render the work experience section
+= #heading[2]("Work Experience")
+for work in resume.work {
+  = #heading[3](work.company)
+  = #text["\(work.position) (\(work.startDate) - \(work.endDate))"]
+  = #text[work.summary]
+}
+
+// Render the education section
+= #heading[2]("Education")
+for education in resume.education {
+  = #heading[3](education.institution)
+  = #text["\(education.studyType) in \(education.area) (\(education.startDate) - \(education.endDate))"]
+}
