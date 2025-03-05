@@ -30,8 +30,6 @@ Install the MCP server globally using [npm](https://www.npmjs.com):
 npm install -g @jsonresume/mcp
 ```
 
-````
-
 ### Configuration
 
 #### For Windsurf:
@@ -105,4 +103,3 @@ This project is licensed under the [MIT License](https://opensource.org/licenses
 The JSON Resume MCP Server is a practical tool for developers who want to keep their resumes current without the hassle. For more information and to join the community, visit the [JSON Resume MCP Server GitHub repository](https://github.com/jsonresume/mcp).
 
 Happy coding!
-````
