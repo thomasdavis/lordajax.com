@@ -9,7 +9,7 @@ Even for my own personal workflows I think the agents would have far better outp
 
 - Keep optimized algorithms intact
 - Preserve specialized implementations
-- LLM's encourage to build off your code not change fundamentals
+- LLM's encouraged to build off your code not change fundamentals
 - Consistent behavior across LLM tools
 
 ## Implementation
