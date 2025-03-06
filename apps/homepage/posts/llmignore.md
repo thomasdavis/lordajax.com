@@ -30,4 +30,22 @@ legacy/*
 src/ml/trained-models/*.py
 ```
 
+### No access 
+
+Maybe it's not required but no access could be useful. Something like;
+
+```# .llmignore
+# Files LLM cannot read or modify
+[no-access]
+src/ml/models/*.pth    # Model weights
+src/config/*-keys.json # API keys and secrets
+*.asm                  # Assembly files
+*.bin                  # Binary files
+
+# Files LLM can read but not modify
+[read-only]
+legacy/*                   # Legacy code
+src/ml/trained-models/*.py # Trained model scripts
+```
+
 Let's do it!
