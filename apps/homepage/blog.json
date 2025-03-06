@@ -14,6 +14,11 @@
   ],
   "posts": [
     {
+      "title": ".llmignore",
+      "source": "./posts/llmignore.md",
+      "createdAt": "2025-03-06"
+    },
+    {
       "title": "Streamline Your Resume with JSON Resume MCP Server",
       "source": "./posts/jsonresume-mcp.md",
       "createdAt": "2025-03-05"
