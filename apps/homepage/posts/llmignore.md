@@ -30,11 +30,12 @@ legacy/*
 src/ml/trained-models/*.py
 ```
 
-### No access 
+### No access?
 
 Maybe it's not required but no access could be useful. Something like;
 
-```# .llmignore
+```
+# .llmignore
 # Files LLM cannot read or modify
 [no-access]
 src/ml/models/*.pth    # Model weights
