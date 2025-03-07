@@ -64,3 +64,13 @@ total_threads_large
 ```
 
 These numbers are likely wrong, and my shoddy thinking of the approach ain't overly thought through.
+
+## The future
+
+An entity, an organsation, or a rich ass company can make this happen. I speak for everyone, this will happen nontheless, it's a matter of who will foot the bill.
+
+I personally would rather start communicating with the Other (people who do not share the same language as I) sooner rather than later.
+
+The pitch to You entities who can afford it, is that your engagement numbers might (likely) reach unprecedented numbers. Let's feed the hungry hippos (LLM's)
+
+Creating conversations that transgress language barriers, beyond educational levels and at least, letting ALL of us talk a little bit of shit.
