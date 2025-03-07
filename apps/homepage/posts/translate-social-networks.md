@@ -65,7 +65,7 @@ These numbers are likely wrong, and my shoddy thinking of the approach ain't ove
 
 ## The future
 
-An entity, an organsation, or a rich ass company can make this happen. I speak for everyone, this will happen nontheless, it's a matter of who will foot the bill.
+An entity, an organisation, or a rich ass company can make this happen. I speak for everyone, this will happen nontheless, it's a matter of who will foot the bill.
 
 I personally would rather start communicating with the Other (people who do not share the same language as I) sooner rather than later.
 
