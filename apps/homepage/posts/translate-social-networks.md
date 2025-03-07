@@ -1,4 +1,4 @@
-# social networks should start translating ALL posts in a omni-directional way
+# Social networks should start translating ALL posts in an omni-directional way
 
 **text:** human
 **code:** AI
