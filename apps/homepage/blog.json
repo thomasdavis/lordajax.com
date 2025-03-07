@@ -14,8 +14,8 @@
   ],
   "posts": [
     {
-      "title": "X Translate",
-      "source": "./posts/x-translate.md",
+      "title": "social networks should start translating all posts in a bidirectional way",
+      "source": "./posts/translate-social-networks.md",
       "createdAt": "2025-03-07"
     },
     {
