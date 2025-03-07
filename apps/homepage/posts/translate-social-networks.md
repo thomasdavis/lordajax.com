@@ -9,6 +9,10 @@ It's hard for me to pinpoint the moment that I had the idea to write this down. 
 
 I am going to keep this part short, anyone reading surely has the imagination to conjure all the pros of a world where everyone speaks the same language. I'm also sure the reader understands how tragic it would be if we actually did. Difference though makes for that sugar high that is ineffable. In short, getting to know people from all walks of life is virtuous, if only virtue had intrinsic value on the internet. Cynics and all too loving types aside, a more real time language agora feels at least to me, Ripe.
 
+### Proposal
+
+Social networks should translate every single post, and let the user choose which language they want to read in. Each translated post will be indicated as such.
+
 ## Feasibility
 
 Okay, a quick Google (actually asked Perplexity, not affiliated, ugh language), suggests that their are 7000 languages currently on this spherical petri dish.
