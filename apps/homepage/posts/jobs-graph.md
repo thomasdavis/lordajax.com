@@ -1,5 +1,8 @@
 # Building a Smart Job Recommendation Engine with JSON Resume
 
+**text:** AI
+**code:** AI
+
 I recently built a new feature for the [JSON Resume](https://jsonresume.org) registry that helps connect people with relevant job opportunities. The [jobs-graph](https://registry.jsonresume.org/thomasdavis/jobs-graph) takes your resume data and matches it with job postings from Hacker News, presenting everything in an interactive visualization.
 
 ## How It Works
@@ -17,6 +20,7 @@ The system processes data in several stages to create meaningful connections:
 5. **Graph Construction**: The system finds the 20 most similar resume-to-job matches and calculates similarity between jobs, creating a network of connections.
 
 All this data gets rendered as an interactive graph where you can:
+
 - Filter jobs through text search
 - Highlight remote positions or salary ranges with color contrast
 - Mark jobs as "done" to track your progress
@@ -49,12 +53,12 @@ similarity = calculate_cosine_similarity(resume_embedding, job_embedding)
 
 The jobs-graph approach has several advantages over traditional job matching:
 
-| Approach | Traditional Job Sites | JSON Resume Jobs-Graph |
-|----------|----------------------|----------------------|
-| Matching Method | Keyword matching | Semantic embeddings |
-| Data Freshness | Often outdated | Real-time from HN + Perplexity |
-| Context | Limited company info | Full company dossiers + news |
-| Visualization | Linear list | Interactive graph showing relationships |
+| Approach        | Traditional Job Sites     | JSON Resume Jobs-Graph                     |
+| --------------- | ------------------------- | ------------------------------------------ |
+| Matching Method | Keyword matching          | Semantic embeddings                        |
+| Data Freshness  | Often outdated            | Real-time from HN + Perplexity             |
+| Context         | Limited company info      | Full company dossiers + news               |
+| Visualization   | Linear list               | Interactive graph showing relationships    |
 | Discoverability | Limited to direct matches | Can follow paths to adjacent opportunities |
 
 > **Embedding structured vs. unstructured data**: There's an interesting trade-off here. Working with structured JSON is clean but misses semantic nuance. Converting to natural language first introduces some noise but captures more meaningful connections. After testing both approaches, the natural language route produced more relevant matches.
@@ -72,6 +76,7 @@ Want to try it yourself? Here's how:
 ## What's Next?
 
 I'm planning to expand this with:
+
 - Integration with more job sources beyond Hacker News
 - Improved filtering options (by industry, location, etc.)
 - Enhanced visualization features for better exploration

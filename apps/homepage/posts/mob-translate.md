@@ -1,5 +1,8 @@
 # MobTranslate: A Technical Tutorial on Preserving Aboriginal Languages
 
+**text:** AI
+**code:** AI
+
 In today's digital era, preserving endangered languages is both a cultural imperative and a technical challenge. **MobTranslate** is an open-source project that builds digital dictionaries for Aboriginal languages—integrating curated linguistic data with AI-powered translations. In this post, we'll explore the technical details behind MobTranslate, including its architecture, API design, integration with OpenAI's models, and the format of our dictionary data. For the full source code, please visit the [GitHub repository](https://github.com/australia/mobtranslate.com).
 
 ---

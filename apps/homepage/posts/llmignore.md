@@ -1,5 +1,7 @@
-
 # .llmignore
+
+**text:** human
+**code:** AI
 
 I just saw Vercel release a [lock file for their v0](https://x.com/rauchg/status/1897391285369233817) product. The idea being that their AI won't modify those files but only read them.
 

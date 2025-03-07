@@ -1,5 +1,8 @@
 # Streamline Your Resume with JSON Resume MCP Server
 
+**text:** AI
+**code:** AI
+
 Tired of manually updating your resume every time you finish a new project? The [JSON Resume MCP Server](https://github.com/jsonresume/mcp) is here to help. This tool automatically updates your [JSON Resume](https://jsonresume.org) by analyzing your code and adding your latest project details.
 
 ## What It Does

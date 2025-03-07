@@ -1,3 +1,7 @@
+
+**text:** Human-ish
+**code:** AI
+
 After spending some time with JsonBlog, I felt it was time for a revamp—introducing JsonBlog v2.1, now with full TypeScript support and a modular design. The essence remains: your entire blog resides in a single JSON file, while the rendering logic is managed through versioned npm packages.
 
 ## Why Opt for JSON as Content?
