@@ -14,6 +14,11 @@
   ],
   "posts": [
     {
+      "title": "X Translate",
+      "source": "./posts/x-translate.md",
+      "createdAt": "2025-03-07"
+    },
+    {
       "title": ".llmignore",
       "source": "./posts/llmignore.md",
       "createdAt": "2025-03-06"
