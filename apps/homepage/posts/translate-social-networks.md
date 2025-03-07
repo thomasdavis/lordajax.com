@@ -1,5 +1,10 @@
 # social networks should start translating all posts in a bidirectional way
 
+```
+text: human
+code: AI
+```
+
 It's hard for me to pinpoint the moment that I had the idea to write this down. I grew up in Far North Queensland of Australia where mangroves are a plenty and therefore mud crabs existed in abundance. Though the problem all who love their "home" know, is that time treats it's victim's indifferently. The place I once knew has changed, more people, more structures, less crabs and all that. That is all adjacent to the point, I started looking up Youtube videos on how to create and manage mud crab farms. Thankfully, there are a plethora of mud crab farming tutorials on Youtube from South East Asian countries and other unheard of geographical locales you've never heard of. I don't know about other people, but I love to read the comments, hurriedly scrolling downwards when the first 10 seconds of something new seems interesting. Though on these god dam mud crab videos, the comments are in Talugu, (african) or some piidgin version of mandarin. God damn! or Eureka! I wish I could read these fucking comments.
 
 ## Language Bubbles
@@ -33,6 +38,10 @@ total_threads
 
 ```
 
+Okay, we don't really have to care about disparate threads, but these are cool numbers instead.
+
+Hint: Perhaps you are looknig for new training sets that aren't stuck in the zeitgeist of a particuliar culture.
+
 And if there were 7000 languages with 100 messages;
 
 ```
@@ -50,6 +59,8 @@ for _ in range(num_messages_large):
 
 total_threads_large
 
-#3234476509624757991344647769100216810857203198904625400933895331391691459636928060001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+# 3234476509624757991344647769100216810857203198904625400933895331391691459636928060001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 
 ```
+
+These numbers are likely wrong, and my shoddy thinking of the approach ain't overly thought through.
