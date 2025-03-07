@@ -36,9 +36,9 @@ total_threads
 
 ```
 
-Okay, we don't really have to care about disparate threads, but these are cool numbers instead.
+Okay, we don't really have to care about disparate threads, but these are cool numbers anyway.
 
-**Hint:** Perhaps you are looknig for new training sets that aren't stuck in the zeitgeist of a particuliar culture.
+**Hint:** Perhaps you are looking for new training sets that aren't stuck in the zeitgeist of a particuliar culture.
 
 And if there were 7000 languages with 100 messages;
 
