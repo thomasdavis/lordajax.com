@@ -279,4 +279,5 @@ These are just some ideas for improvements to be made:
 
 - All of the technologies already referenced in this post.
 - All of the Clubhouse folk who have played with Omega.
-- test/
+- Nabil Sabio Azadi
+- Lisa Watts
