@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "npx jsonblog-cli@2.9.0 serve blog.json",
-    "build": "npx jsonblog-cli@2.9.0  build blog.json"
+    "dev": "npx jsonblog-cli@2.15.0 serve blog.json",
+    "build": "npx jsonblog-cli@2.15.0  build blog.json"
   }
 }
