@@ -14,11 +14,6 @@
   ],
   "posts": [
     {
-      "title": "Russell is gay",
-      "source": "https://russell.ballestrini.net/dreaming-of-unlimited-home-computer-storage-capacity/index.rst",
-      "createdAt": "2025-03-10"
-    },
-    {
       "title": "Social networks should start translating all posts in an omni-directional way",
       "source": "./posts/translate-social-networks.md",
       "createdAt": "2025-03-07"
