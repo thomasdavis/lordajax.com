@@ -18,6 +18,11 @@
   ],
   "posts": [
     {
+      "title": "Reflecting on Continuous Improvement and Iteration",
+      "source": "./posts/reflecting-on-continuous-improvement-and-iteration.md",
+      "createdAt": "2025-07-22"
+    },
+    {
       "title": "Social networks should start translating all posts in an omni-directional way",
       "source": "./posts/translate-social-networks.md",
       "createdAt": "2025-03-07"
