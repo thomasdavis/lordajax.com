@@ -18,8 +18,8 @@
   ],
   "posts": [
     {
-      "title": "Reflecting on Continuous Improvement and Iteration",
-      "source": "./posts/reflecting-on-continuous-improvement-and-iteration.md",
+      "title": "Enhancing CLI Help and Debugging in llm-benchmark",
+      "source": "./posts/enhancing-cli-help-and-debugging-in-llm-benchmark.md",
       "createdAt": "2025-07-22"
     },
     {
