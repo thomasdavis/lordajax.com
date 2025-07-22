@@ -67,7 +67,7 @@ The standout feature of this project is its AI-powered blog post generation syst
 - **JSON Blog CLI**: Static site generator with single JSON configuration
 
 ### **Homepage App**
-- **JSON Blog CLI v2.15.0**: Custom blog engine
+- **JSON Blog CLI v2.3.1**: Custom blog engine
 - **Vercel AI SDK**: GPT-4o integration for content generation
 - **@octokit/rest**: GitHub API integration for activity analysis
 - **Markdown**: Content format for posts and pages
