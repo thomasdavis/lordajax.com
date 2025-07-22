@@ -23,16 +23,6 @@
       "createdAt": "2025-07-22"
     },
     {
-      "title": "Enhancing Debugging and Error Handling in `llm-benchmark`",
-      "source": "./posts/enhancing-debugging-and-error-handling-in-llm-benchmark.md",
-      "createdAt": "2025-07-22"
-    },
-    {
-      "title": "Enhancing CLI Help and Debugging in llm-benchmark",
-      "source": "./posts/enhancing-cli-help-and-debugging-in-llm-benchmark.md",
-      "createdAt": "2025-07-22"
-    },
-    {
       "title": "Social networks should start translating all posts in an omni-directional way",
       "source": "./posts/translate-social-networks.md",
       "createdAt": "2025-03-07"
