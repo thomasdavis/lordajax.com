@@ -135,11 +135,23 @@ async function fetchGitHubActivity(username) {
     const activities = [];
     const repoDetails = new Map();
 
-    // Fetch recent events
-    const { data: events } = await octokit.activity.listPublicEventsForUser({
-      username,
-      per_page: 100,
-    });
+    // Fetch recent events - try authenticated endpoint first for more data
+    let events = [];
+    try {
+      // This will get more events if we have proper auth
+      const response = await octokit.activity.listEventsForAuthenticatedUser({
+        username,
+        per_page: 100,
+      });
+      events = response.data;
+    } catch (error) {
+      // Fallback to public events
+      const response = await octokit.activity.listPublicEventsForUser({
+        username,
+        per_page: 100,
+      });
+      events = response.data;
+    }
 
     // Filter events from the last 2 weeks
     const recentEvents = events.filter(
@@ -232,6 +244,50 @@ async function fetchGitHubActivity(username) {
       });
     }
 
+    // Also try to fetch recent repositories directly
+    try {
+      const { data: repos } = await octokit.repos.listForUser({
+        username,
+        sort: 'pushed',
+        per_page: 30,
+      });
+
+      // Check recent repos for activity
+      for (const repo of repos) {
+        if (new Date(repo.pushed_at) > new Date(since)) {
+          // Fetch recent commits for this repo
+          try {
+            const { data: commits } = await octokit.repos.listCommits({
+              owner: repo.owner.login,
+              repo: repo.name,
+              since: since,
+              per_page: 10,
+            });
+
+            if (commits.length > 0 && !repoDetails.has(repo.full_name)) {
+              const details = await fetchRepositoryDetails(repo.owner.login, repo.name);
+              if (details) {
+                repoDetails.set(repo.full_name, details);
+              }
+
+              activities.push({
+                type: 'recent_commits',
+                repo: repo.full_name,
+                count: commits.length,
+                messages: commits.map(c => c.commit.message),
+                repoDetails: details,
+              });
+            }
+          } catch (e) {
+            // Skip if we can't access commits
+          }
+        }
+      }
+    } catch (e) {
+      console.error('Error fetching user repos:', e.message);
+    }
+
+    console.log(`Total activities found: ${activities.length} from ${repoDetails.size} repositories`);
     return { activities, repoDetails };
   } catch (error) {
     console.error('Error fetching GitHub activity:', error);
@@ -328,6 +384,19 @@ async function generateBlogPost(activities, repoDetails) {
           let summary = `Created ${a.ref_type} "${a.ref || 'repository'}" in ${a.repo}`;
           if (a.repoDetails) {
             summary += `\nProject: ${a.repoDetails.description || 'No description'}`;
+          }
+          return summary;
+        } else if (a.type === 'recent_commits') {
+          let summary = `Repository: ${a.repo} (${a.count} recent commits)\n`;
+          summary += `Recent commit messages:\n${a.messages.slice(0, 5).map(m => `  - "${m}"`).join('\n')}`;
+          
+          if (a.repoDetails) {
+            summary += `\n\nRepository Details:\n`;
+            summary += `- Description: ${a.repoDetails.description || 'No description'}\n`;
+            summary += `- Language: ${a.repoDetails.language || 'Unknown'}\n`;
+            if (a.repoDetails.readme) {
+              summary += `\nREADME excerpt:\n${a.repoDetails.readme.slice(0, 500)}\n`;
+            }
           }
           return summary;
         }

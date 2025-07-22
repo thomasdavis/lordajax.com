@@ -18,6 +18,11 @@
   ],
   "posts": [
     {
+      "title": "Introducing IFeelGood: A Mobile-First Food & Calorie Tracker",
+      "source": "./posts/introducing-ifeelgood-a-mobile-first-food-calorie-tracker.md",
+      "createdAt": "2025-07-22"
+    },
+    {
       "title": "Enhancements in `llm-benchmark`: Improved CLI and Debug Logging",
       "source": "./posts/enhancements-in-llm-benchmark-improved-cli-and-debug-logging.md",
       "createdAt": "2025-07-22"
