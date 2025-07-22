@@ -1,6 +1,6 @@
-I've only just setup this blog, so not much to say here;
+I've only just set up this blog, so not much to say here:
 
-- I like programming, a life time hobbyist programmer
+- I like programming, a lifetime hobbyist programmer
 - Try to read and would like to write
 - Gardening is my favorite outdoor hobby
 - Love collaborating and meeting new people
@@ -17,15 +17,38 @@ I love meeting new people, please reach out;
 
 ### Projects
 
-- [cdnjs](https://en.wikipedia.org/wiki/Cdnjs) - co-founded a javascript cdn
-- [jsonresume](https://jsonresume.org) - co-founded an open source schema for resumes with a built in ecosystem
-- [mobtranslate](https://mobtranslate.com) - an opensource ecosystem for Australian indiginous languages
-- [taskforce](https://github.com/tfrce) - core team on hacktavist/civic tools and campaigns
+#### Open Source Projects
+
+- [cdnjs](https://en.wikipedia.org/wiki/Cdnjs) - co-founded a JavaScript CDN serving billions of requests
+- [jsonresume](https://jsonresume.org) - co-founded an open source schema for resumes with a built-in ecosystem
+- [mobtranslate](https://mobtranslate.com) - an open source ecosystem for Australian Indigenous languages
 - [jsonblog](https://github.com/jsonblog) - founded a blog generator that builds from 1 blog.json file
-- [backbonetutorials](https://leanpub.com/backbonetutorials) - an old series of tutorials I wrote turned into an ebook
+- [backbone boilerplate](https://github.com/thomasdavis/backboneboilerplate) - modular Backbone.js development environment
+- [w3cjs](https://github.com/thomasdavis/w3cjs) - W3C HTML validator as an npm package
+- [seo server](https://github.com/thomasdavis/seoserver) - server allowing crawlers to index JavaScript-heavy websites
+
+#### Civic Tech & Activism
+
+- [taskforce](https://github.com/tfrce) - core team on hacktivist/civic tools and campaigns
+- [the day we fight back](https://github.com/tfrce/thedaywefightback.js) - anti-surveillance campaign (37M views, 100k calls to Congress)
+- [eff action centre](https://github.com/EFForg/action-center-platform) - built platform for Electronic Frontier Foundation campaigns
+
+#### Educational Content
+
+- [backbonetutorials](https://leanpub.com/backbonetutorials) - popular Backbone.js tutorial series turned into an ebook
+- [video backbone beginner server](https://github.com/thomasdavis/video-backbone-beginner-server) - educational resource for Backbone.js beginners
+
+#### AI/ML Projects
+
 - [fake resumes gpt3](https://gpt3.jsonresume.org/) - generating completely fake contextual resumes with GPT-3
 - [fake resumes manual](https://fake.jsonresume.org/) - trained 10 different text ML models to generate fake resumes
-- [computer vision to identify flags](https://github.com/australia/aboriginal-flag-cv-model) - trained a pytorch CV model to identify the aboriginal flag
+- [computer vision to identify flags](https://github.com/australia/aboriginal-flag-cv-model) - trained a PyTorch CV model to identify the Aboriginal flag
+
+#### Other Notable Projects
+
+- [drone hire](https://dronehire.org) - international directory of civilian drone operators (200k+ visitors)
+- [tokenized](https://tokenized.com) - Bitcoin wallet Electron app
+- [blockbid](https://blockbid.io) - cryptocurrency exchange platform
 
 ### Interviews
 

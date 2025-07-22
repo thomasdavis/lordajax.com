@@ -10,6 +10,10 @@
     {
       "title": "About",
       "source": "./pages/about.md"
+    },
+    {
+      "title": "Projects",
+      "source": "./pages/projects.md"
     }
   ],
   "posts": [
