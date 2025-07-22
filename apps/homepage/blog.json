@@ -18,6 +18,16 @@
   ],
   "posts": [
     {
+      "title": "Enhancements in `llm-benchmark`: Improved CLI and Debug Logging",
+      "source": "./posts/enhancements-in-llm-benchmark-improved-cli-and-debug-logging.md",
+      "createdAt": "2025-07-22"
+    },
+    {
+      "title": "Enhancing Debugging and Error Handling in `llm-benchmark`",
+      "source": "./posts/enhancing-debugging-and-error-handling-in-llm-benchmark.md",
+      "createdAt": "2025-07-22"
+    },
+    {
       "title": "Enhancing CLI Help and Debugging in llm-benchmark",
       "source": "./posts/enhancing-cli-help-and-debugging-in-llm-benchmark.md",
       "createdAt": "2025-07-22"

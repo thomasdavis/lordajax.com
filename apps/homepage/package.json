@@ -10,7 +10,7 @@
   "dependencies": {
     "@octokit/rest": "^20.0.2",
     "dotenv": "^16.6.1",
-    "ai": "^3.0.0",
-    "@ai-sdk/openai": "^0.0.25"
+    "ai": "^3.4.0",
+    "@ai-sdk/openai": "^0.0.70"
   }
 }

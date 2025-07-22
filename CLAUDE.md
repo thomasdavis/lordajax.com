@@ -94,3 +94,16 @@ cd apps/homepage && npx json-blog --serve
 3. Playground app requires OpenAI API key in environment variables
 4. No test suite exists - manual testing required
 5. Use Turborepo for parallel builds and caching benefits
+
+## Development Conventions
+
+### AI SDK Usage
+- **ALWAYS use Vercel AI SDK** for AI integrations, never the OpenAI SDK directly
+- **Use GPT-4o model** (gpt-4o) for all AI generation tasks
+- Import pattern: `const { generateText } = require('ai'); const { openai } = require('@ai-sdk/openai');`
+- If unsure about API usage, research the latest Vercel AI SDK documentation
+
+### Code Quality
+- When implementing new features, research current best practices first
+- Use TypeScript when possible for better type safety
+- Follow existing patterns and conventions in the codebase
