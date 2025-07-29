@@ -4,6 +4,7 @@ I've only just set up this blog, so not much to say here:
 - Try to read and would like to write
 - Gardening is my favorite outdoor hobby
 - Love collaborating and meeting new people
+- I live in far north Queensland
 
 You can find my full resume at [https://registry.jsonresume.org/thomasdavis](https://registry.jsonresume.org/thomasdavis)
 
