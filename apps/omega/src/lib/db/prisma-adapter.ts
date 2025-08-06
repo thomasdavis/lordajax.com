@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma/client';
 import type { 
   DatabaseAdapter, 
   CreateChatInput, 
@@ -6,8 +5,7 @@ import type {
   UpdateChatInput,
   ChatWithMessages 
 } from './types';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 export class PrismaAdapter implements DatabaseAdapter {
   // Chat operations
@@ -131,6 +129,3 @@ export class PrismaAdapter implements DatabaseAdapter {
     });
   }
 }
-
-// Export singleton instance
-export const db = new PrismaAdapter();

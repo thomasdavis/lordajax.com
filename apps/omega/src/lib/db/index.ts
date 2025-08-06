@@ -2,6 +2,7 @@ import { PrismaAdapter } from './prisma-adapter';
 import type { DatabaseAdapter } from './types';
 
 export * from './types';
+export { prisma } from '@/lib/prisma';
 
 // Factory function to get the appropriate adapter
 export function getDatabaseAdapter(): DatabaseAdapter {
