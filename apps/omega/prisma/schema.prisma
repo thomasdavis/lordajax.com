@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Chat {
+  id            String    @id @default(cuid())
+  title         String?
+  userId        String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  messages      Message[]
+  metadata      Json?
+  systemPrompt  String?
+  model         String    @default("gpt-4o")
+  temperature   Float     @default(0.7)
+  maxTokens     Int?
+  
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model Message {
+  id            String    @id @default(cuid())
+  chatId        String
+  chat          Chat      @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  role          String    // "user", "assistant", "system", "tool"
+  content       String?   // Text content
+  toolCalls     Json?     // Tool calls from assistant
+  toolResults   Json?     // Results from tool execution
+  metadata      Json?     // Additional metadata
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@index([chatId])
+  @@index([createdAt])
+}
+
+model Tool {
+  id            String    @id @default(cuid())
+  name          String    @unique
+  description   String
+  parameters    Json      // Zod schema as JSON
+  enabled       Boolean   @default(true)
+  category      String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@index([category])
+}
+
+model UserPreferences {
+  id            String    @id @default(cuid())
+  userId        String    @unique
+  theme         String    @default("light")
+  defaultModel  String    @default("gpt-4o")
+  temperature   Float     @default(0.7)
+  maxTokens     Int?
+  preferences   Json?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
