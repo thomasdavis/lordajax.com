@@ -7,7 +7,9 @@ import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
 import { ChatSettings } from './ChatSettings';
 import { cn } from '@/lib/utils';
-import { Bot, Menu, Plus, History, Settings } from 'lucide-react';
+import { Bot, Menu, Plus, History, Settings, Trash2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import type { Message } from 'ai';
 
 interface ChatInterfaceProps {
   chatId?: string;
@@ -20,9 +22,12 @@ export function ChatInterface({
   className,
   showSidebar = true 
 }: ChatInterfaceProps) {
+  const router = useRouter();
   const [chatId, setChatId] = useState(initialChatId);
   const [sidebarOpen, setSidebarOpen] = useState(showSidebar);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [chatHistory, setChatHistory] = useState<any[]>([]);
+  const [isLoadingHistory, setIsLoadingHistory] = useState(false);
   const [chatSettings, setChatSettings] = useState({
     model: 'gpt-4o',
     temperature: 0.7,
@@ -31,6 +36,7 @@ export function ChatInterface({
   });
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const hasInitialized = useRef(false);
   
   const {
     messages,
@@ -39,6 +45,7 @@ export function ChatInterface({
     error,
     reload,
     stop,
+    setMessages,
   } = useChat({
     transport: new DefaultChatTransport({
       api: '/api/chat',
@@ -47,17 +54,88 @@ export function ChatInterface({
         chatId,
       },
     }),
-    onResponse: (response) => {
+    onResponse: async (response) => {
       console.log('Chat response received:', response);
+      
+      // Get chat ID from response headers if it's a new chat
+      const newChatId = response.headers.get('X-Chat-Id');
+      if (newChatId && !chatId) {
+        setChatId(newChatId);
+        router.push(`/chat/${newChatId}`);
+        
+        // Generate title after first exchange
+        setTimeout(async () => {
+          try {
+            await fetch(`/api/chats/${newChatId}/generate-title`, {
+              method: 'POST',
+            });
+            // Refresh chat history
+            const historyResponse = await fetch('/api/chats');
+            if (historyResponse.ok) {
+              const chats = await historyResponse.json();
+              setChatHistory(chats);
+            }
+          } catch (error) {
+            console.error('Failed to generate title:', error);
+          }
+        }, 2000);
+      }
     },
     onError: (error) => {
       console.error('Chat error:', error);
     },
   });
   
-  // Debug log messages
-  console.log('[ChatInterface] Current messages:', messages);
-  console.log('[ChatInterface] Messages count:', messages.length);
+  // Load chat history
+  useEffect(() => {
+    const loadChatHistory = async () => {
+      setIsLoadingHistory(true);
+      try {
+        const response = await fetch('/api/chats');
+        if (response.ok) {
+          const chats = await response.json();
+          setChatHistory(chats);
+        }
+      } catch (error) {
+        console.error('Failed to load chat history:', error);
+      } finally {
+        setIsLoadingHistory(false);
+      }
+    };
+    
+    loadChatHistory();
+  }, [chatId]);
+
+  // Load existing chat messages if chatId is provided
+  useEffect(() => {
+    const loadChat = async () => {
+      if (!chatId || hasInitialized.current) return;
+      
+      try {
+        const response = await fetch(`/api/chats/${chatId}`);
+        if (response.ok) {
+          const chat = await response.json();
+          
+          // Convert database messages to UI messages
+          const uiMessages: Message[] = chat.messages.map((msg: any) => ({
+            id: msg.id,
+            role: msg.role as 'user' | 'assistant' | 'system',
+            content: msg.content || '',
+            createdAt: new Date(msg.createdAt),
+            ...(msg.toolCalls && { toolCalls: msg.toolCalls }),
+            ...(msg.toolResults && { toolResults: msg.toolResults }),
+          }));
+          
+          setMessages(uiMessages);
+          hasInitialized.current = true;
+        }
+      } catch (error) {
+        console.error('Failed to load chat:', error);
+      }
+    };
+    
+    loadChat();
+  }, [chatId, setMessages]);
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -65,9 +143,31 @@ export function ChatInterface({
   }, [messages]);
 
   const handleNewChat = () => {
-    setChatId(undefined);
-    // Reset chat state
-    window.location.reload();
+    router.push('/');
+  };
+
+  const handleDeleteChat = async (deleteChatId: string) => {
+    try {
+      const response = await fetch(`/api/chats/${deleteChatId}`, {
+        method: 'DELETE',
+      });
+      
+      if (response.ok) {
+        // Refresh chat history
+        const historyResponse = await fetch('/api/chats');
+        if (historyResponse.ok) {
+          const chats = await historyResponse.json();
+          setChatHistory(chats);
+        }
+        
+        // If deleting current chat, go home
+        if (deleteChatId === chatId) {
+          router.push('/');
+        }
+      }
+    } catch (error) {
+      console.error('Failed to delete chat:', error);
+    }
   };
 
   const handleSendMessage = (message: string, attachments?: File[]) => {
@@ -107,11 +207,47 @@ export function ChatInterface({
           
           <div className="flex-1 overflow-y-auto p-4">
             <div className="space-y-2">
-              {/* Chat history would go here */}
-              <div className="rounded-xl p-4 text-sm text-muted-foreground bg-muted/30 border border-border/50">
-                <History className="h-4 w-4 mb-2 opacity-50" />
-                No previous chats
-              </div>
+              {isLoadingHistory ? (
+                <div className="animate-pulse space-y-2">
+                  {[1, 2, 3].map(i => (
+                    <div key={i} className="h-16 rounded-xl bg-muted/30" />
+                  ))}
+                </div>
+              ) : chatHistory.length > 0 ? (
+                chatHistory.map((chat) => (
+                  <div
+                    key={chat.id}
+                    className={cn(
+                      "group relative rounded-xl p-3 hover:bg-primary/10 transition-all cursor-pointer",
+                      chat.id === chatId && "bg-primary/10 border border-primary/20"
+                    )}
+                    onClick={() => router.push(`/chat/${chat.id}`)}
+                  >
+                    <div className="pr-8">
+                      <div className="font-medium text-sm truncate">
+                        {chat.title || 'Untitled Chat'}
+                      </div>
+                      <div className="text-xs text-muted-foreground mt-1">
+                        {chat._count.messages} messages · {new Date(chat.updatedAt).toLocaleDateString()}
+                      </div>
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteChat(chat.id);
+                      }}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-destructive/20 transition-all"
+                    >
+                      <Trash2 className="h-3 w-3 text-destructive" />
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <div className="rounded-xl p-4 text-sm text-muted-foreground bg-muted/30 border border-border/50">
+                  <History className="h-4 w-4 mb-2 opacity-50" />
+                  No previous chats
+                </div>
+              )}
             </div>
           </div>
           

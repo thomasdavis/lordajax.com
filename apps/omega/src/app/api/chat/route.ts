@@ -35,8 +35,13 @@ export async function POST(req: Request) {
       }
     } else {
       // Create new chat
+      const firstMessage = messages[messages.length - 1];
+      const title = typeof firstMessage?.content === 'string' 
+        ? firstMessage.content.slice(0, 100) 
+        : 'New Chat';
+      
       chat = await db.createChat({
-        title: messages[0]?.content?.slice(0, 100) || 'New Chat',
+        title,
         model,
         temperature,
         maxTokens,
@@ -116,8 +121,10 @@ export async function POST(req: Request) {
       },
     });
 
-    // Return the stream response directly (AI SDK v5 pattern)
-    return result.toUIMessageStreamResponse();
+    // Return the stream response with chat ID in headers
+    const response = result.toUIMessageStreamResponse();
+    response.headers.set('X-Chat-Id', chat.id);
+    return response;
   } catch (error) {
     console.error('Chat API error:', error);
     
