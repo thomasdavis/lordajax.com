@@ -27,7 +27,7 @@ export function ChatInterface({
     model: 'gpt-4o',
     temperature: 0.7,
     systemPromptMode: 'default' as const,
-    enabledTools: ['calculator', 'weather', 'datetime', 'knowledgeBase'],
+    enabledTools: ['calculator', 'weather', 'datetime', 'knowledgeBase', 'chartGenerator'],
   });
   
   const messagesEndRef = useRef<HTMLDivElement>(null);

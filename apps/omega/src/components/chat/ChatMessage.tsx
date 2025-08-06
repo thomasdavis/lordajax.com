@@ -1,11 +1,21 @@
 'use client';
 
 import { type Message } from 'ai';
-import { User, Bot, Wrench, AlertCircle, CheckCircle } from 'lucide-react';
+import { User, Bot, Wrench, AlertCircle, CheckCircle, BarChart } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import dynamic from 'next/dynamic';
+
+// Dynamically import ChartDisplay to avoid SSR issues
+const ChartDisplay = dynamic(
+  () => import('@/components/generative/ChartDisplay').then(mod => mod.ChartDisplay),
+  { 
+    ssr: false,
+    loading: () => <div className="h-64 animate-pulse bg-muted rounded-xl" />
+  }
+);
 
 interface ChatMessageProps {
   message: Message;
@@ -158,23 +168,36 @@ export function ChatMessage({ message, isStreaming = false }: ChatMessageProps) 
                     
                     {/* Tool Output */}
                     {tool.output && (
-                      <div className="rounded-xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 p-4">
-                        <div className="flex items-center gap-2 font-medium text-green-600 dark:text-green-400">
-                          <CheckCircle className="h-4 w-4" />
-                          <span>Result from {toolName}</span>
-                        </div>
-                        <div className="mt-2 text-sm font-mono">
-                          {tool.output.formatted ? (
-                            <p className="text-lg">{tool.output.formatted}</p>
-                          ) : tool.output.result !== undefined ? (
-                            <p className="text-lg">Result: {tool.output.result}</p>
-                          ) : (
-                            <pre className="overflow-x-auto text-xs">
-                              {JSON.stringify(tool.output, null, 2)}
-                            </pre>
-                          )}
-                        </div>
-                      </div>
+                      <>
+                        {/* Check if this is a chart output */}
+                        {tool.output.componentType === 'chart' && tool.output.chartConfig ? (
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-2 font-medium text-green-600 dark:text-green-400">
+                              <BarChart className="h-4 w-4" />
+                              <span>Generated Chart</span>
+                            </div>
+                            <ChartDisplay config={tool.output.chartConfig} />
+                          </div>
+                        ) : (
+                          <div className="rounded-xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 p-4">
+                            <div className="flex items-center gap-2 font-medium text-green-600 dark:text-green-400">
+                              <CheckCircle className="h-4 w-4" />
+                              <span>Result from {toolName}</span>
+                            </div>
+                            <div className="mt-2 text-sm font-mono">
+                              {tool.output.formatted ? (
+                                <p className="text-lg">{tool.output.formatted}</p>
+                              ) : tool.output.result !== undefined ? (
+                                <p className="text-lg">Result: {tool.output.result}</p>
+                              ) : (
+                                <pre className="overflow-x-auto text-xs">
+                                  {JSON.stringify(tool.output, null, 2)}
+                                </pre>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </>
                     )}
                   </div>
                 );

@@ -21,6 +21,8 @@ When using tools:
 - Show intermediate results when appropriate
 - Handle errors gracefully
 - Chain multiple tools for complex tasks
+- For chart requests, use the chartGenerator tool to create visual representations
+- When generating charts, infer reasonable data if not provided by the user
 
 Remember: Your goal is to be the most helpful assistant possible while maintaining accuracy and safety.`;
 

@@ -26,6 +26,7 @@ const availableTools = [
   { value: 'codeRunner', label: 'Code Runner', description: 'Execute JavaScript code' },
   { value: 'datetime', label: 'Date & Time', description: 'Date and time operations' },
   { value: 'knowledgeBase', label: 'Knowledge Base', description: 'Store and retrieve information' },
+  { value: 'chartGenerator', label: 'Chart Generator', description: 'Create visual charts and graphs' },
 ];
 
 const promptModes = [
