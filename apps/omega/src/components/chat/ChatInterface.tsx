@@ -1,6 +1,7 @@
 'use client';
 
 import { useChat } from '@ai-sdk/react';
+import { DefaultChatTransport } from 'ai';
 import { useEffect, useRef, useState } from 'react';
 import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
@@ -39,12 +40,13 @@ export function ChatInterface({
     reload,
     stop,
   } = useChat({
-    api: '/api/chat',
-    id: chatId,
-    body: {
-      ...chatSettings,
-      chatId,
-    },
+    transport: new DefaultChatTransport({
+      api: '/api/chat',
+      body: {
+        ...chatSettings,
+        chatId,
+      },
+    }),
     onResponse: (response) => {
       console.log('Chat response received:', response);
     },
@@ -69,9 +71,11 @@ export function ChatInterface({
   };
 
   const handleSendMessage = (message: string, attachments?: File[]) => {
+    console.log('[ChatInterface] Sending message:', message);
     sendMessage({ 
       text: message,
     });
+    console.log('[ChatInterface] Message sent, current messages:', messages);
   };
 
   const handleSettingsChange = (newSettings: typeof chatSettings) => {

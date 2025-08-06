@@ -1,7 +1,7 @@
 'use client';
 
 import { type Message } from 'ai';
-import { User, Bot, Wrench, AlertCircle } from 'lucide-react';
+import { User, Bot, Wrench, AlertCircle, CheckCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -13,7 +13,12 @@ interface ChatMessageProps {
 }
 
 export function ChatMessage({ message, isStreaming = false }: ChatMessageProps) {
-  console.log('[ChatMessage] Rendering message:', message);
+  console.log('[ChatMessage] Rendering message:', {
+    role: message.role,
+    content: message.content,
+    parts: message.parts,
+    id: message.id
+  });
   
   const isUser = message.role === 'user';
   const isAssistant = message.role === 'assistant';
@@ -25,10 +30,40 @@ export function ChatMessage({ message, isStreaming = false }: ChatMessageProps) 
       return message.content;
     }
     if (message.parts && Array.isArray(message.parts)) {
-      return message.parts
+      // First check for text parts
+      const textParts = message.parts
         .filter((part: any) => part.type === 'text')
-        .map((part: any) => part.text)
+        .map((part: any) => part.text || '')
         .join('');
+      
+      if (textParts) return textParts;
+      
+      // If no text, check for tool outputs (the new format uses type: 'tool-[toolname]')
+      const toolParts = message.parts.filter((part: any) => 
+        part.type?.startsWith('tool-') && part.output
+      );
+      
+      if (toolParts.length > 0) {
+        return toolParts.map((part: any) => {
+          const output = part.output;
+          if (output.formatted) return output.formatted;
+          if (output.result !== undefined) return `The answer is ${output.result}`;
+          if (typeof output === 'string') return output;
+          return JSON.stringify(output, null, 2);
+        }).join('\n');
+      }
+      
+      // Fallback for tool-result type
+      const toolResults = message.parts.filter((part: any) => part.type === 'tool-result');
+      if (toolResults.length > 0) {
+        return toolResults.map((part: any) => {
+          if (part.result?.formatted) return part.result.formatted;
+          if (part.result?.result !== undefined) return `Result: ${part.result.result}`;
+          return JSON.stringify(part.result || part, null, 2);
+        }).join('\n');
+      }
+      
+      return '';
     }
     return '';
   };
@@ -92,28 +127,112 @@ export function ChatMessage({ message, isStreaming = false }: ChatMessageProps) 
           )}
         </div>
         
-        {/* Handle tool invocations from parts */}
-        {message.parts && message.parts.some((p: any) => p.type === 'tool-call' || p.type === 'tool-result') && (
-          <div className="space-y-2">
+        {/* Handle tool invocations and results from parts */}
+        {message.parts && message.parts.some((p: any) => 
+          p.type === 'tool-call' || 
+          p.type === 'tool-result' || 
+          p.type?.startsWith('tool-')
+        ) && (
+          <div className="space-y-3 mt-3">
+            {/* Tool executions (new format: tool-[toolname]) */}
+            {message.parts
+              .filter((part: any) => part.type?.startsWith('tool-') && part.type !== 'tool-call' && part.type !== 'tool-result')
+              .map((tool: any, index: number) => {
+                const toolName = tool.type.replace('tool-', '');
+                return (
+                  <div key={`tool-${index}`} className="space-y-2">
+                    {/* Tool Input */}
+                    {tool.input && (
+                      <div className="rounded-xl bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 p-4">
+                        <div className="flex items-center gap-2 font-medium text-primary">
+                          <Wrench className="h-4 w-4" />
+                          <span>Using: {toolName}</span>
+                        </div>
+                        <div className="mt-2 text-xs text-muted-foreground">
+                          <pre className="overflow-x-auto">
+                            {JSON.stringify(tool.input, null, 2)}
+                          </pre>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Tool Output */}
+                    {tool.output && (
+                      <div className="rounded-xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 p-4">
+                        <div className="flex items-center gap-2 font-medium text-green-600 dark:text-green-400">
+                          <CheckCircle className="h-4 w-4" />
+                          <span>Result from {toolName}</span>
+                        </div>
+                        <div className="mt-2 text-sm font-mono">
+                          {tool.output.formatted ? (
+                            <p className="text-lg">{tool.output.formatted}</p>
+                          ) : tool.output.result !== undefined ? (
+                            <p className="text-lg">Result: {tool.output.result}</p>
+                          ) : (
+                            <pre className="overflow-x-auto text-xs">
+                              {JSON.stringify(tool.output, null, 2)}
+                            </pre>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            
+            {/* Legacy Tool Calls */}
             {message.parts
               .filter((part: any) => part.type === 'tool-call')
-              .map((invocation: any, index: number) => (
+              .map((call: any, index: number) => (
               <div
-                key={index}
-                className="rounded-lg border bg-background/50 p-3 text-sm"
+                key={`call-${index}`}
+                className="rounded-xl bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 p-4"
               >
-                <div className="flex items-center gap-2 font-medium">
-                  <Wrench className="h-3 w-3" />
-                  {invocation.toolName || 'Tool'}
+                <div className="flex items-center gap-2 font-medium text-primary">
+                  <Wrench className="h-4 w-4" />
+                  <span>Using: {call.toolName || 'Tool'}</span>
                 </div>
                 
-                {invocation.args && (
-                  <div className="mt-2">
-                    <pre className="overflow-x-auto text-xs">
-                      {JSON.stringify(invocation.args, null, 2)}
+                {call.args && (
+                  <div className="mt-2 text-xs text-muted-foreground">
+                    <pre className="overflow-x-auto">
+                      {JSON.stringify(call.args, null, 2)}
                     </pre>
                   </div>
                 )}
+              </div>
+            ))}
+            
+            {/* Tool Results */}
+            {message.parts
+              .filter((part: any) => part.type === 'tool-result')
+              .map((result: any, index: number) => (
+              <div
+                key={`result-${index}`}
+                className="rounded-xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 p-4"
+              >
+                <div className="flex items-center gap-2 font-medium text-green-600 dark:text-green-400">
+                  <CheckCircle className="h-4 w-4" />
+                  <span>Result</span>
+                </div>
+                
+                <div className="mt-2 text-sm">
+                  {result.result && (
+                    <div>
+                      {typeof result.result === 'object' ? (
+                        result.result.formatted ? (
+                          <p className="font-mono">{result.result.formatted}</p>
+                        ) : (
+                          <pre className="overflow-x-auto text-xs">
+                            {JSON.stringify(result.result, null, 2)}
+                          </pre>
+                        )
+                      ) : (
+                        <p>{result.result}</p>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
             ))}
           </div>

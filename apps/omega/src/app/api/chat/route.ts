@@ -86,23 +86,25 @@ export async function POST(req: Request) {
       onStepFinish: async ({ text, toolCalls, toolResults, finishReason, usage }) => {
         console.log('[Step Finished]', {
           hasText: !!text,
+          textContent: text,
           toolCalls: toolCalls?.length || 0,
           toolResults: toolResults?.length || 0,
           finishReason,
         });
         
         // Save assistant response to database
-        if (text) {
+        if (text || toolCalls || toolResults) {
           await db.createMessage({
             chatId: chat.id,
             role: 'assistant',
-            content: text,
+            content: text || '',
             toolCalls: toolCalls || undefined,
             toolResults: toolResults || undefined,
             metadata: { usage, finishReason },
           });
         }
       },
+      maxSteps: 5, // Allow the AI to make multiple tool calls if needed
       experimental_telemetry: {
         isEnabled: true,
         functionId: 'chat-completion',
