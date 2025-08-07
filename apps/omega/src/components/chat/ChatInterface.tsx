@@ -159,44 +159,33 @@ export function ChatInterface({
   const handleSendMessage = async (message: string, attachments?: File[]) => {
     console.log('[ChatInterface] Sending message:', message);
     
-    // If this is a new chat (no chatId), create it first
-    if (!chatId) {
-      try {
-        const response = await fetch('/api/chats/create', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            firstMessage: message,
-            model: chatSettings.model,
-            temperature: chatSettings.temperature,
-            systemPromptMode: chatSettings.systemPromptMode,
-          }),
-        });
-        
-        if (response.ok) {
-          const newChat = await response.json();
-          console.log('New chat created:', newChat.id, 'with title:', newChat.title);
-          
-          // Update state and redirect
-          setChatId(newChat.id);
-          router.push(`/chat/${newChat.id}`);
-          
-          // Refresh chat history to show the new chat in sidebar
-          const historyResponse = await fetch('/api/chats');
-          if (historyResponse.ok) {
-            const chats = await historyResponse.json();
-            setChatHistory(chats);
-          }
-        }
-      } catch (error) {
-        console.error('Failed to create chat:', error);
-      }
-    }
+    // If this is a new chat (no chatId), we need to handle the redirect after creation
+    const isNewChat = !chatId;
     
-    // Send the message
     sendMessage({ 
       text: message,
     });
+    
+    // For new chats, poll for the chat creation and redirect
+    if (isNewChat) {
+      setTimeout(async () => {
+        try {
+          const response = await fetch('/api/chats');
+          if (response.ok) {
+            const chats = await response.json();
+            if (chats.length > 0) {
+              const newestChat = chats[0]; // Chats are ordered by createdAt desc
+              console.log('New chat created:', newestChat.id);
+              setChatId(newestChat.id);
+              setChatHistory(chats);
+              router.push(`/chat/${newestChat.id}`);
+            }
+          }
+        } catch (error) {
+          console.error('Failed to check for new chat:', error);
+        }
+      }, 1000); // Check after 1 second
+    }
     
     console.log('[ChatInterface] Message sent, current messages:', messages);
   };
