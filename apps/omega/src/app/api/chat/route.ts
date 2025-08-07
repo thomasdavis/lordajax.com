@@ -150,8 +150,11 @@ export async function POST(req: Request) {
     });
 
     // Return the stream response with chat ID in headers
-    const response = result.toUIMessageStreamResponse();
-    response.headers.set('X-Chat-Id', chat.id);
+    const response = result.toDataStreamResponse({
+      headers: {
+        'X-Chat-Id': chat.id,
+      },
+    });
     return response;
   } catch (error) {
     console.error('Chat API error:', error);

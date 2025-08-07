@@ -47,23 +47,25 @@ export function ChatInterface({
     stop,
     setMessages,
   } = useChat({
-    transport: new DefaultChatTransport({
-      api: '/api/chat',
-      body: {
-        ...chatSettings,
-        chatId,
-      },
-    }),
+    api: '/api/chat',
+    body: {
+      ...chatSettings,
+      ...(chatId && { chatId }), // Only include chatId if it exists
+    },
     onResponse: async (response) => {
       console.log('Chat response received:', response);
+      console.log('Response headers:', Array.from(response.headers.entries()));
       
       // Get chat ID from response headers if it's a new chat
       const newChatId = response.headers.get('X-Chat-Id');
+      console.log('New chat ID from header:', newChatId, 'Current chat ID:', chatId);
+      
       if (newChatId && !chatId) {
         console.log('New chat created with ID:', newChatId);
         setChatId(newChatId);
         
         // Immediately update the URL
+        window.history.replaceState({}, '', `/chat/${newChatId}`);
         router.push(`/chat/${newChatId}`);
         
         // Immediately refresh chat history to show the new chat in sidebar
