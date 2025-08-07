@@ -60,25 +60,23 @@ export function ChatInterface({
       // Get chat ID from response headers if it's a new chat
       const newChatId = response.headers.get('X-Chat-Id');
       if (newChatId && !chatId) {
+        console.log('New chat created with ID:', newChatId);
         setChatId(newChatId);
+        
+        // Immediately update the URL
         router.push(`/chat/${newChatId}`);
         
-        // Generate title after first exchange
-        setTimeout(async () => {
-          try {
-            await fetch(`/api/chats/${newChatId}/generate-title`, {
-              method: 'POST',
-            });
-            // Refresh chat history
-            const historyResponse = await fetch('/api/chats');
-            if (historyResponse.ok) {
-              const chats = await historyResponse.json();
-              setChatHistory(chats);
-            }
-          } catch (error) {
-            console.error('Failed to generate title:', error);
+        // Immediately refresh chat history to show the new chat in sidebar
+        try {
+          const historyResponse = await fetch('/api/chats');
+          if (historyResponse.ok) {
+            const chats = await historyResponse.json();
+            setChatHistory(chats);
+            console.log('Chat history updated with new chat');
           }
-        }, 2000);
+        } catch (error) {
+          console.error('Failed to refresh chat history:', error);
+        }
       }
     },
     onError: (error) => {

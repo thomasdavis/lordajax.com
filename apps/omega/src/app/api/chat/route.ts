@@ -1,4 +1,4 @@
-import { streamText, convertToModelMessages, type UIMessage } from 'ai';
+import { streamText, convertToModelMessages, generateText, type UIMessage } from 'ai';
 import { openai } from '@ai-sdk/openai';
 import { db } from '@/lib/db';
 import { getSystemPrompt } from '@/lib/ai/prompts';
@@ -34,11 +34,37 @@ export async function POST(req: Request) {
         return new Response('Chat not found', { status: 404 });
       }
     } else {
-      // Create new chat
+      // Create new chat with a generated title
       const firstMessage = messages[messages.length - 1];
-      const title = typeof firstMessage?.content === 'string' 
-        ? firstMessage.content.slice(0, 100) 
-        : 'New Chat';
+      let title = 'New Chat';
+      
+      // Generate a smart title based on the first message
+      if (firstMessage && typeof firstMessage.content === 'string') {
+        try {
+          const { text: generatedTitle } = await generateText({
+            model: openai('gpt-4o'),
+            messages: [
+              {
+                role: 'system',
+                content: 'Generate a short, descriptive title (max 40 chars) for a conversation that starts with this message. Return only the title, no quotes or punctuation. Be creative and specific.',
+              },
+              {
+                role: 'user',
+                content: firstMessage.content.slice(0, 500),
+              },
+            ],
+            temperature: 0.7,
+            maxTokens: 20,
+          });
+          
+          title = generatedTitle.slice(0, 40) || firstMessage.content.slice(0, 40);
+          console.log('Generated title:', title);
+        } catch (error) {
+          console.error('Failed to generate title:', error);
+          // Fallback to first message excerpt
+          title = firstMessage.content.slice(0, 40) + (firstMessage.content.length > 40 ? '...' : '');
+        }
+      }
       
       chat = await db.createChat({
         title,
@@ -48,6 +74,8 @@ export async function POST(req: Request) {
         systemPrompt: getSystemPrompt(systemPromptMode),
         metadata: userData,
       });
+      
+      console.log('Created new chat:', chat.id, 'with title:', title);
     }
 
     // Save user message to database
