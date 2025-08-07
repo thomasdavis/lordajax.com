@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState, KeyboardEvent } from 'react';
-import { Send, Paperclip, Settings, Mic, StopCircle } from 'lucide-react';
+import { Send, Paperclip, Mic, StopCircle, X, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface ChatInputProps {
@@ -20,6 +20,7 @@ export function ChatInput({
   const [input, setInput] = useState('');
   const [attachments, setAttachments] = useState<File[]>([]);
   const [isRecording, setIsRecording] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -62,29 +63,35 @@ export function ChatInput({
   };
 
   return (
-    <div className={cn('border-t bg-gradient-to-t from-secondary/30 to-background backdrop-blur-sm', className)}>
+    <div className={cn('border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900', className)}>
       {attachments.length > 0 && (
-        <div className="flex flex-wrap gap-2 p-4 pb-0">
+        <div className="flex flex-wrap gap-2 px-4 pt-3">
           {attachments.map((file, index) => (
             <div
               key={index}
-              className="flex items-center gap-2 rounded-xl bg-primary/10 px-3 py-2 text-sm border border-primary/20 animate-fadeIn"
+              className="flex items-center gap-2 rounded-lg bg-gray-100 dark:bg-gray-800 px-3 py-1.5 text-sm"
             >
-              <Paperclip className="h-3 w-3 text-primary" />
-              <span className="max-w-[200px] truncate font-medium">{file.name}</span>
+              <Paperclip className="h-3 w-3 text-gray-500" />
+              <span className="max-w-[200px] truncate text-gray-700 dark:text-gray-300">{file.name}</span>
               <button
                 onClick={() => removeAttachment(index)}
-                className="ml-1 text-muted-foreground hover:text-destructive transition-colors"
+                className="ml-1 text-gray-400 hover:text-red-500 transition-colors"
               >
-                ×
+                <X className="h-3 w-3" />
               </button>
             </div>
           ))}
         </div>
       )}
       
-      <div className="flex items-end gap-3 p-4">
-        <div className="flex-1 relative">
+      <div className="relative px-4 py-3">
+        <div className={cn(
+          "relative flex items-end gap-2 rounded-2xl border-2 transition-all",
+          isFocused 
+            ? "border-violet-500 shadow-lg shadow-violet-500/20" 
+            : "border-gray-200 dark:border-gray-700",
+          isLoading && "opacity-50 pointer-events-none"
+        )}>
           <textarea
             ref={textareaRef}
             value={input}
@@ -93,16 +100,19 @@ export function ChatInput({
               adjustHeight();
             }}
             onKeyDown={handleKeyDown}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
             placeholder={placeholder}
             disabled={isLoading}
             rows={1}
-            className="max-h-[200px] w-full resize-none rounded-2xl border-2 border-border bg-card px-4 py-3 pr-12 text-sm outline-none placeholder:text-muted-foreground focus:border-primary focus:ring-4 focus:ring-primary/20 disabled:opacity-50 transition-all"
+            className="flex-1 max-h-[200px] resize-none bg-transparent px-4 py-3 text-sm outline-none placeholder:text-gray-400 dark:placeholder:text-gray-500"
           />
-          <div className="absolute right-2 bottom-2 flex gap-1">
+          
+          <div className="flex items-center gap-1 pb-3 pr-2">
             <button
               onClick={() => fileInputRef.current?.click()}
               disabled={isLoading}
-              className="rounded-xl p-2 text-muted-foreground hover:bg-primary/10 hover:text-primary disabled:opacity-50 transition-all"
+              className="rounded-lg p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 transition-all"
               title="Attach files"
             >
               <Paperclip className="h-4 w-4" />
@@ -111,13 +121,33 @@ export function ChatInput({
             <button
               onClick={toggleRecording}
               disabled={isLoading}
-              className="rounded-xl p-2 text-muted-foreground hover:bg-primary/10 hover:text-primary disabled:opacity-50 transition-all"
+              className="rounded-lg p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 transition-all"
               title={isRecording ? 'Stop recording' : 'Start recording'}
             >
               {isRecording ? (
                 <StopCircle className="h-4 w-4 text-red-500 animate-pulse" />
               ) : (
                 <Mic className="h-4 w-4" />
+              )}
+            </button>
+            
+            <div className="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-1" />
+            
+            <button
+              onClick={handleSubmit}
+              disabled={isLoading || !input.trim()}
+              className={cn(
+                "rounded-lg p-2 transition-all",
+                input.trim() && !isLoading
+                  ? "bg-gradient-to-r from-violet-500 to-purple-600 text-white hover:shadow-lg hover:scale-105 shadow-md"
+                  : "bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed"
+              )}
+              title="Send message"
+            >
+              {isLoading ? (
+                <Sparkles className="h-4 w-4 animate-pulse" />
+              ) : (
+                <Send className="h-4 w-4" />
               )}
             </button>
           </div>
@@ -131,14 +161,11 @@ export function ChatInput({
           className="hidden"
         />
         
-        <button
-          onClick={handleSubmit}
-          disabled={isLoading || !input.trim()}
-          className="rounded-2xl bg-gradient-to-r from-primary to-accent p-3 text-primary-foreground hover:shadow-lg hover:scale-105 disabled:opacity-50 disabled:scale-100 transition-all shadow-md"
-          title="Send message"
-        >
-          <Send className="h-5 w-5" />
-        </button>
+        {isFocused && (
+          <div className="absolute -bottom-6 left-4 text-xs text-gray-400 dark:text-gray-500">
+            Press Enter to send, Shift+Enter for new line
+          </div>
+        )}
       </div>
     </div>
   );

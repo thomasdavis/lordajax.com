@@ -7,7 +7,7 @@ import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
 import { ChatSettings } from './ChatSettings';
 import { cn } from '@/lib/utils';
-import { Bot, Menu, Plus, History, Settings, Trash2 } from 'lucide-react';
+import { Bot, Menu, Plus, History, Settings, Trash2, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import type { Message } from 'ai';
 
@@ -183,34 +183,34 @@ export function ChatInterface({
   };
 
   return (
-    <div className={cn('flex h-screen bg-background', className)}>
+    <div className={cn('flex h-screen bg-gray-50 dark:bg-gray-900', className)}>
       {/* Sidebar */}
       {showSidebar && (
         <div
           className={cn(
-            'flex w-64 flex-col border-r bg-gradient-to-b from-secondary/50 to-background transition-all duration-300 shadow-lg',
+            'flex w-72 flex-col bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300',
             !sidebarOpen && 'w-0 overflow-hidden'
           )}
         >
-          <div className="flex items-center justify-between p-4 border-b backdrop-blur-sm bg-background/50">
-            <h2 className="font-bold text-lg bg-gradient-to-r from-primary to-accent-foreground bg-clip-text text-transparent">
-              Chats
+          <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+            <h2 className="font-semibold text-lg text-gray-900 dark:text-gray-100">
+              Chat History
             </h2>
             <button
               onClick={handleNewChat}
-              className="rounded-xl p-2 hover:bg-primary/10 transition-colors group"
+              className="rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               title="New chat"
             >
-              <Plus className="h-4 w-4 group-hover:rotate-90 transition-transform" />
+              <Plus className="h-4 w-4 text-gray-600 dark:text-gray-400" />
             </button>
           </div>
           
-          <div className="flex-1 overflow-y-auto p-4">
+          <div className="flex-1 overflow-y-auto p-3">
             <div className="space-y-2">
               {isLoadingHistory ? (
-                <div className="animate-pulse space-y-2">
+                <div className="space-y-2">
                   {[1, 2, 3].map(i => (
-                    <div key={i} className="h-16 rounded-xl bg-muted/30" />
+                    <div key={i} className="h-16 rounded-lg bg-gray-100 dark:bg-gray-700 animate-pulse" />
                   ))}
                 </div>
               ) : chatHistory.length > 0 ? (
@@ -218,16 +218,16 @@ export function ChatInterface({
                   <div
                     key={chat.id}
                     className={cn(
-                      "group relative rounded-xl p-3 hover:bg-primary/10 transition-all cursor-pointer",
-                      chat.id === chatId && "bg-primary/10 border border-primary/20"
+                      "group relative rounded-lg p-3 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all cursor-pointer",
+                      chat.id === chatId && "bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-800"
                     )}
                     onClick={() => router.push(`/chat/${chat.id}`)}
                   >
                     <div className="pr-8">
-                      <div className="font-medium text-sm truncate">
-                        {chat.title || 'Untitled Chat'}
+                      <div className="font-medium text-sm text-gray-900 dark:text-gray-100 truncate">
+                        {chat.title || 'New Chat'}
                       </div>
-                      <div className="text-xs text-muted-foreground mt-1">
+                      <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                         {chat._count.messages} messages · {new Date(chat.updatedAt).toLocaleDateString()}
                       </div>
                     </div>
@@ -236,14 +236,14 @@ export function ChatInterface({
                         e.stopPropagation();
                         handleDeleteChat(chat.id);
                       }}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-destructive/20 transition-all"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 p-1.5 rounded hover:bg-red-100 dark:hover:bg-red-900/20 transition-all"
                     >
-                      <Trash2 className="h-3 w-3 text-destructive" />
+                      <Trash2 className="h-3 w-3 text-red-500" />
                     </button>
                   </div>
                 ))
               ) : (
-                <div className="rounded-xl p-4 text-sm text-muted-foreground bg-muted/30 border border-border/50">
+                <div className="rounded-lg p-4 text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700/50">
                   <History className="h-4 w-4 mb-2 opacity-50" />
                   No previous chats
                 </div>
@@ -251,113 +251,113 @@ export function ChatInterface({
             </div>
           </div>
           
-          <div className="border-t p-4 bg-background/50 backdrop-blur-sm">
+          <div className="border-t border-gray-200 dark:border-gray-700 p-3">
             <button
               onClick={() => setSettingsOpen(true)}
-              className="flex w-full items-center gap-3 rounded-xl p-3 hover:bg-primary/10 transition-all group"
+              className="flex w-full items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
             >
-              <Settings className="h-4 w-4 group-hover:rotate-180 transition-transform duration-500" />
-              <span className="text-sm font-medium">Settings</span>
+              <Settings className="h-4 w-4 text-gray-600 dark:text-gray-400" />
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Settings</span>
             </button>
           </div>
         </div>
       )}
 
       {/* Main chat area */}
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col bg-white dark:bg-gray-900">
         {/* Header */}
-        <div className="flex items-center justify-between border-b px-6 py-4 bg-gradient-to-r from-background via-secondary/30 to-background backdrop-blur-sm">
-          <div className="flex items-center gap-4">
+        <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 px-4 py-3 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
+          <div className="flex items-center gap-3">
             {showSidebar && (
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="rounded-xl p-2 hover:bg-primary/10 transition-all group"
+                className="rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
               >
-                <Menu className="h-5 w-5 group-hover:scale-110 transition-transform" />
+                <Menu className="h-5 w-5 text-gray-600 dark:text-gray-400" />
               </button>
             )}
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-primary to-accent shadow-lg">
-                <Bot className="h-5 w-5 text-white" />
+              <div className="p-2 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 shadow-md">
+                <Sparkles className="h-5 w-5 text-white" />
               </div>
-              <h1 className="font-bold text-xl bg-gradient-to-r from-primary to-accent-foreground bg-clip-text text-transparent">
-                AI Assistant
-              </h1>
+              <div>
+                <h1 className="font-semibold text-gray-900 dark:text-gray-100">
+                  AI Assistant
+                </h1>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Powered by {chatSettings.model}
+                </p>
+              </div>
             </div>
           </div>
           
-          <div className="flex items-center gap-3">
-            <span className="px-3 py-1 rounded-full bg-primary/10 text-xs font-medium text-primary">
-              {chatSettings.model}
-            </span>
+          <div className="flex items-center gap-2">
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-800">
+              <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></div>
+              <span className="text-xs font-medium text-gray-600 dark:text-gray-400">Online</span>
+            </div>
             <button
               onClick={() => setSettingsOpen(true)}
-              className="rounded-xl p-2 hover:bg-primary/10 transition-all group"
+              className="rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
             >
-              <Settings className="h-5 w-5 group-hover:rotate-90 transition-transform" />
+              <Settings className="h-5 w-5 text-gray-600 dark:text-gray-400" />
             </button>
           </div>
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto bg-gradient-to-b from-background via-background to-secondary/20">
+        <div className="flex-1 overflow-y-auto bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950">
           {messages.length === 0 ? (
             <div className="flex h-full items-center justify-center p-8">
-              <div className="text-center max-w-2xl">
-                <div className="relative inline-block">
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent blur-2xl opacity-20 animate-pulse"></div>
-                  <Bot className="relative mx-auto h-16 w-16 text-primary animate-bounce" />
+              <div className="text-center max-w-md">
+                <div className="mx-auto mb-6 p-4 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 w-fit shadow-xl">
+                  <Bot className="h-12 w-12 text-white" />
                 </div>
-                <h2 className="mt-6 text-2xl font-bold bg-gradient-to-r from-primary to-accent-foreground bg-clip-text text-transparent">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
                   Start a conversation
                 </h2>
-                <p className="mt-3 text-muted-foreground">
-                  Ask me anything or try one of the tools below
+                <p className="text-gray-600 dark:text-gray-400 mb-8">
+                  I'm here to help! Ask me anything or choose from the suggestions below.
                 </p>
-                
-                {/* Quick action cards */}
-                <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
+                <div className="grid gap-3 text-left">
                   {[
-                    { icon: '🧮', text: 'Calculator', example: 'What\'s 2 + 2?' },
-                    { icon: '☁️', text: 'Weather', example: 'Weather in NYC' },
-                    { icon: '📅', text: 'Date/Time', example: 'Current time' },
-                    { icon: '💻', text: 'Code', example: 'Run JavaScript' },
-                  ].map((item, i) => (
+                    { icon: '💡', text: 'Explain quantum computing in simple terms' },
+                    { icon: '📝', text: 'Help me write a professional email' },
+                    { icon: '🎨', text: 'Generate creative ideas for a birthday party' },
+                    { icon: '📊', text: 'Analyze this data and create a chart' },
+                  ].map((suggestion, i) => (
                     <button
                       key={i}
-                      onClick={() => handleSendMessage(item.example)}
-                      className="p-4 rounded-xl bg-card hover:bg-primary/10 border border-border hover:border-primary/50 transition-all group"
+                      onClick={() => handleSendMessage(suggestion.text)}
+                      className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all text-sm group"
                     >
-                      <div className="text-2xl mb-2 group-hover:scale-125 transition-transform">{item.icon}</div>
-                      <div className="text-sm font-medium">{item.text}</div>
-                      <div className="text-xs text-muted-foreground mt-1">{item.example}</div>
+                      <span className="text-xl group-hover:scale-110 transition-transform">{suggestion.icon}</span>
+                      <span className="text-gray-700 dark:text-gray-300">{suggestion.text}</span>
                     </button>
                   ))}
                 </div>
               </div>
             </div>
           ) : (
-            <div className="pb-32">
-              {messages.map((message, index) => (
+            <div className="space-y-1 py-4">
+              {messages.map((message) => (
                 <ChatMessage
-                  key={message.id || index}
+                  key={message.id}
                   message={message}
-                  isStreaming={isLoading && index === messages.length - 1}
+                  isStreaming={isLoading && message === messages[messages.length - 1]}
                 />
               ))}
-              
               {error && (
-                <div className="mx-4 mt-4 rounded-lg border border-destructive bg-destructive/10 p-3 text-sm text-destructive">
-                  Error: {error.message}
+                <div className="mx-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-4 text-sm text-red-600 dark:text-red-400">
+                  {error.message}
                   <button
                     onClick={() => reload()}
-                    className="ml-2 underline"
+                    className="ml-2 underline hover:no-underline"
                   >
                     Retry
                   </button>
                 </div>
               )}
-              
               <div ref={messagesEndRef} />
             </div>
           )}
@@ -367,7 +367,7 @@ export function ChatInterface({
         <ChatInput
           onSubmit={handleSendMessage}
           isLoading={isLoading}
-          className="sticky bottom-0"
+          placeholder="Type your message..."
         />
       </div>
 
