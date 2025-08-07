@@ -149,13 +149,8 @@ export async function POST(req: Request) {
       },
     });
 
-    // Return the stream response with chat ID in headers
-    const response = result.toDataStreamResponse({
-      headers: {
-        'X-Chat-Id': chat.id,
-      },
-    });
-    return response;
+    // Return the stream response directly
+    return result.toDataStreamResponse();
   } catch (error) {
     console.error('Chat API error:', error);
     
