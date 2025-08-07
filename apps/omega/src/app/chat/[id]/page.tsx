@@ -1,5 +1,5 @@
-import { ChatInterface } from '@/components/chat/ChatInterface';
+import { ChatLayout } from '@/components/chat/ChatLayout';
 
 export default function ChatPage({ params }: { params: { id: string } }) {
-  return <ChatInterface chatId={params.id} />;
+  return <ChatLayout chatId={params.id} />;
 }

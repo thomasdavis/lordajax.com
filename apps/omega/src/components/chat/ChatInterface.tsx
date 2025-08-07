@@ -1,8 +1,7 @@
 'use client';
 
-import { useChat } from '@ai-sdk/react';
-import { DefaultChatTransport } from 'ai';
-import { useEffect, useRef, useState } from 'react';
+import { useChat as useAIChat } from '@ai-sdk/react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
 import { ChatSettings } from './ChatSettings';
@@ -10,24 +9,31 @@ import { cn } from '@/lib/utils';
 import { Bot, Menu, Plus, History, Settings, Trash2, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import type { Message } from 'ai';
+import { 
+  useChats, 
+  useChat, 
+  useCreateChat, 
+  useDeleteChat, 
+  useChatMessages 
+} from '@/hooks/useChats';
+import { useChatStore } from '@/store/chatStore';
+import { generateText } from 'ai';
+import { openai } from '@ai-sdk/openai';
 
 interface ChatInterfaceProps {
-  chatId?: string;
+  chatId?: string | null;
   className?: string;
   showSidebar?: boolean;
 }
 
 export function ChatInterface({ 
-  chatId: initialChatId, 
+  chatId, 
   className,
   showSidebar = true 
 }: ChatInterfaceProps) {
   const router = useRouter();
-  const [chatId, setChatId] = useState(initialChatId);
   const [sidebarOpen, setSidebarOpen] = useState(showSidebar);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [chatHistory, setChatHistory] = useState<any[]>([]);
-  const [isLoadingHistory, setIsLoadingHistory] = useState(false);
   const [chatSettings, setChatSettings] = useState({
     model: 'gpt-4o',
     temperature: 0.7,
@@ -38,6 +44,24 @@ export function ChatInterface({
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const hasInitialized = useRef(false);
   
+  // Use our custom hooks
+  const { chats, refreshChats } = useChats();
+  const { chat: currentChat, refreshChat } = useChat(chatId || null);
+  const { createChat } = useCreateChat();
+  const { deleteChat } = useDeleteChat();
+  const { 
+    messages: storeMessages, 
+    setMessages, 
+    addMessage, 
+    updateMessage 
+  } = useChatMessages();
+  
+  // Get state from Zustand
+  const currentChatId = useChatStore((state) => state.currentChatId);
+  const setCurrentChatId = useChatStore((state) => state.setCurrentChatId);
+  const incrementMessageCount = useChatStore((state) => state.incrementMessageCount);
+  const updateChat = useChatStore((state) => state.updateChat);
+  
   const {
     messages,
     sendMessage,
@@ -45,81 +69,83 @@ export function ChatInterface({
     error,
     reload,
     stop,
-    setMessages,
-  } = useChat({
+    setMessages: setAIMessages,
+  } = useAIChat({
     api: '/api/chat',
     body: {
       ...chatSettings,
-      ...(chatId && { chatId }), // Only include chatId if it exists
+      ...(chatId && { chatId }),
     },
-
+    initialMessages: storeMessages,
+    onFinish: async (message) => {
+      // Update message count in real-time
+      if (chatId) {
+        incrementMessageCount(chatId);
+      }
+      
+      // Generate title for new chats on first message
+      if (chatId && !currentChat?.title && messages.length === 1) {
+        try {
+          const firstUserMessage = messages.find(m => m.role === 'user');
+          if (firstUserMessage) {
+            const { text } = await generateText({
+              model: openai('gpt-4o'),
+              prompt: `Generate a short, concise title (max 5 words) for a chat that starts with: "${firstUserMessage.content}". Return only the title, no quotes or punctuation.`,
+            });
+            
+            const response = await fetch(`/api/chats/${chatId}/generate-title`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ title: text.trim() }),
+            });
+            
+            if (response.ok) {
+              updateChat(chatId, { title: text.trim() });
+              refreshChats();
+            }
+          }
+        } catch (error) {
+          console.error('Failed to generate title:', error);
+        }
+      }
+    },
     onError: (error) => {
       console.error('Chat error:', error);
     },
   });
   
-  // Load chat history
+  // Sync AI messages with store
   useEffect(() => {
-    const loadChatHistory = async () => {
-      setIsLoadingHistory(true);
-      try {
-        const response = await fetch('/api/chats');
-        if (response.ok) {
-          const chats = await response.json();
-          setChatHistory(chats);
-        }
-      } catch (error) {
-        console.error('Failed to load chat history:', error);
-      } finally {
-        setIsLoadingHistory(false);
-      }
-    };
-    
-    loadChatHistory();
-  }, [chatId]);
-
-  // Load existing chat messages if chatId is provided
+    if (messages.length > storeMessages.length) {
+      // New messages from AI
+      const newMessages = messages.slice(storeMessages.length);
+      newMessages.forEach(msg => addMessage(msg));
+    }
+  }, [messages, storeMessages, addMessage]);
+  
+  // Load existing chat messages
   useEffect(() => {
-    const loadChat = async () => {
-      if (!chatId || hasInitialized.current) return;
-      
-      try {
-        const response = await fetch(`/api/chats/${chatId}`);
-        if (response.ok) {
-          const chat = await response.json();
-          
-          // Convert database messages to UI messages
-          const uiMessages: Message[] = chat.messages.map((msg: any) => ({
-            id: msg.id,
-            role: msg.role as 'user' | 'assistant' | 'system',
-            content: msg.content || '',
-            createdAt: new Date(msg.createdAt),
-            ...(msg.toolCalls && { toolCalls: msg.toolCalls }),
-            ...(msg.toolResults && { toolResults: msg.toolResults }),
-          }));
-          
-          setMessages(uiMessages);
-          hasInitialized.current = true;
-        }
-      } catch (error) {
-        console.error('Failed to load chat:', error);
-      }
-    };
-    
-    loadChat();
-  }, [chatId, setMessages]);
-
+    if (chatId && currentChat && !hasInitialized.current) {
+      hasInitialized.current = true;
+    }
+  }, [chatId, currentChat]);
+  
   // Auto-scroll to bottom
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
-
-  const handleNewChat = () => {
-    router.push('/');
-  };
-
-  const handleDeleteChat = async (deleteChatId: string) => {
-    // Add confirmation dialog
+  
+  const handleNewChat = useCallback(async () => {
+    try {
+      const newChat = await createChat();
+      router.push(`/chat/${newChat.id}`);
+      refreshChats();
+    } catch (error) {
+      console.error('Failed to create new chat:', error);
+    }
+  }, [createChat, router, refreshChats]);
+  
+  const handleDeleteChat = useCallback(async (deleteChatId: string) => {
     const confirmDelete = window.confirm('Are you sure you want to delete this chat? This action cannot be undone.');
     
     if (!confirmDelete) {
@@ -127,73 +153,77 @@ export function ChatInterface({
     }
     
     try {
-      console.log('Deleting chat:', deleteChatId);
-      const response = await fetch(`/api/chats/${deleteChatId}`, {
-        method: 'DELETE',
-      });
+      await deleteChat(deleteChatId);
+      refreshChats();
       
-      if (response.ok) {
-        console.log('Chat deleted successfully');
-        // Refresh chat history
-        const historyResponse = await fetch('/api/chats');
-        if (historyResponse.ok) {
-          const chats = await historyResponse.json();
-          setChatHistory(chats);
-        }
-        
-        // If deleting current chat, go home
-        if (deleteChatId === chatId) {
-          router.push('/');
-        }
-      } else {
-        const error = await response.json();
-        console.error('Delete failed:', error);
-        alert('Failed to delete chat. Please try again.');
+      if (deleteChatId === chatId) {
+        router.push('/');
       }
     } catch (error) {
       console.error('Failed to delete chat:', error);
-      alert('An error occurred while deleting the chat. Please try again.');
+      alert('Failed to delete chat. Please try again.');
     }
-  };
-
-  const handleSendMessage = async (message: string, attachments?: File[]) => {
+  }, [deleteChat, refreshChats, chatId, router]);
+  
+  const handleSendMessage = useCallback(async (message: string, attachments?: File[]) => {
     console.log('[ChatInterface] Sending message:', message);
     
-    // If this is a new chat (no chatId), we need to handle the redirect after creation
-    const isNewChat = !chatId;
-    
-    sendMessage({ 
-      text: message,
-    });
-    
-    // For new chats, poll for the chat creation and redirect
-    if (isNewChat) {
-      setTimeout(async () => {
-        try {
-          const response = await fetch('/api/chats');
-          if (response.ok) {
-            const chats = await response.json();
-            if (chats.length > 0) {
-              const newestChat = chats[0]; // Chats are ordered by createdAt desc
-              console.log('New chat created:', newestChat.id);
-              setChatId(newestChat.id);
-              setChatHistory(chats);
-              router.push(`/chat/${newestChat.id}`);
+    // If this is a new chat (no chatId), create one first
+    if (!chatId) {
+      try {
+        const newChat = await createChat();
+        setCurrentChatId(newChat.id);
+        router.push(`/chat/${newChat.id}`);
+        
+        // Send message with new chat ID
+        sendMessage({ 
+          text: message,
+        });
+        
+        // Increment message count
+        incrementMessageCount(newChat.id);
+        
+        // Generate title after first message
+        setTimeout(async () => {
+          try {
+            const { text } = await generateText({
+              model: openai('gpt-4o'),
+              prompt: `Generate a short, concise title (max 5 words) for a chat that starts with: "${message}". Return only the title, no quotes or punctuation.`,
+            });
+            
+            const response = await fetch(`/api/chats/${newChat.id}/generate-title`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ title: text.trim() }),
+            });
+            
+            if (response.ok) {
+              updateChat(newChat.id, { title: text.trim() });
+              refreshChats();
             }
+          } catch (error) {
+            console.error('Failed to generate title:', error);
           }
-        } catch (error) {
-          console.error('Failed to check for new chat:', error);
-        }
-      }, 1000); // Check after 1 second
+        }, 100);
+      } catch (error) {
+        console.error('Failed to create chat:', error);
+        return;
+      }
+    } else {
+      sendMessage({ 
+        text: message,
+      });
+      
+      incrementMessageCount(chatId);
     }
     
-    console.log('[ChatInterface] Message sent, current messages:', messages);
-  };
-
+    refreshChats();
+  }, [chatId, createChat, setCurrentChatId, router, sendMessage, incrementMessageCount, updateChat, refreshChats]);
+  
   const handleSettingsChange = (newSettings: typeof chatSettings) => {
     setChatSettings(newSettings);
   };
-
+  
   return (
     <div className={cn('flex h-screen bg-gray-50 dark:bg-gray-900', className)}>
       {/* Sidebar */}
@@ -219,14 +249,8 @@ export function ChatInterface({
           
           <div className="flex-1 overflow-y-auto p-3">
             <div className="space-y-2">
-              {isLoadingHistory ? (
-                <div className="space-y-2">
-                  {[1, 2, 3].map(i => (
-                    <div key={i} className="h-16 rounded-lg bg-gray-100 dark:bg-gray-700 animate-pulse" />
-                  ))}
-                </div>
-              ) : chatHistory.length > 0 ? (
-                chatHistory.map((chat) => (
+              {chats.length > 0 ? (
+                chats.map((chat) => (
                   <div
                     key={chat.id}
                     className={cn(

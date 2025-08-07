@@ -30,17 +30,26 @@ export async function GET() {
 // POST /api/chats - Create a new chat
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const body = await request.json().catch(() => ({}));
     
     const chat = await prisma.chat.create({
       data: {
-        title: body.title || 'New Chat',
+        title: body.title || null,
         userId: body.userId,
         systemPrompt: body.systemPrompt,
         model: body.model || 'gpt-4o',
         temperature: body.temperature || 0.7,
         metadata: body.metadata || {},
       },
+      select: {
+        id: true,
+        title: true,
+        createdAt: true,
+        updatedAt: true,
+        _count: {
+          select: { messages: true }
+        }
+      }
     });
 
     return NextResponse.json(chat);

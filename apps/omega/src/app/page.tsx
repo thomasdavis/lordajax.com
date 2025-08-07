@@ -1,11 +1,11 @@
 'use client';
 
-import { ChatInterface } from '@/components/chat/ChatInterface';
+import { ChatLayout } from '@/components/chat/ChatLayout';
 
 export default function Home() {
   return (
     <main className="h-screen">
-      <ChatInterface />
+      <ChatLayout />
     </main>
   );
 }
