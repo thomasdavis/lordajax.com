@@ -84,88 +84,92 @@ export function ChatInput({
         </div>
       )}
       
-      <div className="relative px-4 py-3">
-        <div className={cn(
-          "relative flex items-end gap-2 rounded-2xl border-2 transition-all",
-          isFocused 
-            ? "border-violet-500 shadow-lg shadow-violet-500/20" 
-            : "border-gray-200 dark:border-gray-700",
-          isLoading && "opacity-50 pointer-events-none"
-        )}>
-          <textarea
-            ref={textareaRef}
-            value={input}
-            onChange={(e) => {
-              setInput(e.target.value);
-              adjustHeight();
-            }}
-            onKeyDown={handleKeyDown}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            placeholder={placeholder}
-            disabled={isLoading}
-            rows={1}
-            className="flex-1 max-h-[200px] resize-none bg-transparent px-4 py-3 text-sm outline-none placeholder:text-gray-400 dark:placeholder:text-gray-500"
+      <div className="px-4 py-3">
+        <div className="relative">
+          <div className={cn(
+            "relative flex items-end gap-2 rounded-2xl border-2 transition-all",
+            isFocused 
+              ? "border-violet-500 shadow-lg shadow-violet-500/20" 
+              : "border-gray-200 dark:border-gray-700",
+            isLoading && "opacity-50 pointer-events-none"
+          )}>
+            <textarea
+              ref={textareaRef}
+              value={input}
+              onChange={(e) => {
+                setInput(e.target.value);
+                adjustHeight();
+              }}
+              onKeyDown={handleKeyDown}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              placeholder={placeholder}
+              disabled={isLoading}
+              rows={1}
+              className="flex-1 max-h-[200px] resize-none bg-transparent px-4 py-3 text-sm outline-none placeholder:text-gray-400 dark:placeholder:text-gray-500"
+            />
+            
+            <div className="flex items-center gap-1 pb-3 pr-2">
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isLoading}
+                className="rounded-lg p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 transition-all"
+                title="Attach files"
+              >
+                <Paperclip className="h-4 w-4" />
+              </button>
+              
+              <button
+                onClick={toggleRecording}
+                disabled={isLoading}
+                className="rounded-lg p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 transition-all"
+                title={isRecording ? 'Stop recording' : 'Start recording'}
+              >
+                {isRecording ? (
+                  <StopCircle className="h-4 w-4 text-red-500 animate-pulse" />
+                ) : (
+                  <Mic className="h-4 w-4" />
+                )}
+              </button>
+              
+              <div className="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-1" />
+              
+              <button
+                onClick={handleSubmit}
+                disabled={isLoading || !input.trim()}
+                className={cn(
+                  "rounded-lg p-2 transition-all",
+                  input.trim() && !isLoading
+                    ? "bg-gradient-to-r from-violet-500 to-purple-600 text-white hover:shadow-lg hover:scale-105 shadow-md"
+                    : "bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed"
+                )}
+                title="Send message"
+              >
+                {isLoading ? (
+                  <Sparkles className="h-4 w-4 animate-pulse" />
+                ) : (
+                  <Send className="h-4 w-4" />
+                )}
+              </button>
+            </div>
+          </div>
+          
+          <input
+            ref={fileInputRef}
+            type="file"
+            multiple
+            onChange={handleFileSelect}
+            className="hidden"
           />
           
-          <div className="flex items-center gap-1 pb-3 pr-2">
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              disabled={isLoading}
-              className="rounded-lg p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 transition-all"
-              title="Attach files"
-            >
-              <Paperclip className="h-4 w-4" />
-            </button>
-            
-            <button
-              onClick={toggleRecording}
-              disabled={isLoading}
-              className="rounded-lg p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 transition-all"
-              title={isRecording ? 'Stop recording' : 'Start recording'}
-            >
-              {isRecording ? (
-                <StopCircle className="h-4 w-4 text-red-500 animate-pulse" />
-              ) : (
-                <Mic className="h-4 w-4" />
-              )}
-            </button>
-            
-            <div className="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-1" />
-            
-            <button
-              onClick={handleSubmit}
-              disabled={isLoading || !input.trim()}
-              className={cn(
-                "rounded-lg p-2 transition-all",
-                input.trim() && !isLoading
-                  ? "bg-gradient-to-r from-violet-500 to-purple-600 text-white hover:shadow-lg hover:scale-105 shadow-md"
-                  : "bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed"
-              )}
-              title="Send message"
-            >
-              {isLoading ? (
-                <Sparkles className="h-4 w-4 animate-pulse" />
-              ) : (
-                <Send className="h-4 w-4" />
-              )}
-            </button>
-          </div>
-        </div>
-        
-        <input
-          ref={fileInputRef}
-          type="file"
-          multiple
-          onChange={handleFileSelect}
-          className="hidden"
-        />
-        
-        {isFocused && (
-          <div className="absolute -bottom-6 left-4 text-xs text-gray-400 dark:text-gray-500">
+          {/* Hint text - positioned to not affect layout */}
+          <div className={cn(
+            "absolute left-0 top-full mt-1 text-xs text-gray-400 dark:text-gray-500 transition-opacity duration-200 pointer-events-none",
+            isFocused ? "opacity-100" : "opacity-0"
+          )}>
             Press Enter to send, Shift+Enter for new line
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
