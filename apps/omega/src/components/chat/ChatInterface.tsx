@@ -147,12 +147,21 @@ export function ChatInterface({
   };
 
   const handleDeleteChat = async (deleteChatId: string) => {
+    // Add confirmation dialog
+    const confirmDelete = window.confirm('Are you sure you want to delete this chat? This action cannot be undone.');
+    
+    if (!confirmDelete) {
+      return;
+    }
+    
     try {
+      console.log('Deleting chat:', deleteChatId);
       const response = await fetch(`/api/chats/${deleteChatId}`, {
         method: 'DELETE',
       });
       
       if (response.ok) {
+        console.log('Chat deleted successfully');
         // Refresh chat history
         const historyResponse = await fetch('/api/chats');
         if (historyResponse.ok) {
@@ -164,9 +173,14 @@ export function ChatInterface({
         if (deleteChatId === chatId) {
           router.push('/');
         }
+      } else {
+        const error = await response.json();
+        console.error('Delete failed:', error);
+        alert('Failed to delete chat. Please try again.');
       }
     } catch (error) {
       console.error('Failed to delete chat:', error);
+      alert('An error occurred while deleting the chat. Please try again.');
     }
   };
 

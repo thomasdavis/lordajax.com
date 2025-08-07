@@ -68,15 +68,33 @@ export async function DELETE(
   { params }: { params: { chatId: string } }
 ) {
   try {
+    console.log('Attempting to delete chat:', params.chatId);
+    
+    // First check if the chat exists
+    const existingChat = await prisma.chat.findUnique({
+      where: { id: params.chatId },
+    });
+    
+    if (!existingChat) {
+      console.log('Chat not found:', params.chatId);
+      return NextResponse.json(
+        { error: 'Chat not found' },
+        { status: 404 }
+      );
+    }
+    
+    // Delete the chat (messages will be cascade deleted)
     await prisma.chat.delete({
       where: { id: params.chatId },
     });
-
+    
+    console.log('Chat deleted successfully:', params.chatId);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Failed to delete chat:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
-      { error: 'Failed to delete chat' },
+      { error: 'Failed to delete chat', details: errorMessage },
       { status: 500 }
     );
   }
