@@ -18,6 +18,11 @@
   ],
   "posts": [
     {
+      "title": "Martian Fait Accompli",
+      "source": "./posts/Martian Fait Accompli.md",
+      "createdAt": "2025-11-01"
+    },
+    {
       "title": "Enhancing the MobTranslate Platform: UI Redesign and New Features",
       "source": "./posts/enhancing-the-mobtranslate-platform-ui-redesign-and-new-features.md",
       "createdAt": "2025-07-29"
