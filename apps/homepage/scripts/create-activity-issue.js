@@ -50,7 +50,7 @@ async function fetchRepositoryDetails(owner, repo) {
     try {
       const { data: readme } = await octokit.repos.getReadme({ owner, repo });
       const readmeContent = Buffer.from(readme.content, 'base64').toString('utf-8');
-      details.readme = readmeContent.slice(0, 2000); // First 2000 chars
+      details.readme = readmeContent.slice(0, 800); // First 800 chars
     } catch (e) {}
 
     // Get package.json
@@ -64,17 +64,7 @@ async function fetchRepositoryDetails(owner, repo) {
       details.packageJson = JSON.parse(packageContent);
     } catch (e) {}
 
-    // Get recent files structure
-    try {
-      const { data: contents } = await octokit.repos.getContent({
-        owner,
-        repo,
-        path: '',
-      });
-      details.structure = contents.filter(item => item.type === 'file' || item.type === 'dir')
-        .map(item => ({ name: item.name, type: item.type }))
-        .slice(0, 15);
-    } catch (e) {}
+    // Skip file structure to save space
 
     return details;
   } catch (error) {
@@ -100,11 +90,12 @@ async function fetchCommitCode(owner, repo, sha) {
       !file.filename.includes('node_modules')
     );
 
-    for (const file of importantFiles.slice(0, 3)) {
+    // Limit to 2 files with shorter patches
+    for (const file of importantFiles.slice(0, 2)) {
       if (file.patch) {
         codeSnippets.push({
           filename: file.filename,
-          patch: file.patch,
+          patch: file.patch.slice(0, 300), // Limit patch size
           additions: file.additions,
           deletions: file.deletions,
           status: file.status,
@@ -350,14 +341,9 @@ This might be a good opportunity to write about a technical topic, tool, or conc
         markdown += `<details>\n<summary>README Excerpt</summary>\n\n${details.readme}\n\n</details>\n\n`;
       }
 
-      if (details.packageJson) {
-        markdown += `**Package Info:**\n`;
-        markdown += `- Name: ${details.packageJson.name || 'N/A'}\n`;
-        markdown += `- Version: ${details.packageJson.version || 'N/A'}\n`;
-        if (details.packageJson.description) {
-          markdown += `- Description: ${details.packageJson.description}\n`;
-        }
-        markdown += `\n`;
+      // Simplified package info
+      if (details.packageJson && details.packageJson.name) {
+        markdown += `**Package:** ${details.packageJson.name}\n\n`;
       }
     }
 
@@ -366,27 +352,29 @@ This might be a good opportunity to write about a technical topic, tool, or conc
     acts.forEach(activity => {
       if (activity.type === 'commits' || activity.type === 'recent_commits') {
         markdown += `\n- **${activity.count} commits** ${activity.branch ? `to \`${activity.branch}\`` : ''}\n`;
-        markdown += `  Commit messages:\n`;
-        activity.messages.slice(0, 5).forEach(msg => {
+        // Limit to 3 commit messages
+        activity.messages.slice(0, 3).forEach(msg => {
           markdown += `  - "${msg}"\n`;
         });
 
         if (activity.codeSnippets && activity.codeSnippets.length > 0) {
           markdown += `\n  **Code Changes:**\n`;
           activity.codeSnippets.forEach(snippet => {
-            markdown += `\n  **${snippet.filename}** (${snippet.status}, +${snippet.additions} -${snippet.deletions})\n`;
-            markdown += `  \`\`\`diff\n${snippet.patch.slice(0, 500)}\n  \`\`\`\n`;
+            markdown += `\n  **${snippet.filename}** (+${snippet.additions} -${snippet.deletions})\n`;
+            markdown += `  \`\`\`diff\n${snippet.patch}\n  \`\`\`\n`;
           });
         }
       } else if (activity.type === 'created') {
         markdown += `\n- Created ${activity.ref_type}: ${activity.ref || 'repository'}\n`;
       } else if (activity.type === 'pr') {
         markdown += `\n- Pull Request ${activity.action}: [${activity.title}](${activity.url})\n`;
+        // Limit PR body to 100 chars
         if (activity.body) {
-          markdown += `  ${activity.body.slice(0, 200)}...\n`;
+          markdown += `  ${activity.body.slice(0, 100)}...\n`;
         }
       } else if (activity.type === 'issue') {
         markdown += `\n- Issue ${activity.action}: [${activity.title}](${activity.url})\n`;
+        // Skip issue body to save space
       }
     });
 
