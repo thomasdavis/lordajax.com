@@ -123,26 +123,18 @@ async function fetchGitHubActivity(username, sinceDate) {
     const activities = [];
     const repoDetails = new Map();
 
-    // Fetch recent events - this gets ALL activity including from orgs
+    // Fetch recent events - public events covers all public activity across orgs
     let events = [];
     try {
-      // Use the authenticated user endpoint (no username param needed)
-      const response = await octokit.activity.listEventsForAuthenticatedUser({
+      const response = await octokit.activity.listPublicEventsForUser({
+        username,
         per_page: 100,
       });
       events = response.data || [];
+      console.log(`Fetched ${events.length} total events for user ${username}`);
     } catch (error) {
-      console.error('Error with authenticated events, falling back to public:', error.message);
-      try {
-        const response = await octokit.activity.listPublicEventsForUser({
-          username,
-          per_page: 100,
-        });
-        events = response.data || [];
-      } catch (fallbackError) {
-        console.error('Error with public events:', fallbackError.message);
-        events = [];
-      }
+      console.error('Error fetching public events:', error.message);
+      events = [];
     }
 
     // Filter events from the past week
