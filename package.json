@@ -7,6 +7,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "@jsonblog/cli": "^3.1.0",
+    "@jsonblog/generator-tailwind": "^2.0.0",
     "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
     "prettier": "^2.5.1",
