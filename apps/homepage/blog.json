@@ -18,6 +18,11 @@
   ],
   "posts": [
     {
+      "title": "Weekly Activity: Automating Workflows with Claude Code and AI Agents",
+      "source": "./posts/weekly-activity-automating-workflows-with-claude-code-and-ai-agents.md",
+      "createdAt": "2025-11-20"
+    },
+    {
       "title": "Mastering Asynchronous JavaScript with Promises, Async/Await, and Generators",
       "source": "./posts/mastering-asynchronous-javascript-with-promises-async-await-and-generators.md",
       "createdAt": "2025-11-20"
