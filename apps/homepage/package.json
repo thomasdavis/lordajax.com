@@ -3,14 +3,18 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "npx @jsonblog/cli@latest serve blog.json",
-    "build": "npx @jsonblog/cli@latest build blog.json",
+    "dev": "jsonblog serve blog.json",
+    "build": "jsonblog build blog.json",
     "generate-post": "node scripts/generate-blog-post.js"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^0.0.70",
     "@octokit/rest": "^20.0.2",
-    "dotenv": "^16.6.1",
     "ai": "^3.4.0",
-    "@ai-sdk/openai": "^0.0.70"
+    "dotenv": "^16.6.1"
+  },
+  "devDependencies": {
+    "@jsonblog/cli": "^3.1.0",
+    "@jsonblog/generator-tailwind": "^2.0.0"
   }
 }

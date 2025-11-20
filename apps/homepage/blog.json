@@ -3,6 +3,9 @@
     "title": "Lord Ajax",
     "description": "i write software and shitty poetry"
   },
+  "generator": {
+    "name": "@jsonblog/generator-tailwind"
+  },
   "basics": {
     "name": "Lord Ajax"
   },
