@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "npx jsonblog-cli@2.3.1 serve blog.json",
-    "build": "npx jsonblog-cli@2.3.1  build blog.json",
+    "dev": "npx @jsonblog/cli@3.0.0 serve blog.json",
+    "build": "npx @jsonblog/cli@3.0.0 build blog.json",
     "generate-post": "node scripts/generate-blog-post.js"
   },
   "dependencies": {
