@@ -15,6 +15,6 @@
   },
   "devDependencies": {
     "@jsonblog/cli": "^3.1.0",
-    "@jsonblog/generator-tailwind": "^2.2.0"
+    "@jsonblog/generator-tailwind": "^3.0.0"
   }
 }
