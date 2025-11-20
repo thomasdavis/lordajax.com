@@ -12,12 +12,6 @@ importers:
         specifier: ^16.0.3
         version: 16.6.1
     devDependencies:
-      '@jsonblog/cli':
-        specifier: ^3.1.0
-        version: 3.1.0
-      '@jsonblog/generator-tailwind':
-        specifier: ^2.0.0
-        version: 2.0.0
       eslint:
         specifier: ^7.32.0
         version: 7.32.0
