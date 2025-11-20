@@ -401,12 +401,7 @@ Please create a comprehensive technical blog post based on the GitHub activity a
 
 ### Content Requirements:
 1. **Title Format:** Start with "Weekly Activity: " followed by a descriptive subtitle about the main focus
-2. **Metadata:** Include the following immediately after the title:
-   \`\`\`
-   **text:** human
-   **code:** AI
-   \`\`\`
-3. **Content Style:**
+2. **Content Style:**
    - Technical and comprehensive, explaining both what AND why
    - Heavy use of code examples from actual implementations (shown above)
    - Include links to GitHub repos, npm packages, documentation
@@ -417,7 +412,7 @@ Please create a comprehensive technical blog post based on the GitHub activity a
    - Reference dependencies and explain why they were chosen
    - Write as if teaching other developers
 
-4. **Structure:**
+3. **Structure:**
    - Introduction: Brief overview of what was worked on this week
    - Main sections: Deep dive into the most significant projects/work
    - Code examples: Use the actual code snippets provided above
@@ -427,16 +422,13 @@ Please create a comprehensive technical blog post based on the GitHub activity a
 ### Implementation Steps:
 1. Create a new markdown file in \`apps/homepage/posts/\` with a slugified filename
 2. Write the blog post content following the format and style above
-3. Update \`apps/homepage/blog.json\` to add the new post entry at the beginning of the posts array
+3. Update \`apps/homepage/blog.json\` to add the new post entry at the beginning of the posts array with \`"type": "ai"\`
 4. Ensure the post has proper formatting and all links work
 5. Create a pull request with your changes and label it "activity-post"
 
 ### Example Post Structure:
 \`\`\`markdown
 # Weekly Activity: [Descriptive Subtitle]
-
-**text:** human
-**code:** AI
 
 This week I focused on [main theme]...
 

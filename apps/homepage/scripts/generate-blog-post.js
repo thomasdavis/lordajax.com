@@ -446,17 +446,11 @@ ${activitySummary}
 Format:
 # Weekly Activity: [Clear, Descriptive Subtitle]
 
-**text:** human
-**code:** AI
-
 [Comprehensive technical content with code blocks, links, and examples]`
     : `Write a technical blog post about a specific programming concept, tool, or technique that would interest other developers. Make it practical with code examples.
 
 Format:
 # Weekly Activity: [Technical Subtitle]
-
-**text:** human
-**code:** AI
 
 [Technical content with examples]`;
 
@@ -500,6 +494,7 @@ function updateBlogJson(filename, title) {
     title: title,
     source: `./posts/${filename}`,
     createdAt: getCurrentDate(),
+    type: 'ai',
   };
   
   // Add to beginning of posts array
