@@ -28,7 +28,7 @@ jobs:
           version: 7.15.0
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --network-timeout 300000
 
       - name: Create activity issue
         env:
