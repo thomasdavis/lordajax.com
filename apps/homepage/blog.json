@@ -18,6 +18,11 @@
   ],
   "posts": [
     {
+      "title": "Weekly Activity: Optimizing Monorepo Development with Turborepo and pnpm",
+      "source": "./posts/weekly-activity-2025-11-13-to-2025-11-20.md",
+      "createdAt": "2025-11-20"
+    },
+    {
       "title": "Mastering Asynchronous JavaScript with Promises, Async/Await, and Generators",
       "source": "./posts/mastering-asynchronous-javascript-with-promises-async-await-and-generators.md",
       "createdAt": "2025-11-20"
