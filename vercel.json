@@ -2,5 +2,5 @@
   "buildCommand": "pnpm build",
   "installCommand": "pnpm install",
   "framework": null,
-  "outputDirectory": "apps/homepage/docs"
+  "outputDirectory": "apps/homepage/build"
 }
