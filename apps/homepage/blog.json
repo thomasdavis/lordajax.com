@@ -18,6 +18,11 @@
   ],
   "posts": [
     {
+      "title": "Mastering Asynchronous JavaScript with Promises, Async/Await, and Generators",
+      "source": "./posts/mastering-asynchronous-javascript-with-promises-async-await-and-generators.md",
+      "createdAt": "2025-11-20"
+    },
+    {
       "title": "Martian Fait Accompli",
       "source": "./posts/Martian Fait Accompli.md",
       "createdAt": "2025-11-01"
