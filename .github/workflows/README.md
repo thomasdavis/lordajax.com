@@ -1,51 +1,198 @@
-# Auto Blog Post Generator Setup
+# @claude-Powered Weekly Activity Blog Posts
 
-This GitHub Action automatically generates blog posts every 2 weeks based on your GitHub activity or writes Nietzsche-inspired reflections if no activity is found.
+This repository uses GitHub Actions and the @claude GitHub App to automatically generate weekly blog posts based on your GitHub activity.
 
-## Required GitHub Secrets
+## How It Works
+
+### The Workflow
+
+1. **Every Sunday at 10am UTC**: The `create-weekly-activity-issue.yml` workflow runs automatically
+2. **Activity Collection**: The workflow collects your GitHub activity from the past 7 days including:
+   - Commits and code changes
+   - Pull requests
+   - Issues
+   - New repositories
+   - Starred repositories
+   - Repository details (README, package.json, file structure)
+3. **Issue Creation**: Creates a GitHub issue with structured activity data and tags @claude
+4. **@claude Takes Over**: The @claude GitHub App reads the issue and:
+   - Analyzes the activity and code changes
+   - Creates a comprehensive technical blog post
+   - Adds a new markdown file to `apps/homepage/posts/`
+   - Updates `blog.json` with the new post entry
+   - Creates a pull request with the "activity-post" label
+5. **Auto-Merge**: The `auto-merge-activity-pr.yml` workflow:
+   - Verifies the build passes
+   - Auto-approves the PR
+   - Auto-merges it to master
+   - Deletes the branch
+
+## Required Setup
+
+### 1. GitHub App (@claude)
+
+The @claude GitHub App must be installed on your repository:
+- Go to https://github.com/apps/claude
+- Install it for this repository
+- Grant it appropriate permissions (read/write for code, issues, PRs)
+
+### 2. GitHub Secrets
 
 You need to add the following secrets to your repository:
 
-### 1. OPENAI_API_KEY
-
-1. Go to your repository on GitHub
-2. Click on **Settings** → **Secrets and variables** → **Actions**
-3. Click **New repository secret**
-4. Add:
-   - Name: `OPENAI_API_KEY`
-   - Value: Your OpenAI API key (get one from https://platform.openai.com/api-keys)
-
-### 2. GH_ACCESS_TOKEN
+#### GH_ACCESS_TOKEN
 
 1. Create a GitHub Personal Access Token:
    - Go to https://github.com/settings/tokens
    - Click "Generate new token (classic)"
-   - Give it a name like "Auto Blog Post Generator"
-   - Select scopes: `repo` (full control) and `read:user`
+   - Give it a name like "Weekly Activity Bot"
+   - Select scopes: `repo` (full control), `read:user`, and `write:discussion`
    - Generate and copy the token
+
 2. Add it as a repository secret:
+   - Go to **Settings** → **Secrets and variables** → **Actions**
+   - Click **New repository secret**
    - Name: `GH_ACCESS_TOKEN`
    - Value: Your GitHub Personal Access Token
 
-## How It Works
+#### GITHUB_TOKEN
 
-The workflow runs every 2 weeks on Sunday at 10am UTC and:
+This is automatically provided by GitHub Actions, but ensure your workflow has the right permissions (already configured).
 
-1. Fetches your GitHub activity from the past 2 weeks (commits, PRs, issues, starred repos)
-2. If activity is found: Generates a technical blog post reflecting on your work
-3. If no activity: Writes a Nietzsche-inspired philosophical reflection on software creation
-4. Automatically commits the new post to your repository
-5. Rebuilds the blog with the new content
+## Workflows
 
-## Manual Trigger
+### create-weekly-activity-issue.yml
 
-You can also manually trigger the workflow:
-1. Go to the **Actions** tab in your repository
-2. Select "Auto Generate Blog Post"
+**Trigger:** Cron schedule (every Sunday at 10am UTC) + manual dispatch
+
+**What it does:**
+- Collects GitHub activity from the past week
+- Analyzes repository details, code changes, and commit messages
+- Creates a GitHub issue with formatted activity data
+- Tags @claude with instructions for blog post creation
+
+**Manual trigger:**
+1. Go to **Actions** tab
+2. Select "Create Weekly Activity Issue"
 3. Click "Run workflow"
+
+### auto-merge-activity-pr.yml
+
+**Trigger:** Pull request opened/updated with "activity-post" label or title starting with "Weekly Activity"
+
+**What it does:**
+- Runs build verification (`pnpm build`)
+- Validates blog.json syntax
+- Checks for new blog post files
+- Auto-approves the PR if build passes
+- Enables auto-merge
+- Comments with status
+
+**Safety Features:**
+- Only runs for PRs with specific criteria
+- Requires build to pass before merging
+- Validates JSON syntax
+- Verifies new blog post exists
+
+## Blog Post Format
+
+All activity posts follow this format:
+
+```markdown
+# Weekly Activity: [Descriptive Subtitle]
+
+**text:** human
+**code:** AI
+
+[Technical content with code examples, links, and explanations]
+```
+
+**Title Convention:** Posts start with "Weekly Activity: " to distinguish them from manually written essays and articles.
 
 ## Customization
 
-- **Frequency**: Edit the cron schedule in `.github/workflows/auto-blog-post.yml`
-- **AI Model**: Update the model in `apps/homepage/scripts/generate-blog-post.js` (currently uses GPT-4, will use o3 when available)
-- **Writing Style**: Modify the prompts in the script to adjust tone and content
+### Change Schedule
+
+Edit the cron schedule in `.github/workflows/create-weekly-activity-issue.yml`:
+
+```yaml
+schedule:
+  - cron: '0 10 * * 0'  # Sunday at 10am UTC
+```
+
+### Adjust Activity Window
+
+Modify the date range in `apps/homepage/scripts/create-activity-issue.js`:
+
+```javascript
+const getDateRange = () => {
+  const endDate = new Date();
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - 7);  // Change -7 to different number of days
+  // ...
+}
+```
+
+### Customize Blog Post Style
+
+The blog post style and content is generated by @claude based on the instructions in the GitHub issue. To customize:
+
+1. Edit the issue template in `create-activity-issue.js`
+2. Modify the "Instructions for @claude" section
+3. Adjust content requirements, structure, or style guidelines
+
+## Troubleshooting
+
+### Issue not created
+
+- Check that `GH_ACCESS_TOKEN` secret is set correctly
+- Verify the token has `repo` and `write:discussion` scopes
+- Check workflow logs in the Actions tab
+
+### @claude didn't respond to the issue
+
+- Ensure @claude GitHub App is installed on the repository
+- Verify the @claude mention is in the issue body
+- Check that the issue has the correct labels
+
+### PR not auto-merging
+
+- Verify PR has "activity-post" label or title starts with "Weekly Activity"
+- Check that build passes (view workflow logs)
+- Ensure `GITHUB_TOKEN` has proper permissions
+- Look for error comments on the PR
+
+### Build fails
+
+- Check that blog.json is valid JSON
+- Verify markdown files are properly formatted
+- Review `pnpm build` output in workflow logs
+
+## Architecture
+
+### Scripts
+
+- **`create-activity-issue.js`**: Collects GitHub activity and creates issues for @claude
+- **`generate-blog-post.js`**: Reference script that @claude can use or adapt (can also be run manually)
+
+### Workflow Files
+
+- **`create-weekly-activity-issue.yml`**: Weekly cron job to create activity issues
+- **`auto-merge-activity-pr.yml`**: Automated PR verification and merging
+
+### Dependencies
+
+The workflows use:
+- Node.js 20
+- pnpm 8
+- GitHub Actions (checkout, setup-node, pnpm/action-setup)
+- @claude GitHub App
+
+## Benefits of This Approach
+
+1. **Human Oversight**: Issues created for review before blog post generation
+2. **Quality Control**: Build verification before auto-merge
+3. **Flexibility**: @claude can adapt content style and handle edge cases
+4. **Transparency**: All changes go through PRs with visible diffs
+5. **Safety**: Auto-merge only for verified activity posts
+6. **Customization**: Easy to adjust prompts and instructions for different post styles

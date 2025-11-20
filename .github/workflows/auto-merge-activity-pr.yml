@@ -1,0 +1,103 @@
+name: Auto-Merge Activity Post PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - master
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    # Only run if PR has the "activity-post" label or title starts with "Weekly Activity"
+    if: |
+      contains(github.event.pull_request.labels.*.name, 'activity-post') ||
+      startsWith(github.event.pull_request.title, 'Weekly Activity')
+
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build homepage
+        run: |
+          cd apps/homepage
+          pnpm build
+
+      - name: Verify blog.json is valid
+        run: |
+          cd apps/homepage
+          node -e "JSON.parse(require('fs').readFileSync('blog.json', 'utf8'))"
+          echo "✅ blog.json is valid JSON"
+
+      - name: Check for new blog post
+        id: check-post
+        run: |
+          cd apps/homepage
+          # Check if there are new markdown files in posts/
+          if git diff --name-only ${{ github.event.pull_request.base.sha }} HEAD | grep -q "apps/homepage/posts/.*\.md"; then
+            echo "has_post=true" >> $GITHUB_OUTPUT
+            echo "✅ Found new blog post markdown file"
+          else
+            echo "has_post=false" >> $GITHUB_OUTPUT
+            echo "⚠️  No new blog post found"
+          fi
+
+      - name: Auto-approve PR
+        if: steps.check-post.outputs.has_post == 'true'
+        uses: hmarr/auto-approve-action@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable auto-merge
+        if: steps.check-post.outputs.has_post == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge ${{ github.event.pull_request.number }} \
+            --merge \
+            --auto \
+            --delete-branch
+
+      - name: Add success comment
+        if: steps.check-post.outputs.has_post == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ Build successful! This PR will be automatically merged. Thanks @claude!'
+            })
+
+      - name: Build failed comment
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '❌ Build failed. Please review the workflow logs and fix any issues before merging.'
+            })

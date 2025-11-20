@@ -444,7 +444,7 @@ Full activity details:
 ${activitySummary}
 
 Format:
-# [Clear, Descriptive Title]
+# Weekly Activity: [Clear, Descriptive Subtitle]
 
 **text:** human
 **code:** AI
@@ -453,7 +453,7 @@ Format:
     : `Write a technical blog post about a specific programming concept, tool, or technique that would interest other developers. Make it practical with code examples.
 
 Format:
-# [Technical Title]
+# Weekly Activity: [Technical Subtitle]
 
 **text:** human
 **code:** AI
