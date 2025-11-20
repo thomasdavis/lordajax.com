@@ -123,20 +123,26 @@ async function fetchGitHubActivity(username, sinceDate) {
     const activities = [];
     const repoDetails = new Map();
 
-    // Fetch recent events
+    // Fetch recent events - this gets ALL activity including from orgs
     let events = [];
     try {
+      // Use the authenticated user endpoint (no username param needed)
       const response = await octokit.activity.listEventsForAuthenticatedUser({
-        username,
         per_page: 100,
       });
-      events = response.data;
+      events = response.data || [];
     } catch (error) {
-      const response = await octokit.activity.listPublicEventsForUser({
-        username,
-        per_page: 100,
-      });
-      events = response.data;
+      console.error('Error with authenticated events, falling back to public:', error.message);
+      try {
+        const response = await octokit.activity.listPublicEventsForUser({
+          username,
+          per_page: 100,
+        });
+        events = response.data || [];
+      } catch (fallbackError) {
+        console.error('Error with public events:', fallbackError.message);
+        events = [];
+      }
     }
 
     // Filter events from the past week
@@ -159,12 +165,15 @@ async function fetchGitHubActivity(username, sinceDate) {
         const latestCommitSha = event.payload.head;
         const codeSnippets = await fetchCommitCode(owner, repoName, latestCommitSha);
 
+        // Safely handle commits array
+        const commits = event.payload.commits || [];
+
         activities.push({
           type: 'commits',
           repo: event.repo.name,
-          count: event.payload.commits.length,
-          messages: event.payload.commits.map(c => c.message),
-          branch: event.payload.ref.replace('refs/heads/', ''),
+          count: commits.length,
+          messages: commits.map(c => c.message),
+          branch: event.payload.ref ? event.payload.ref.replace('refs/heads/', '') : 'unknown',
           codeSnippets: codeSnippets,
           repoDetails: repoDetails.get(event.repo.name),
         });
