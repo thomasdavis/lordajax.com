@@ -24,17 +24,6 @@
       "type": "ai"
     },
     {
-      "title": "Mastering Asynchronous JavaScript with Promises, Async/Await, and Generators",
-      "source": "./posts/mastering-asynchronous-javascript-with-promises-async-await-and-generators.md",
-      "createdAt": "2025-11-20",
-      "type": "ai"
-    },
-    {
-      "title": "Martian Fait Accompli",
-      "source": "./posts/Martian Fait Accompli.md",
-      "createdAt": "2025-11-01"
-    },
-    {
       "title": "Enhancing the MobTranslate Platform: UI Redesign and New Features",
       "source": "./posts/enhancing-the-mobtranslate-platform-ui-redesign-and-new-features.md",
       "createdAt": "2025-07-29",
@@ -49,12 +38,6 @@
     {
       "title": "Introducing IFeelGood: A Mobile-First Food & Calorie Tracker",
       "source": "./posts/introducing-ifeelgood-a-mobile-first-food-calorie-tracker.md",
-      "createdAt": "2025-07-22",
-      "type": "ai"
-    },
-    {
-      "title": "Enhancements in `llm-benchmark`: Improved CLI and Debug Logging",
-      "source": "./posts/enhancements-in-llm-benchmark-improved-cli-and-debug-logging.md",
       "createdAt": "2025-07-22",
       "type": "ai"
     },
