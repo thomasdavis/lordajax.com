@@ -18,6 +18,12 @@
   ],
   "posts": [
     {
+      "title": "Weekly Activity: Evolving Open Source Ecosystems - JsonBlog and Blocks",
+      "source": "./posts/weekly-activity-evolving-open-source-ecosystems-jsonblog-and-blocks.md",
+      "createdAt": "2025-11-20",
+      "type": "ai"
+    },
+    {
       "title": "Weekly Activity: Automating Workflows with Claude Code and AI Agents",
       "source": "./posts/weekly-activity-automating-workflows-with-claude-code-and-ai-agents.md",
       "createdAt": "2025-11-20"
