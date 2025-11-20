@@ -20,12 +20,14 @@
     {
       "title": "Weekly Activity: Automating Workflows with Claude Code and AI Agents",
       "source": "./posts/weekly-activity-automating-workflows-with-claude-code-and-ai-agents.md",
-      "createdAt": "2025-11-20"
+      "createdAt": "2025-11-20",
+      "type": "ai"
     },
     {
       "title": "Mastering Asynchronous JavaScript with Promises, Async/Await, and Generators",
       "source": "./posts/mastering-asynchronous-javascript-with-promises-async-await-and-generators.md",
-      "createdAt": "2025-11-20"
+      "createdAt": "2025-11-20",
+      "type": "ai"
     },
     {
       "title": "Martian Fait Accompli",
@@ -35,22 +37,26 @@
     {
       "title": "Enhancing the MobTranslate Platform: UI Redesign and New Features",
       "source": "./posts/enhancing-the-mobtranslate-platform-ui-redesign-and-new-features.md",
-      "createdAt": "2025-07-29"
+      "createdAt": "2025-07-29",
+      "type": "ai"
     },
     {
       "title": "Introducing LLM-Benchmark: A Comprehensive Update on Recent Enhancements",
       "source": "./posts/introducing-llm-benchmark-a-comprehensive-update-on-recent-enhancements.md",
-      "createdAt": "2025-07-29"
+      "createdAt": "2025-07-29",
+      "type": "ai"
     },
     {
       "title": "Introducing IFeelGood: A Mobile-First Food & Calorie Tracker",
       "source": "./posts/introducing-ifeelgood-a-mobile-first-food-calorie-tracker.md",
-      "createdAt": "2025-07-22"
+      "createdAt": "2025-07-22",
+      "type": "ai"
     },
     {
       "title": "Enhancements in `llm-benchmark`: Improved CLI and Debug Logging",
       "source": "./posts/enhancements-in-llm-benchmark-improved-cli-and-debug-logging.md",
-      "createdAt": "2025-07-22"
+      "createdAt": "2025-07-22",
+      "type": "ai"
     },
     {
       "title": "Social networks should start translating all posts in an omni-directional way",
