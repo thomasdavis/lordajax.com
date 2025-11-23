@@ -21,6 +21,12 @@
   ],
   "posts": [
     {
+      "title": "Weekly Activity: Building Collaborative AI Systems with Real-Time Document Editing",
+      "source": "./posts/weekly-activity-building-collaborative-ai-systems.md",
+      "createdAt": "2025-11-23",
+      "type": "ai"
+    },
+    {
       "title": "Weekly Activity: Automating Workflows with Claude Code and AI Agents",
       "source": "./posts/weekly-activity-automating-workflows-with-claude-code-and-ai-agents.md",
       "createdAt": "2025-11-20",
