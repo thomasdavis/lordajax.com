@@ -21,6 +21,12 @@
   ],
   "posts": [
     {
+      "title": "Weekly Activity: AI Tooling, Visual Validation, and Self-Coding Agents",
+      "source": "./posts/weekly-activity-ai-tooling-visual-validation-and-self-coding-agents.md",
+      "createdAt": "2025-11-26",
+      "type": "ai"
+    },
+    {
       "title": "Weekly Activity: Automating Workflows with Claude Code and AI Agents",
       "source": "./posts/weekly-activity-automating-workflows-with-claude-code-and-ai-agents.md",
       "createdAt": "2025-11-20",
