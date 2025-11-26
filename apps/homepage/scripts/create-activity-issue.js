@@ -38,6 +38,11 @@ async function fetchRepositoryDetails(owner, repo) {
     // Get repository info
     try {
       const { data: repoData } = await octokit.repos.get({ owner, repo });
+      // Skip private repositories
+      if (repoData.private) {
+        console.log(`Skipping private repository: ${owner}/${repo}`);
+        return null;
+      }
       details.description = repoData.description;
       details.topics = repoData.topics || [];
       details.homepage = repoData.homepage;
@@ -159,7 +164,13 @@ async function fetchGitHubActivity(username, sinceDate) {
           const details = await fetchRepositoryDetails(owner, repoName);
           if (details) {
             repoDetails.set(event.repo.name, details);
+          } else {
+            // Skip this event if repo is private or inaccessible
+            continue;
           }
+        } else if (!repoDetails.get(event.repo.name)) {
+          // Already checked and found to be private
+          continue;
         }
 
         const latestCommitSha = event.payload.head;
@@ -184,7 +195,13 @@ async function fetchGitHubActivity(username, sinceDate) {
           const details = await fetchRepositoryDetails(owner, repoName);
           if (details) {
             repoDetails.set(event.repo.name, details);
+          } else {
+            // Skip this event if repo is private or inaccessible
+            continue;
           }
+        } else if (!repoDetails.get(event.repo.name)) {
+          // Already checked and found to be private
+          continue;
         }
 
         activities.push({
@@ -247,6 +264,12 @@ async function fetchGitHubActivity(username, sinceDate) {
       });
 
       for (const repo of repos) {
+        // Skip private repositories
+        if (repo.private) {
+          console.log(`Skipping private repository: ${repo.full_name}`);
+          continue;
+        }
+
         if (new Date(repo.pushed_at) > new Date(sinceDate)) {
           try {
             const { data: commits } = await octokit.repos.listCommits({
@@ -260,15 +283,15 @@ async function fetchGitHubActivity(username, sinceDate) {
               const details = await fetchRepositoryDetails(repo.owner.login, repo.name);
               if (details) {
                 repoDetails.set(repo.full_name, details);
-              }
 
-              activities.push({
-                type: 'recent_commits',
-                repo: repo.full_name,
-                count: commits.length,
-                messages: commits.map(c => c.commit.message),
-                repoDetails: details,
-              });
+                activities.push({
+                  type: 'recent_commits',
+                  repo: repo.full_name,
+                  count: commits.length,
+                  messages: commits.map(c => c.commit.message),
+                  repoDetails: details,
+                });
+              }
             }
           } catch (e) {
             // Skip if we can't access commits

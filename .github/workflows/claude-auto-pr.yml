@@ -38,6 +38,7 @@ jobs:
           fi
 
       - name: Create PR if it doesn't exist
+        id: create_pr
         if: steps.check_pr.outputs.pr_exists == ''
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -92,11 +93,76 @@ EOF
           fi
 
           # Create the PR
-          gh pr create \
+          PR_URL=$(gh pr create \
             --head "${{ steps.extract.outputs.branch }}" \
             --base master \
             --title "$TITLE" \
             --body "$BODY" \
-            --label "automated"
+            --label "automated")
 
-          echo "✅ PR created successfully"
+          echo "✅ PR created successfully: $PR_URL"
+
+          # Extract PR number from URL
+          PR_NUMBER=$(echo "$PR_URL" | grep -oP '\d+$')
+          echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
+
+      - name: Wait for checks to complete
+        if: steps.check_pr.outputs.pr_exists == ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER="${{ steps.create_pr.outputs.pr_number }}"
+          echo "⏳ Waiting for checks to complete on PR #$PR_NUMBER..."
+
+          # Wait up to 5 minutes for checks to complete
+          TIMEOUT=300
+          ELAPSED=0
+          INTERVAL=10
+
+          while [ $ELAPSED -lt $TIMEOUT ]; do
+            # Get check status
+            STATUS=$(gh pr view "$PR_NUMBER" --json statusCheckRollup --jq '.statusCheckRollup | length')
+
+            if [ "$STATUS" = "0" ]; then
+              echo "No checks required, proceeding with merge"
+              break
+            fi
+
+            # Check if all checks passed
+            FAILED=$(gh pr view "$PR_NUMBER" --json statusCheckRollup --jq '[.statusCheckRollup[] | select(.conclusion == "FAILURE" or .conclusion == "CANCELLED")] | length')
+            PENDING=$(gh pr view "$PR_NUMBER" --json statusCheckRollup --jq '[.statusCheckRollup[] | select(.conclusion == null or .conclusion == "PENDING" or .conclusion == "IN_PROGRESS")] | length')
+
+            if [ "$FAILED" != "0" ]; then
+              echo "❌ Checks failed, will not auto-merge"
+              exit 1
+            fi
+
+            if [ "$PENDING" = "0" ]; then
+              echo "✅ All checks passed"
+              break
+            fi
+
+            echo "Still waiting for $PENDING checks... ($ELAPSED/$TIMEOUT seconds)"
+            sleep $INTERVAL
+            ELAPSED=$((ELAPSED + INTERVAL))
+          done
+
+          if [ $ELAPSED -ge $TIMEOUT ]; then
+            echo "⚠️  Timeout waiting for checks, will not auto-merge"
+            exit 1
+          fi
+
+      - name: Auto-merge PR
+        if: steps.check_pr.outputs.pr_exists == ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER="${{ steps.create_pr.outputs.pr_number }}"
+          echo "🔀 Auto-merging PR #$PR_NUMBER..."
+
+          gh pr merge "$PR_NUMBER" \
+            --merge \
+            --delete-branch \
+            --admin
+
+          echo "✅ PR merged and branch deleted successfully"
