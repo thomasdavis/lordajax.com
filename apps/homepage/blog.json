@@ -21,6 +21,12 @@
   ],
   "posts": [
     {
+      "title": "Weekly Activity: Visual Validation, Omega Evolution, and GitHub Automation",
+      "source": "./posts/weekly-activity-visual-validation-omega-evolution-github-automation.md",
+      "createdAt": "2025-11-26",
+      "type": "ai"
+    },
+    {
       "title": "Weekly Activity: Automating Workflows with Claude Code and AI Agents",
       "source": "./posts/weekly-activity-automating-workflows-with-claude-code-and-ai-agents.md",
       "createdAt": "2025-11-20",
