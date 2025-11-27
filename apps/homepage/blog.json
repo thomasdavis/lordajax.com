@@ -17,6 +17,10 @@
     {
       "title": "Projects",
       "source": "./pages/projects.md"
+    },
+    {
+      "title": "Videos",
+      "source": "./pages/videos.md"
     }
   ],
   "posts": [

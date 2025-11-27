@@ -5,13 +5,16 @@
   "scripts": {
     "dev": "jsonblog serve blog.json",
     "build": "jsonblog build blog.json",
-    "generate-post": "node scripts/generate-blog-post.js"
+    "generate-post": "node scripts/generate-blog-post.js",
+    "fetch-videos": "node scripts/fetch-videos.js",
+    "prebuild": "npm run fetch-videos"
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.70",
     "@octokit/rest": "^20.0.2",
     "ai": "^3.4.0",
-    "dotenv": "^16.6.1"
+    "dotenv": "^16.6.1",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "@jsonblog/cli": "^3.1.0",
