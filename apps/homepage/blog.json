@@ -20,7 +20,10 @@
     },
     {
       "title": "Videos",
-      "source": "./pages/videos.md"
+      "slug": "videos",
+      "description": "Conference talks, tutorials, and tech content",
+      "layout": "grid",
+      "itemsSource": "videos.json"
     }
   ],
   "posts": [

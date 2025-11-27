@@ -1,122 +1,122 @@
 [
   {
-    "id": "TypryyUoDaQ",
     "title": "21 September 2025",
     "description": "",
-    "thumbnail": "https://i1.ytimg.com/vi/TypryyUoDaQ/hqdefault.jpg",
-    "publishedAt": "2025-09-21T05:47:44+00:00",
-    "url": "https://www.youtube.com/shorts/TypryyUoDaQ"
+    "url": "https://www.youtube.com/shorts/TypryyUoDaQ",
+    "image": "https://i1.ytimg.com/vi/TypryyUoDaQ/hqdefault.jpg",
+    "date": "2025-09-21",
+    "featured": true
   },
   {
-    "id": "Cpkqcc8GusY",
     "title": "Json Resume Registry: Job Recommendation API and How to Use It",
     "description": "Share your ideas on discord!",
-    "thumbnail": "https://i4.ytimg.com/vi/Cpkqcc8GusY/hqdefault.jpg",
-    "publishedAt": "2025-07-08T13:49:31+00:00",
-    "url": "https://www.youtube.com/watch?v=Cpkqcc8GusY"
+    "url": "https://www.youtube.com/watch?v=Cpkqcc8GusY",
+    "image": "https://i4.ytimg.com/vi/Cpkqcc8GusY/hqdefault.jpg",
+    "date": "2025-07-08",
+    "featured": false
   },
   {
-    "id": "5wCUeFjZ0Gc",
     "title": "JSON Resume - mcp server for windsurf and cursor",
     "description": "Enhance your JSON Resume automatically with AI! 🚀 The JSON Resume MCP Server analyzes your codebase, extracts project details, and updates your resume seamlessly. Integrated with GitHub Gists and powered by OpenAI, this tool makes resume updates effortless. Learn how to install, configure, and use it in Windsurf or Cursor.\n\n🔗 Get it now: npm install -g @jsonresume/mcp\n👍 Like & Subscribe for more AI-powered dev tools!",
-    "thumbnail": "https://i2.ytimg.com/vi/5wCUeFjZ0Gc/hqdefault.jpg",
-    "publishedAt": "2025-03-05T00:18:22+00:00",
-    "url": "https://www.youtube.com/watch?v=5wCUeFjZ0Gc"
+    "url": "https://www.youtube.com/watch?v=5wCUeFjZ0Gc",
+    "image": "https://i2.ytimg.com/vi/5wCUeFjZ0Gc/hqdefault.jpg",
+    "date": "2025-03-05",
+    "featured": false
   },
   {
-    "id": "8jykY8ZMWgQ",
     "title": "JSON Resume - Using the registry through Github gist",
     "description": "AI Generated Summary: Hey team, in this video, I walk you through a new feature on the Resume Registry that allows for easy resume updates via GitHub gists. By simply uploading a gist named \"resume.json,\" your resume is rendered on a unique URL. No need for manual hosting! I demonstrate how changes reflect instantly and discuss the convenience of tracking revisions. Check it out for a hassle-free resume management solution!",
-    "thumbnail": "https://i1.ytimg.com/vi/8jykY8ZMWgQ/hqdefault.jpg",
-    "publishedAt": "2024-06-21T17:17:35+00:00",
-    "url": "https://www.youtube.com/watch?v=8jykY8ZMWgQ"
+    "url": "https://www.youtube.com/watch?v=8jykY8ZMWgQ",
+    "image": "https://i1.ytimg.com/vi/8jykY8ZMWgQ/hqdefault.jpg",
+    "date": "2024-06-21",
+    "featured": false
   },
   {
-    "id": "sm6HF5JXTcQ",
     "title": "Using JSON Resume to make a Latex resume with RenderCV",
     "description": "https://github.com/sinaatalay/rendercv?tab=readme-ov-file\n\nAI Summary - Hey there! In this quick demo, I showcase how RenderCV, a library for LaTeX JSON resumes, can create stunning and customizable resumes. I highlight the conversion process from JSON to RenderCV's data format, showcasing the output and features. Join me as I delve into this inspiring project and its potential for enhancing JSON resumes.",
-    "thumbnail": "https://i4.ytimg.com/vi/sm6HF5JXTcQ/hqdefault.jpg",
-    "publishedAt": "2024-06-15T16:15:02+00:00",
-    "url": "https://www.youtube.com/watch?v=sm6HF5JXTcQ"
+    "url": "https://www.youtube.com/watch?v=sm6HF5JXTcQ",
+    "image": "https://i4.ytimg.com/vi/sm6HF5JXTcQ/hqdefault.jpg",
+    "date": "2024-06-15",
+    "featured": false
   },
   {
-    "id": "68ouc7EEkxc",
     "title": "My Broadcast",
     "description": "asdasdasd",
-    "thumbnail": "https://i3.ytimg.com/vi/68ouc7EEkxc/hqdefault.jpg",
-    "publishedAt": "2024-04-13T11:50:42+00:00",
-    "url": "https://www.youtube.com/watch?v=68ouc7EEkxc"
+    "url": "https://www.youtube.com/watch?v=68ouc7EEkxc",
+    "image": "https://i3.ytimg.com/vi/68ouc7EEkxc/hqdefault.jpg",
+    "date": "2024-04-13",
+    "featured": false
   },
   {
-    "id": "es-Xcz_n6f8",
     "title": "Omega - Clubhouse GPT-3 bot",
     "description": "Alpha (Caro) - https://www.instagram.com/caro.hema/\nCode - https://github.com/thomasdavis/omega \nBlog Post - https://lordajax.com/post/Omega-Clubhouse-GPT-3-bot/",
-    "thumbnail": "https://i2.ytimg.com/vi/es-Xcz_n6f8/hqdefault.jpg",
-    "publishedAt": "2021-07-26T11:19:32+00:00",
-    "url": "https://www.youtube.com/watch?v=es-Xcz_n6f8"
+    "url": "https://www.youtube.com/watch?v=es-Xcz_n6f8",
+    "image": "https://i2.ytimg.com/vi/es-Xcz_n6f8/hqdefault.jpg",
+    "date": "2021-07-26",
+    "featured": false
   },
   {
-    "id": "BxpHgNM0clE",
     "title": "JSON Resume - Getting Started",
     "description": "I tried my best to make this structured but after so many retakes I decide to just speak from the heart. Lots of things I wish I could have said in retrospect.\nIf you are still looking for answers, comment below, I will get back to you.",
-    "thumbnail": "https://i3.ytimg.com/vi/BxpHgNM0clE/hqdefault.jpg",
-    "publishedAt": "2020-05-01T15:56:35+00:00",
-    "url": "https://www.youtube.com/watch?v=BxpHgNM0clE"
+    "url": "https://www.youtube.com/watch?v=BxpHgNM0clE",
+    "image": "https://i3.ytimg.com/vi/BxpHgNM0clE/hqdefault.jpg",
+    "date": "2020-05-01",
+    "featured": false
   },
   {
-    "id": "32FobnxHulM",
     "title": "Growing Poppies - Harvesting",
     "description": "First, sorry about the vertical video, won't do that again. \n\nI'm going to be uploading my garden experiments for lots of different types of plants. \n\nExpect in the future: \n\nGrowing Poppies - Seeding \nGrowing Poppies - Care \nGrowing Poppies - Bloom \n\nFor a wide range of plants floating around my garden.",
-    "thumbnail": "https://i4.ytimg.com/vi/32FobnxHulM/hqdefault.jpg",
-    "publishedAt": "2019-11-12T07:01:56+00:00",
-    "url": "https://www.youtube.com/watch?v=32FobnxHulM"
+    "url": "https://www.youtube.com/watch?v=32FobnxHulM",
+    "image": "https://i4.ytimg.com/vi/32FobnxHulM/hqdefault.jpg",
+    "date": "2019-11-12",
+    "featured": false
   },
   {
-    "id": "JY58LT0ylBs",
     "title": "JSON Resume - Getting started",
     "description": "https://jsonresume.org \n\nLet me know if you have any questions!",
-    "thumbnail": "https://i3.ytimg.com/vi/JY58LT0ylBs/hqdefault.jpg",
-    "publishedAt": "2019-09-03T10:46:31+00:00",
-    "url": "https://www.youtube.com/watch?v=JY58LT0ylBs"
+    "url": "https://www.youtube.com/watch?v=JY58LT0ylBs",
+    "image": "https://i3.ytimg.com/vi/JY58LT0ylBs/hqdefault.jpg",
+    "date": "2019-09-03",
+    "featured": false
   },
   {
-    "id": "FSqWgULqe00",
     "title": "Ama College - Jipa Jiroa - Drumsticks and Bamboo cover",
     "description": "Forced my friend to play to my favorite Vanuatu band!\n\nRespect to Jipa Jiroa. One tok. One love",
-    "thumbnail": "https://i3.ytimg.com/vi/FSqWgULqe00/hqdefault.jpg",
-    "publishedAt": "2017-10-24T11:22:18+00:00",
-    "url": "https://www.youtube.com/watch?v=FSqWgULqe00"
+    "url": "https://www.youtube.com/watch?v=FSqWgULqe00",
+    "image": "https://i3.ytimg.com/vi/FSqWgULqe00/hqdefault.jpg",
+    "date": "2017-10-24",
+    "featured": false
   },
   {
-    "id": "YuDBu4qvDB4",
     "title": "Listium Card Editor",
     "description": "Our newest feature - design your own cards for use in desktop board view, as well as for phones and tablets.",
-    "thumbnail": "https://i2.ytimg.com/vi/YuDBu4qvDB4/hqdefault.jpg",
-    "publishedAt": "2017-09-15T06:42:32+00:00",
-    "url": "https://www.youtube.com/watch?v=YuDBu4qvDB4"
+    "url": "https://www.youtube.com/watch?v=YuDBu4qvDB4",
+    "image": "https://i2.ytimg.com/vi/YuDBu4qvDB4/hqdefault.jpg",
+    "date": "2017-09-15",
+    "featured": false
   },
   {
-    "id": "udLoc1fFSBo",
     "title": "Australian anti-speeding advertisement - \"Slow Down\"",
     "description": "Great acapella! Don't speed!",
-    "thumbnail": "https://i2.ytimg.com/vi/udLoc1fFSBo/hqdefault.jpg",
-    "publishedAt": "2014-06-22T21:29:07+00:00",
-    "url": "https://www.youtube.com/watch?v=udLoc1fFSBo"
+    "url": "https://www.youtube.com/watch?v=udLoc1fFSBo",
+    "image": "https://i2.ytimg.com/vi/udLoc1fFSBo/hqdefault.jpg",
+    "date": "2014-06-22",
+    "featured": false
   },
   {
-    "id": "1hOaGs6YyQI",
     "title": "Kalei Style Guide - Explanation and Demo",
     "description": "http://kaleistyleguide.com\n\nThis project aims at making sure your style sheets are fully documented whilst being synchronized with your webpages styles. To do this it actually uses your live stylesheets in so that at anytime you can review how your styleguide looks.",
-    "thumbnail": "https://i2.ytimg.com/vi/1hOaGs6YyQI/hqdefault.jpg",
-    "publishedAt": "2013-08-22T14:24:29+00:00",
-    "url": "https://www.youtube.com/watch?v=1hOaGs6YyQI"
+    "url": "https://www.youtube.com/watch?v=1hOaGs6YyQI",
+    "image": "https://i2.ytimg.com/vi/1hOaGs6YyQI/hqdefault.jpg",
+    "date": "2013-08-22",
+    "featured": false
   },
   {
-    "id": "FZSjvWtUxYk",
     "title": "Backbone.js Tutorial - Beginners",
     "description": "Update: Make sure you use the versions of the libraries I use in the video, this is probably the source of any of your problems. (jQuery@1.8.2/Underscore@1.4.2/Backbone@0.9.2)\n\nUpdate: New API url is  http://backbone-beginner.tutorial.com/users﻿\n\nHi guys, we will be building the example below from start to finish.\n\nhttp://backbonetutorials.com/videos/beginner/\n\nTaking all the content from the website, I've put together a 70 minute video which should get you up to speed with how everything pieces together.\n\nIn the video we go through the steps from start to finish on how to construct the app linked below.\n\nWe implement the entire code on a single page so you can easily see what is going on and there is also a simple RESTful api provided for us to work with.\n\nThe video uses diagrams to try explain the process and the accompanying README and be found in the repository.\n\nhttps://github.com/thomasdavis/backbonetutorials/blob/gh-pages/videos/beginner/README.md\n\nMy Github: http://github.com/thomasdavis\nMy Homepage: http://thomasdav.is",
-    "thumbnail": "https://i3.ytimg.com/vi/FZSjvWtUxYk/hqdefault.jpg",
-    "publishedAt": "2013-08-14T09:11:54+00:00",
-    "url": "https://www.youtube.com/watch?v=FZSjvWtUxYk"
+    "url": "https://www.youtube.com/watch?v=FZSjvWtUxYk",
+    "image": "https://i3.ytimg.com/vi/FZSjvWtUxYk/hqdefault.jpg",
+    "date": "2013-08-14",
+    "featured": false
   }
 ]
