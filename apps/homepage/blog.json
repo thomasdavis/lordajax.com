@@ -28,66 +28,66 @@
     },
     {
       "title": "Weekly Activity: Automating Workflows with Claude Code and AI Agents",
-      "source": "./posts/weekly-activity-automating-workflows-with-claude-code-and-ai-agents.md",
+      "source": "./posts/weekly-activity-automating-workflows-with-claude-code-and-ai-agents/post.md",
       "createdAt": "2025-11-20",
       "type": "ai"
     },
     {
       "title": "Enhancing the MobTranslate Platform: UI Redesign and New Features",
-      "source": "./posts/enhancing-the-mobtranslate-platform-ui-redesign-and-new-features.md",
+      "source": "./posts/enhancing-the-mobtranslate-platform-ui-redesign-and-new-features/post.md",
       "createdAt": "2025-07-29",
       "type": "ai"
     },
     {
       "title": "Introducing LLM-Benchmark: A Comprehensive Update on Recent Enhancements",
-      "source": "./posts/introducing-llm-benchmark-a-comprehensive-update-on-recent-enhancements.md",
+      "source": "./posts/introducing-llm-benchmark-a-comprehensive-update-on-recent-enhancements/post.md",
       "createdAt": "2025-07-29",
       "type": "ai"
     },
     {
       "title": "Introducing IFeelGood: A Mobile-First Food & Calorie Tracker",
-      "source": "./posts/introducing-ifeelgood-a-mobile-first-food-calorie-tracker.md",
+      "source": "./posts/introducing-ifeelgood-a-mobile-first-food-calorie-tracker/post.md",
       "createdAt": "2025-07-22",
       "type": "ai"
     },
     {
       "title": "Social networks should start translating all posts in an omni-directional way",
-      "source": "./posts/translate-social-networks.md",
+      "source": "./posts/translate-social-networks/post.md",
       "createdAt": "2025-03-07"
     },
     {
       "title": ".llmignore",
-      "source": "./posts/llmignore.md",
+      "source": "./posts/llmignore/post.md",
       "createdAt": "2025-03-06"
     },
     {
       "title": "Streamline Your Resume with JSON Resume MCP Server",
-      "source": "./posts/jsonresume-mcp.md",
+      "source": "./posts/jsonresume-mcp/post.md",
       "createdAt": "2025-03-05"
     },
     {
       "title": "LLM-friendly Language",
-      "source": "./posts/llm-friendly-language.md",
+      "source": "./posts/llm-friendly-language/post.md",
       "createdAt": "2025-02-27"
     },
     {
       "title": "Mob Translate - more work complete",
-      "source": "./posts/mob-translate.md",
+      "source": "./posts/mob-translate/post.md",
       "createdAt": "2025-02-26"
     },
     {
       "title": "JSON Blog 2.0",
-      "source": "./posts/json-blog-2.0.md",
+      "source": "./posts/json-blog-2.0/post.md",
       "createdAt": "2025-02-26"
     },
     {
       "title": "Building a Smart Job Recommendation Engine with JSON Resume",
-      "source": "./posts/jobs-graph.md",
+      "source": "./posts/jobs-graph/post.md",
       "createdAt": "2024-10-09"
     },
     {
       "title": "Omega - Clubhouse GPT-3 bot",
-      "source": "./posts/omega.md",
+      "source": "./posts/omega/post.md",
       "createdAt": "2022-10-19"
     },
     {
