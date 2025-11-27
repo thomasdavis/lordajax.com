@@ -471,35 +471,35 @@ Format:
   }
 }
 
-// Generate filename from title
-function generateFilename(content) {
+// Generate folder name from title
+function generateFolderName(content) {
   const titleMatch = content.match(/^#\s+(.+)$/m);
-  if (!titleMatch) return `auto-post-${getCurrentDate()}.md`;
-  
+  if (!titleMatch) return `auto-post-${getCurrentDate()}`;
+
   const title = titleMatch[1];
   const slug = title
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
-  
-  return `${slug}.md`;
+
+  return slug;
 }
 
 // Update blog.json with new post
-function updateBlogJson(filename, title) {
+function updateBlogJson(folderName, title) {
   const blogJsonPath = path.join(__dirname, '..', 'blog.json');
   const blogJson = JSON.parse(fs.readFileSync(blogJsonPath, 'utf8'));
-  
+
   const newPost = {
     title: title,
-    source: `./posts/${filename}`,
+    source: `./posts/${folderName}/post.md`,
     createdAt: getCurrentDate(),
     type: 'ai',
   };
-  
+
   // Add to beginning of posts array
   blogJson.posts.unshift(newPost);
-  
+
   fs.writeFileSync(blogJsonPath, JSON.stringify(blogJson, null, 2) + '\n');
 }
 
@@ -519,17 +519,19 @@ async function main() {
     // Extract title
     const titleMatch = blogContent.match(/^#\s+(.+)$/m);
     const title = titleMatch ? titleMatch[1] : 'Auto-generated Post';
-    
-    // Generate filename and save
-    const filename = generateFilename(blogContent);
-    const filepath = path.join(__dirname, '..', 'posts', filename);
-    
-    console.log(`Writing post to ${filename}...`);
+
+    // Generate folder name and create directory
+    const folderName = generateFolderName(blogContent);
+    const folderPath = path.join(__dirname, '..', 'posts', folderName);
+    const filepath = path.join(folderPath, 'post.md');
+
+    console.log(`Creating folder ${folderName} and writing post...`);
+    fs.mkdirSync(folderPath, { recursive: true });
     fs.writeFileSync(filepath, blogContent);
-    
+
     // Update blog.json
     console.log('Updating blog.json...');
-    updateBlogJson(filename, title);
+    updateBlogJson(folderName, title);
     
     console.log('Blog post generated successfully!');
   } catch (error) {

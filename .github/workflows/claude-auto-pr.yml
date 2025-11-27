@@ -53,8 +53,8 @@ jobs:
 
           # Create PR title and body
           if [ "$IS_ACTIVITY_POST" = true ]; then
-            # Extract title from the first line of the blog post
-            POST_FILE=$(echo "$FILES_CHANGED" | grep "apps/homepage/posts/" | grep ".md" | head -1)
+            # Extract title from the first line of the blog post (now in posts/*/post.md)
+            POST_FILE=$(echo "$FILES_CHANGED" | grep "apps/homepage/posts/.*/post\.md" | head -1)
             if [ -n "$POST_FILE" ]; then
               TITLE=$(head -1 "$POST_FILE" | sed 's/^# //')
               TITLE="Weekly Activity: $TITLE"

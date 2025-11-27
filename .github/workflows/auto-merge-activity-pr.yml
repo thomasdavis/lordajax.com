@@ -53,8 +53,8 @@ jobs:
         id: check-post
         run: |
           cd apps/homepage
-          # Check if there are new markdown files in posts/
-          if git diff --name-only ${{ github.event.pull_request.base.sha }} HEAD | grep -q "apps/homepage/posts/.*\.md"; then
+          # Check if there are new markdown files in posts/ (now posts/*/post.md)
+          if git diff --name-only ${{ github.event.pull_request.base.sha }} HEAD | grep -q "apps/homepage/posts/.*/post\.md"; then
             echo "has_post=true" >> $GITHUB_OUTPUT
             echo "✅ Found new blog post markdown file"
           else
