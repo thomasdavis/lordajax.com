@@ -4,7 +4,7 @@ const https = require('https');
 const { parseString } = require('xml2js');
 
 // YouTube channel ID for @ajax_davis
-const YOUTUBE_CHANNEL_ID = process.env.YOUTUBE_CHANNEL_ID || 'UCDukH7ZhQX67eNenPrWyhcw';
+const YOUTUBE_CHANNEL_ID = process.env.YOUTUBE_CHANNEL_ID || 'UCS4PhD6QK_m0C0C2M8xAWNA';
 
 // Fetch YouTube RSS feed
 async function fetchYouTubeRSS(channelId) {
