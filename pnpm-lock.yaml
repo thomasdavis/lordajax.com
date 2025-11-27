@@ -47,8 +47,8 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
       '@jsonblog/generator-tailwind':
-        specifier: ^4.0.0
-        version: 4.0.0
+        specifier: ^4.0.1
+        version: 4.0.1
 
   packages/eslint-config-custom:
     dependencies:
@@ -295,8 +295,8 @@ packages:
     resolution: {integrity: sha512-XZdNHKd1+RXxWGZj66zWNaw79YodpCdoRSokFCBDiiE4fADIeXakBSRTIouSnFbArPjCQW+QAKgM9WRFssO2Lg==}
     engines: {node: '>=20.0.0'}
 
-  '@jsonblog/generator-tailwind@4.0.0':
-    resolution: {integrity: sha512-Tzh1wPv8M7F+bMfClPSFyo0GEkWIocDuc5+0f6JEh12Qhq34HKrzWgO1EKAlrUzWK0jGMOJm/uZ+2URmdyOMKg==}
+  '@jsonblog/generator-tailwind@4.0.1':
+    resolution: {integrity: sha512-LmVjcQ20pVH4ozyFvlLN5Sp4tE7dP14yqBZxBK5rf2ZQzLEGQyisjGc3hbw6+xkefY8mFC0C5zQD1cP45QVzwg==}
     engines: {node: '>=20.0.0'}
 
   '@jsonblog/schema@3.1.0':
@@ -2842,7 +2842,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@jsonblog/generator-tailwind@4.0.0':
+  '@jsonblog/generator-tailwind@4.0.1':
     dependencies:
       '@jsonblog/schema': 3.1.0
       axios: 1.13.2
