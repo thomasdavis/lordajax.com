@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Weekly Activity: Omega Twitter Integration and Advanced AI Modes",
+      "source": "./posts/weekly-activity-omega-twitter-integration-and-advanced-ai-modes.md",
+      "createdAt": "2025-11-30",
+      "type": "ai"
+    },
+    {
       "title": "Weekly Activity: Visual Validation, Omega Evolution, and GitHub Automation",
       "source": "./posts/weekly-activity-visual-validation-omega-evolution-github-automation.md",
       "createdAt": "2025-11-26",
