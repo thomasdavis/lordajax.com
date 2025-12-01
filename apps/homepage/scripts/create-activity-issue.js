@@ -32,50 +32,51 @@ const getDateRange = () => {
 
 // Fetch repository details including README, package.json, and recent files
 async function fetchRepositoryDetails(owner, repo) {
+  const details = { owner, repo };
+
+  // Get repository info
   try {
-    const details = { owner, repo };
-
-    // Get repository info
-    try {
-      const { data: repoData } = await octokit.repos.get({ owner, repo });
-      // Skip private repositories
-      if (repoData.private) {
-        console.log(`Skipping private repository: ${owner}/${repo}`);
-        return null;
-      }
-      details.description = repoData.description;
-      details.topics = repoData.topics || [];
-      details.homepage = repoData.homepage;
-      details.language = repoData.language;
-      details.stars = repoData.stargazers_count;
-      details.url = repoData.html_url;
-    } catch (e) {}
-
-    // Get README
-    try {
-      const { data: readme } = await octokit.repos.getReadme({ owner, repo });
-      const readmeContent = Buffer.from(readme.content, 'base64').toString('utf-8');
-      details.readme = readmeContent.slice(0, 800); // First 800 chars
-    } catch (e) {}
-
-    // Get package.json
-    try {
-      const { data: packageFile } = await octokit.repos.getContent({
-        owner,
-        repo,
-        path: 'package.json',
-      });
-      const packageContent = Buffer.from(packageFile.content, 'base64').toString('utf-8');
-      details.packageJson = JSON.parse(packageContent);
-    } catch (e) {}
-
-    // Skip file structure to save space
-
-    return details;
-  } catch (error) {
-    console.error(`Error fetching repository details for ${owner}/${repo}:`, error.message);
+    const { data: repoData } = await octokit.repos.get({ owner, repo });
+    // Skip private repositories
+    if (repoData.private) {
+      console.log(`Repository ${owner}/${repo} is PRIVATE - skipping`);
+      return null;
+    }
+    details.description = repoData.description;
+    details.topics = repoData.topics || [];
+    details.homepage = repoData.homepage;
+    details.language = repoData.language;
+    details.stars = repoData.stargazers_count;
+    details.url = repoData.html_url;
+    console.log(`Repository ${owner}/${repo} is PUBLIC - including (${repoData.stargazers_count} stars)`);
+  } catch (e) {
+    console.error(`Error accessing repository ${owner}/${repo}: ${e.message}`);
     return null;
   }
+
+  // Get README (optional - don't fail if not found)
+  try {
+    const { data: readme } = await octokit.repos.getReadme({ owner, repo });
+    const readmeContent = Buffer.from(readme.content, 'base64').toString('utf-8');
+    details.readme = readmeContent.slice(0, 800); // First 800 chars
+  } catch (e) {
+    // README is optional
+  }
+
+  // Get package.json (optional - don't fail if not found)
+  try {
+    const { data: packageFile } = await octokit.repos.getContent({
+      owner,
+      repo,
+      path: 'package.json',
+    });
+    const packageContent = Buffer.from(packageFile.content, 'base64').toString('utf-8');
+    details.packageJson = JSON.parse(packageContent);
+  } catch (e) {
+    // package.json is optional
+  }
+
+  return details;
 }
 
 // Fetch code snippets from recent commits
@@ -127,18 +128,37 @@ async function fetchGitHubActivity(username, sinceDate) {
     const searchQuery = `author:${user.login} committer-date:>=${sinceDate}`;
     console.log(`Searching for commits with query: ${searchQuery}`);
 
-    const { data: searchResults } = await octokit.search.commits({
-      q: searchQuery,
-      sort: 'committer-date',
-      order: 'desc',
-      per_page: 100,
-    });
+    // Fetch ALL pages of results (GitHub limits to 100 per page, max 1000 total)
+    let allCommits = [];
+    let page = 1;
+    let hasMore = true;
 
-    console.log(`Found ${searchResults.total_count} total commits`);
+    while (hasMore && allCommits.length < 1000) {
+      const { data: searchResults } = await octokit.search.commits({
+        q: searchQuery,
+        sort: 'committer-date',
+        order: 'desc',
+        per_page: 100,
+        page: page,
+      });
+
+      if (page === 1) {
+        console.log(`Found ${searchResults.total_count} total commits`);
+      }
+
+      allCommits = allCommits.concat(searchResults.items);
+      console.log(`Fetched page ${page}: ${searchResults.items.length} commits (total so far: ${allCommits.length})`);
+
+      // Check if there are more pages
+      hasMore = searchResults.items.length === 100 && allCommits.length < searchResults.total_count;
+      page++;
+    }
+
+    console.log(`Fetched all ${allCommits.length} commits across ${page - 1} pages`);
 
     // Group commits by repository
     const commitsByRepo = new Map();
-    for (const commit of searchResults.items) {
+    for (const commit of allCommits) {
       const repoFullName = commit.repository.full_name;
 
       if (!commitsByRepo.has(repoFullName)) {
@@ -147,17 +167,23 @@ async function fetchGitHubActivity(username, sinceDate) {
       commitsByRepo.get(repoFullName).push(commit);
     }
 
-    console.log(`Commits found across ${commitsByRepo.size} repositories`);
+    console.log(`\nCommits found across ${commitsByRepo.size} repositories:`);
+    for (const [repo, commits] of commitsByRepo.entries()) {
+      console.log(`  - ${repo}: ${commits.length} commits`);
+    }
+
+    console.log(`\nProcessing repositories...\n`);
 
     // Process each repository's commits
     for (const [repoFullName, commits] of commitsByRepo.entries()) {
       const [owner, repoName] = repoFullName.split('/');
 
+      console.log(`Checking ${repoFullName}...`);
+
       // Fetch repo details and skip if private
       const details = await fetchRepositoryDetails(owner, repoName);
       if (!details) {
-        // Repository is private or inaccessible
-        console.log(`Skipping private/inaccessible repository: ${repoFullName}`);
+        // Repository is private or inaccessible (already logged in fetchRepositoryDetails)
         continue;
       }
 
@@ -177,7 +203,7 @@ async function fetchGitHubActivity(username, sinceDate) {
         repoDetails: details,
       });
 
-      console.log(`Added ${commits.length} commits from ${repoFullName}`);
+      console.log(`✓ Added ${commits.length} commits from ${repoFullName}\n`);
     }
 
     console.log(`Total activities found: ${activities.length} from ${repoDetails.size} repositories`);
