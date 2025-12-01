@@ -79,40 +79,6 @@ async function fetchRepositoryDetails(owner, repo) {
   return details;
 }
 
-// Fetch code snippets from recent commits
-async function fetchCommitCode(owner, repo, sha) {
-  try {
-    const { data: commit } = await octokit.repos.getCommit({
-      owner,
-      repo,
-      ref: sha,
-    });
-
-    // Get meaningful file changes
-    const codeSnippets = [];
-    const importantFiles = commit.files.filter(file =>
-      file.filename.match(/\.(js|ts|jsx|tsx|json|md|yml|yaml|py|go|rs)$/) &&
-      !file.filename.includes('lock') &&
-      !file.filename.includes('node_modules')
-    );
-
-    // Limit to 2 files with shorter patches
-    for (const file of importantFiles.slice(0, 2)) {
-      if (file.patch) {
-        codeSnippets.push({
-          filename: file.filename,
-          patch: file.patch.slice(0, 300), // Limit patch size
-          additions: file.additions,
-          deletions: file.deletions,
-          status: file.status,
-        });
-      }
-    }
-    return codeSnippets;
-  } catch (error) {
-    return [];
-  }
-}
 
 // Fetch GitHub activity for the past week
 async function fetchGitHubActivity(username, sinceDate) {
@@ -189,17 +155,12 @@ async function fetchGitHubActivity(username, sinceDate) {
 
       repoDetails.set(repoFullName, details);
 
-      // Get the latest commit for code snippets
-      const latestCommit = commits[0];
-      const codeSnippets = await fetchCommitCode(owner, repoName, latestCommit.sha);
-
+      // Store all commit data (not just messages)
       activities.push({
         type: 'commits',
         repo: repoFullName,
         count: commits.length,
-        messages: commits.map(c => c.commit.message),
-        branch: 'various',
-        codeSnippets: codeSnippets,
+        commitData: commits, // Store full commit objects with SHA, message, etc.
         repoDetails: details,
       });
 
@@ -215,76 +176,46 @@ async function fetchGitHubActivity(username, sinceDate) {
 }
 
 // Format activity as markdown for the issue
-function formatActivityAsMarkdown(activities, repoDetails, dateRange) {
+function formatActivityAsMarkdown(activities, repoDetails, dateRange, allCommitData) {
   if (activities.length === 0) {
     return `No significant GitHub activity was detected for the period ${dateRange.startFormatted} to ${dateRange.endFormatted}.
 
 This might be a good opportunity to write about a technical topic, tool, or concept instead of activity-based content.`;
   }
 
+  const totalCommits = activities.reduce((sum, act) => sum + act.count, 0);
+
   let markdown = `## Activity Summary\n\n`;
-  markdown += `**Period:** ${dateRange.startFormatted} to ${dateRange.endFormatted}\n`;
-  markdown += `**Total Activities:** ${activities.length}\n`;
+  markdown += `**Period:** ${dateRange.startFormatted} to ${dateRange.endFormatted}\n\n`;
+  markdown += `**Total Commits:** ${totalCommits}\n`;
   markdown += `**Repositories:** ${repoDetails.size}\n\n`;
 
-  // Group activities by repository
-  const repoActivities = {};
-  activities.forEach(activity => {
-    if (activity.repo) {
-      if (!repoActivities[activity.repo]) {
-        repoActivities[activity.repo] = [];
-      }
-      repoActivities[activity.repo].push(activity);
-    }
-  });
+  // List all commits grouped by repository
+  for (const activity of activities) {
+    const details = repoDetails.get(activity.repo);
 
-  // Generate detailed activity breakdown
-  for (const [repo, acts] of Object.entries(repoActivities)) {
-
-    const details = repoDetails.get(repo);
-    markdown += `### 📦 ${repo}\n\n`;
+    markdown += `### 📦 [${activity.repo}](${details?.url || `https://github.com/${activity.repo}`})\n\n`;
 
     if (details) {
-      if (details.url) markdown += `**Repository:** ${details.url}\n`;
-      if (details.description) markdown += `**Description:** ${details.description}\n`;
-      if (details.language) markdown += `**Language:** ${details.language}\n`;
-      if (details.stars) markdown += `**Stars:** ${details.stars}\n`;
-      if (details.topics && details.topics.length > 0) {
-        markdown += `**Topics:** ${details.topics.join(', ')}\n`;
-      }
-      markdown += `\n`;
-
-      if (details.readme) {
-        markdown += `<details>\n<summary>README Excerpt</summary>\n\n${details.readme}\n\n</details>\n\n`;
-      }
-
-      // Simplified package info
-      if (details.packageJson && details.packageJson.name) {
-        markdown += `**Package:** ${details.packageJson.name}\n\n`;
-      }
+      if (details.description) markdown += `${details.description}\n\n`;
+      const meta = [];
+      if (details.language) meta.push(details.language);
+      if (details.stars) meta.push(`⭐ ${details.stars}`);
+      if (meta.length > 0) markdown += `${meta.join(' • ')}\n\n`;
     }
 
-    // Activity details
-    markdown += `**Activity:**\n`;
-    acts.forEach(activity => {
-      if (activity.type === 'commits') {
-        markdown += `\n- **${activity.count} commits**\n`;
-        // Limit to 3 commit messages
-        activity.messages.slice(0, 3).forEach(msg => {
-          markdown += `  - "${msg}"\n`;
-        });
+    markdown += `**${activity.count} commits:**\n\n`;
 
-        if (activity.codeSnippets && activity.codeSnippets.length > 0) {
-          markdown += `\n  **Code Changes:**\n`;
-          activity.codeSnippets.forEach(snippet => {
-            markdown += `\n  **${snippet.filename}** (+${snippet.additions} -${snippet.deletions})\n`;
-            markdown += `  \`\`\`diff\n${snippet.patch}\n  \`\`\`\n`;
-          });
-        }
-      }
+    // List ALL commits with links
+    const commits = activity.commitData || [];
+    commits.forEach(commit => {
+      const shortSha = commit.sha.substring(0, 7);
+      const commitUrl = `https://github.com/${activity.repo}/commit/${commit.sha}`;
+      const message = commit.commit.message.split('\n')[0]; // First line only
+      markdown += `- [\`${shortSha}\`](${commitUrl}) ${message}\n`;
     });
 
-    markdown += `\n---\n\n`;
+    markdown += `\n`;
   }
 
   return markdown;
@@ -303,64 +234,31 @@ ${activityMarkdown}
 
 ## Instructions for @claude
 
-Please create a comprehensive technical blog post based on the GitHub activity above. The blog post should:
+Above is a complete list of all commits from the past week across all repositories. Each commit is linked - click any commit link to see the full code changes.
 
-### Content Requirements:
-1. **Title Format:** Start with "Weekly Activity: " followed by a descriptive subtitle about the main focus
-2. **Content Style:**
+**Your task:**
+
+1. **Review the commits** - Scan through the list and click on any commits that look interesting to see the full code changes
+2. **Write a blog post** about the most significant or interesting work from the week:
    - Technical and comprehensive, explaining both what AND why
-   - Heavy use of code examples from actual implementations (shown above)
-   - Include links to GitHub repos, npm packages, documentation
-   - Explain the problem any projects solve before diving into implementation
-   - Show actual usage examples, CLI commands, API calls
-   - Discuss technical architecture and design decisions
-   - Include installation instructions and getting started guides
-   - Reference dependencies and explain why they were chosen
+   - Include code examples by referencing the actual commits (click the links to see the code)
+   - Explain the problem being solved and the implementation approach
+   - Include links to GitHub repos, npm packages, and documentation
    - Write as if teaching other developers
 
-3. **Structure:**
-   - Introduction: Brief overview of what was worked on this week
-   - Main sections: Deep dive into the most significant projects/work
-   - Code examples: Use the actual code snippets provided above
-   - Links: Include all relevant GitHub, npm, documentation links
-   - Conclusion: Summary and potential next steps
+3. **Create the blog post:**
+   - Create a new markdown file in \`apps/homepage/posts/\` with a slugified filename
+   - Format: Start with "# Weekly Activity: [Descriptive Subtitle]"
+   - Update \`apps/homepage/blog.json\` to add the new post at the beginning of the posts array with \`"type": "ai"\`
+   - Create a pull request with your changes and label it "activity-post"
 
-### Implementation Steps:
-1. Create a new markdown file in \`apps/homepage/posts/\` with a slugified filename
-2. Write the blog post content following the format and style above
-3. Update \`apps/homepage/blog.json\` to add the new post entry at the beginning of the posts array with \`"type": "ai"\`
-4. Ensure the post has proper formatting and all links work
-5. Create a pull request with your changes and label it "activity-post"
+**Tips:**
+- Don't try to cover every commit - focus on the most interesting/significant work
+- Click commit links to see full diffs and understand what changed
+- Look for patterns or themes across multiple commits
+- Technical depth over breadth - explain one thing well rather than many things superficially
 
-### Example Post Structure:
-\`\`\`markdown
-# Weekly Activity: [Descriptive Subtitle]
-
-This week I focused on [main theme]...
-
-## Project Name
-
-[Technical explanation with code examples]
-
-\`\`\`bash
-# Installation or usage example
-\`\`\`
-
-[More detailed content...]
-
-## Technical Details
-
-[Architecture, decisions, implementation]
-
-## Links
-- GitHub: [url]
-- npm: [url]
-
-\`\`\`
-
----
-
-@claude Please analyze the activity above and create a high-quality technical blog post following these guidelines.`;
+@claude Please review the commits above and create a high-quality technical blog post!`;
 
     const response = await octokit.issues.create({
       owner: 'thomasdavis',

@@ -1,0 +1,80 @@
+# Blocks Configuration: Blog Content Validator
+# Domain: Content quality validation for markdown blog posts
+
+project:
+  name: "Blog Content Validator"
+  domain: "content.blog.validation"
+
+# AI Configuration
+ai:
+  provider: "openai"
+  model: "gpt-4o-mini"
+
+# Philosophy statements guide AI validation
+philosophy:
+  - "Blog posts must include humor and maintain an engaging, conversational tone"
+  - "Content should be accessible and relatable, not overly formal or academic"
+  - "Posts must include at least one biology reference or analogy"
+  - "The four domain rules (humor, conversational tone, no jargon, biology) are independent requirements"
+
+# Domain semantics
+domain:
+  signals:
+    humor_presence:
+      description: "Detects presence and quality of humor in content"
+      extraction_hint: "Look for wit, personal anecdotes, conversational tone, storytelling, exclamations, rhetorical questions"
+
+    conversational_tone:
+      description: "Measures how conversational and engaging the writing is"
+      extraction_hint: "Check for second-person pronouns (you, your), first-person (I, we), questions, casual language"
+
+    biology_reference:
+      description: "Presence of biological concepts or analogies"
+      extraction_hint: "Look for references to biology, evolution, genetics, organisms, cellular processes used as analogies"
+
+# Domain rules applied to all blog posts
+domain_rules:
+  - id: humor_required
+    description: "Blog posts must include humor, wit, or light-hearted commentary"
+  - id: conversational_tone
+    description: "Writing must be conversational, using 'you' and 'I' to connect with readers"
+  - id: no_corporate_speak
+    description: "Avoid corporate jargon like 'leverage', 'synergy', 'paradigm shift'"
+  - id: biology_thinking
+    description: "Must include at least one biology reference or analogy"
+
+# Block definitions - each blog post is a block
+blocks:
+  post.good:
+    type: "custom"
+    description: "Well-written blog post with humor, conversational tone, and biology reference"
+    path: "posts/good-post"
+
+  post.casual:
+    type: "custom"
+    description: "Engaging blog post with humor, personal narrative, and biology analogy"
+    path: "posts/casual-post"
+
+  post.beginner:
+    type: "custom"
+    description: "Casual, friendly blog post from a learning perspective"
+    path: "posts/poor-seo"
+
+# Validation configuration
+validators:
+  domain:
+    - id: domain_alignment
+      run: "domain.validation"
+
+# Validation pipeline
+pipeline:
+  name: "blog_content_validation"
+  steps:
+    - id: domain
+      run: "domain.validation"
+
+# Discovery configuration
+targets:
+  kind: "block"
+  discover:
+    root: "posts"
