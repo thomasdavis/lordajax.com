@@ -119,284 +119,65 @@ async function fetchGitHubActivity(username, sinceDate) {
     const activities = [];
     const repoDetails = new Map();
 
-    // Fetch recent events using authenticated user's event feed
-    // This gets more data than public-only when authenticated
-    let events = [];
-    try {
-      // First verify we're authenticated and get the actual username
-      const { data: user } = await octokit.users.getAuthenticated();
-      console.log(`Authenticated as: ${user.login}`);
+    // Get authenticated user
+    const { data: user } = await octokit.users.getAuthenticated();
+    console.log(`Authenticated as: ${user.login}`);
 
-      // Use the user events endpoint (authenticated = more data)
-      const response = await octokit.request('GET /users/{username}/events', {
-        username: user.login,
-        per_page: 100,
-      });
-      events = response.data || [];
-      console.log(`Fetched ${events.length} total events for user ${user.login}`);
+    // Use GitHub Search API to find ALL commits across all repos (personal + orgs)
+    const searchQuery = `author:${user.login} committer-date:>=${sinceDate}`;
+    console.log(`Searching for commits with query: ${searchQuery}`);
 
-      // ALSO fetch organization events for all orgs the user is a member of
-      try {
-        const { data: orgs } = await octokit.orgs.listForAuthenticatedUser({
-          per_page: 100,
-        });
-        console.log(`Found ${orgs.length} organizations`);
-
-        for (const org of orgs) {
-          console.log(`Fetching events for organization: ${org.login}`);
-          try {
-            const { data: orgEvents } = await octokit.activity.listOrgEventsForAuthenticatedUser({
-              username: user.login,
-              org: org.login,
-              per_page: 100,
-            });
-            events = events.concat(orgEvents);
-            console.log(`Added ${orgEvents.length} events from ${org.login}`);
-          } catch (orgError) {
-            console.error(`Error fetching events for org ${org.login}:`, orgError.message);
-          }
-        }
-        console.log(`Total events after org events: ${events.length}`);
-      } catch (orgError) {
-        console.error('Error fetching organization events:', orgError.message);
-      }
-    } catch (error) {
-      console.error('Error with authenticated request, falling back:', error.message);
-      // Fallback to public events with provided username
-      try {
-        const response = await octokit.activity.listPublicEventsForUser({
-          username,
-          per_page: 100,
-        });
-        events = response.data || [];
-        console.log(`Fetched ${events.length} public events (fallback)`);
-      } catch (fallbackError) {
-        console.error('Error fetching events:', fallbackError.message);
-        events = [];
-      }
-    }
-
-    // Filter events from the past week
-    const recentEvents = events.filter(
-      event => new Date(event.created_at) > new Date(sinceDate)
-    );
-
-    // Process events and collect unique repositories
-    for (const event of recentEvents) {
-      if (event.type === 'PushEvent') {
-        const [owner, repoName] = event.repo.name.split('/');
-
-        if (!repoDetails.has(event.repo.name)) {
-          const details = await fetchRepositoryDetails(owner, repoName);
-          if (details) {
-            repoDetails.set(event.repo.name, details);
-          } else {
-            // Skip this event if repo is private or inaccessible
-            continue;
-          }
-        } else if (!repoDetails.get(event.repo.name)) {
-          // Already checked and found to be private
-          continue;
-        }
-
-        const latestCommitSha = event.payload.head;
-        const codeSnippets = await fetchCommitCode(owner, repoName, latestCommitSha);
-
-        // Safely handle commits array
-        const commits = event.payload.commits || [];
-
-        activities.push({
-          type: 'commits',
-          repo: event.repo.name,
-          count: commits.length,
-          messages: commits.map(c => c.message),
-          branch: event.payload.ref ? event.payload.ref.replace('refs/heads/', '') : 'unknown',
-          codeSnippets: codeSnippets,
-          repoDetails: repoDetails.get(event.repo.name),
-        });
-      } else if (event.type === 'CreateEvent') {
-        const [owner, repoName] = event.repo.name.split('/');
-
-        if (!repoDetails.has(event.repo.name)) {
-          const details = await fetchRepositoryDetails(owner, repoName);
-          if (details) {
-            repoDetails.set(event.repo.name, details);
-          } else {
-            // Skip this event if repo is private or inaccessible
-            continue;
-          }
-        } else if (!repoDetails.get(event.repo.name)) {
-          // Already checked and found to be private
-          continue;
-        }
-
-        activities.push({
-          type: 'created',
-          repo: event.repo.name,
-          ref_type: event.payload.ref_type,
-          ref: event.payload.ref,
-          repoDetails: repoDetails.get(event.repo.name),
-        });
-      } else if (event.type === 'PullRequestEvent') {
-        activities.push({
-          type: 'pr',
-          repo: event.repo.name,
-          action: event.payload.action,
-          title: event.payload.pull_request.title,
-          body: event.payload.pull_request.body,
-          url: event.payload.pull_request.html_url,
-        });
-      } else if (event.type === 'IssuesEvent') {
-        activities.push({
-          type: 'issue',
-          repo: event.repo.name,
-          action: event.payload.action,
-          title: event.payload.issue.title,
-          body: event.payload.issue.body,
-          url: event.payload.issue.html_url,
-        });
-      }
-    }
-
-    // Also fetch recent starred repos
-    const { data: starred } = await octokit.activity.listReposStarredByUser({
-      username,
-      per_page: 10,
-      sort: 'created',
+    const { data: searchResults } = await octokit.search.commits({
+      q: searchQuery,
+      sort: 'committer-date',
+      order: 'desc',
+      per_page: 100,
     });
 
-    const recentStars = starred.filter(
-      repo => new Date(repo.starred_at) > new Date(sinceDate)
-    );
+    console.log(`Found ${searchResults.total_count} total commits`);
 
-    if (recentStars.length > 0) {
+    // Group commits by repository
+    const commitsByRepo = new Map();
+    for (const commit of searchResults.items) {
+      const repoFullName = commit.repository.full_name;
+
+      if (!commitsByRepo.has(repoFullName)) {
+        commitsByRepo.set(repoFullName, []);
+      }
+      commitsByRepo.get(repoFullName).push(commit);
+    }
+
+    console.log(`Commits found across ${commitsByRepo.size} repositories`);
+
+    // Process each repository's commits
+    for (const [repoFullName, commits] of commitsByRepo.entries()) {
+      const [owner, repoName] = repoFullName.split('/');
+
+      // Fetch repo details and skip if private
+      const details = await fetchRepositoryDetails(owner, repoName);
+      if (!details) {
+        // Repository is private or inaccessible
+        console.log(`Skipping private/inaccessible repository: ${repoFullName}`);
+        continue;
+      }
+
+      repoDetails.set(repoFullName, details);
+
+      // Get the latest commit for code snippets
+      const latestCommit = commits[0];
+      const codeSnippets = await fetchCommitCode(owner, repoName, latestCommit.sha);
+
       activities.push({
-        type: 'starred',
-        repos: recentStars.map(r => ({
-          name: r.full_name,
-          description: r.description,
-          language: r.language,
-          url: r.html_url,
-        })),
-      });
-    }
-
-    // Fetch recent repositories directly for comprehensive coverage
-    try {
-      const { data: repos } = await octokit.repos.listForUser({
-        username,
-        sort: 'pushed',
-        per_page: 30,
+        type: 'commits',
+        repo: repoFullName,
+        count: commits.length,
+        messages: commits.map(c => c.commit.message),
+        branch: 'various',
+        codeSnippets: codeSnippets,
+        repoDetails: details,
       });
 
-      for (const repo of repos) {
-        // Skip private repositories
-        if (repo.private) {
-          console.log(`Skipping private repository: ${repo.full_name}`);
-          continue;
-        }
-
-        if (new Date(repo.pushed_at) > new Date(sinceDate)) {
-          try {
-            const { data: commits } = await octokit.repos.listCommits({
-              owner: repo.owner.login,
-              repo: repo.name,
-              since: sinceDate,
-              per_page: 10,
-            });
-
-            if (commits.length > 0 && !repoDetails.has(repo.full_name)) {
-              const details = await fetchRepositoryDetails(repo.owner.login, repo.name);
-              if (details) {
-                repoDetails.set(repo.full_name, details);
-
-                activities.push({
-                  type: 'recent_commits',
-                  repo: repo.full_name,
-                  count: commits.length,
-                  messages: commits.map(c => c.commit.message),
-                  repoDetails: details,
-                });
-              }
-            }
-          } catch (e) {
-            // Skip if we can't access commits
-          }
-        }
-      }
-    } catch (e) {
-      console.error('Error fetching user repos:', e.message);
-    }
-
-    // Use GitHub Search API to find commits across ALL accessible repos (including orgs)
-    try {
-      const { data: user } = await octokit.users.getAuthenticated();
-      const searchQuery = `author:${user.login} committer-date:>=${sinceDate}`;
-      console.log(`Searching for commits with query: ${searchQuery}`);
-
-      const { data: searchResults } = await octokit.search.commits({
-        q: searchQuery,
-        sort: 'committer-date',
-        order: 'desc',
-        per_page: 100,
-      });
-
-      console.log(`Found ${searchResults.total_count} commits via search API`);
-
-      // Group commits by repository
-      const commitsByRepo = new Map();
-      for (const commit of searchResults.items) {
-        const repoFullName = commit.repository.full_name;
-
-        if (!commitsByRepo.has(repoFullName)) {
-          commitsByRepo.set(repoFullName, []);
-        }
-        commitsByRepo.get(repoFullName).push(commit);
-      }
-
-      // Process each repository's commits
-      for (const [repoFullName, commits] of commitsByRepo.entries()) {
-        // Skip if we already have this repo in activities
-        const alreadyHasActivity = activities.some(a => a.repo === repoFullName);
-        if (alreadyHasActivity) {
-          console.log(`Skipping ${repoFullName} - already has activity`);
-          continue;
-        }
-
-        const [owner, repoName] = repoFullName.split('/');
-
-        // Fetch repo details if not already cached
-        if (!repoDetails.has(repoFullName)) {
-          const details = await fetchRepositoryDetails(owner, repoName);
-          if (details) {
-            repoDetails.set(repoFullName, details);
-          } else {
-            // Skip private or inaccessible repos
-            continue;
-          }
-        } else if (!repoDetails.get(repoFullName)) {
-          // Already checked and found to be private
-          continue;
-        }
-
-        // Get the latest commit for code snippets
-        const latestCommit = commits[0];
-        const codeSnippets = await fetchCommitCode(owner, repoName, latestCommit.sha);
-
-        activities.push({
-          type: 'search_commits',
-          repo: repoFullName,
-          count: commits.length,
-          messages: commits.map(c => c.commit.message),
-          branch: 'various', // Search API doesn't provide branch info easily
-          codeSnippets: codeSnippets,
-          repoDetails: repoDetails.get(repoFullName),
-        });
-
-        console.log(`Added ${commits.length} commits from ${repoFullName} via search API`);
-      }
-    } catch (searchError) {
-      console.error('Error using search API:', searchError.message);
+      console.log(`Added ${commits.length} commits from ${repoFullName}`);
     }
 
     console.log(`Total activities found: ${activities.length} from ${repoDetails.size} repositories`);
@@ -428,21 +209,11 @@ This might be a good opportunity to write about a technical topic, tool, or conc
         repoActivities[activity.repo] = [];
       }
       repoActivities[activity.repo].push(activity);
-    } else if (activity.type === 'starred') {
-      repoActivities['_starred'] = [activity];
     }
   });
 
   // Generate detailed activity breakdown
   for (const [repo, acts] of Object.entries(repoActivities)) {
-    if (repo === '_starred') {
-      markdown += `### ⭐ Starred Repositories\n\n`;
-      acts[0].repos.forEach(r => {
-        markdown += `- **[${r.name}](${r.url})** - ${r.description || 'No description'} (${r.language || 'Unknown'})\n`;
-      });
-      markdown += `\n`;
-      continue;
-    }
 
     const details = repoDetails.get(repo);
     markdown += `### 📦 ${repo}\n\n`;
@@ -470,8 +241,8 @@ This might be a good opportunity to write about a technical topic, tool, or conc
     // Activity details
     markdown += `**Activity:**\n`;
     acts.forEach(activity => {
-      if (activity.type === 'commits' || activity.type === 'recent_commits' || activity.type === 'search_commits') {
-        markdown += `\n- **${activity.count} commits** ${activity.branch ? `to \`${activity.branch}\`` : ''}\n`;
+      if (activity.type === 'commits') {
+        markdown += `\n- **${activity.count} commits**\n`;
         // Limit to 3 commit messages
         activity.messages.slice(0, 3).forEach(msg => {
           markdown += `  - "${msg}"\n`;
@@ -484,17 +255,6 @@ This might be a good opportunity to write about a technical topic, tool, or conc
             markdown += `  \`\`\`diff\n${snippet.patch}\n  \`\`\`\n`;
           });
         }
-      } else if (activity.type === 'created') {
-        markdown += `\n- Created ${activity.ref_type}: ${activity.ref || 'repository'}\n`;
-      } else if (activity.type === 'pr') {
-        markdown += `\n- Pull Request ${activity.action}: [${activity.title}](${activity.url})\n`;
-        // Limit PR body to 100 chars
-        if (activity.body) {
-          markdown += `  ${activity.body.slice(0, 100)}...\n`;
-        }
-      } else if (activity.type === 'issue') {
-        markdown += `\n- Issue ${activity.action}: [${activity.title}](${activity.url})\n`;
-        // Skip issue body to save space
       }
     });
 
