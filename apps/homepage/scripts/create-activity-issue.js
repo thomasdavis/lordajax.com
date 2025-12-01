@@ -134,6 +134,32 @@ async function fetchGitHubActivity(username, sinceDate) {
       });
       events = response.data || [];
       console.log(`Fetched ${events.length} total events for user ${user.login}`);
+
+      // ALSO fetch organization events for all orgs the user is a member of
+      try {
+        const { data: orgs } = await octokit.orgs.listForAuthenticatedUser({
+          per_page: 100,
+        });
+        console.log(`Found ${orgs.length} organizations`);
+
+        for (const org of orgs) {
+          console.log(`Fetching events for organization: ${org.login}`);
+          try {
+            const { data: orgEvents } = await octokit.activity.listOrgEventsForAuthenticatedUser({
+              username: user.login,
+              org: org.login,
+              per_page: 100,
+            });
+            events = events.concat(orgEvents);
+            console.log(`Added ${orgEvents.length} events from ${org.login}`);
+          } catch (orgError) {
+            console.error(`Error fetching events for org ${org.login}:`, orgError.message);
+          }
+        }
+        console.log(`Total events after org events: ${events.length}`);
+      } catch (orgError) {
+        console.error('Error fetching organization events:', orgError.message);
+      }
     } catch (error) {
       console.error('Error with authenticated request, falling back:', error.message);
       // Fallback to public events with provided username
@@ -302,6 +328,77 @@ async function fetchGitHubActivity(username, sinceDate) {
       console.error('Error fetching user repos:', e.message);
     }
 
+    // Use GitHub Search API to find commits across ALL accessible repos (including orgs)
+    try {
+      const { data: user } = await octokit.users.getAuthenticated();
+      const searchQuery = `author:${user.login} committer-date:>=${sinceDate}`;
+      console.log(`Searching for commits with query: ${searchQuery}`);
+
+      const { data: searchResults } = await octokit.search.commits({
+        q: searchQuery,
+        sort: 'committer-date',
+        order: 'desc',
+        per_page: 100,
+      });
+
+      console.log(`Found ${searchResults.total_count} commits via search API`);
+
+      // Group commits by repository
+      const commitsByRepo = new Map();
+      for (const commit of searchResults.items) {
+        const repoFullName = commit.repository.full_name;
+
+        if (!commitsByRepo.has(repoFullName)) {
+          commitsByRepo.set(repoFullName, []);
+        }
+        commitsByRepo.get(repoFullName).push(commit);
+      }
+
+      // Process each repository's commits
+      for (const [repoFullName, commits] of commitsByRepo.entries()) {
+        // Skip if we already have this repo in activities
+        const alreadyHasActivity = activities.some(a => a.repo === repoFullName);
+        if (alreadyHasActivity) {
+          console.log(`Skipping ${repoFullName} - already has activity`);
+          continue;
+        }
+
+        const [owner, repoName] = repoFullName.split('/');
+
+        // Fetch repo details if not already cached
+        if (!repoDetails.has(repoFullName)) {
+          const details = await fetchRepositoryDetails(owner, repoName);
+          if (details) {
+            repoDetails.set(repoFullName, details);
+          } else {
+            // Skip private or inaccessible repos
+            continue;
+          }
+        } else if (!repoDetails.get(repoFullName)) {
+          // Already checked and found to be private
+          continue;
+        }
+
+        // Get the latest commit for code snippets
+        const latestCommit = commits[0];
+        const codeSnippets = await fetchCommitCode(owner, repoName, latestCommit.sha);
+
+        activities.push({
+          type: 'search_commits',
+          repo: repoFullName,
+          count: commits.length,
+          messages: commits.map(c => c.commit.message),
+          branch: 'various', // Search API doesn't provide branch info easily
+          codeSnippets: codeSnippets,
+          repoDetails: repoDetails.get(repoFullName),
+        });
+
+        console.log(`Added ${commits.length} commits from ${repoFullName} via search API`);
+      }
+    } catch (searchError) {
+      console.error('Error using search API:', searchError.message);
+    }
+
     console.log(`Total activities found: ${activities.length} from ${repoDetails.size} repositories`);
     return { activities, repoDetails };
   } catch (error) {
@@ -373,7 +470,7 @@ This might be a good opportunity to write about a technical topic, tool, or conc
     // Activity details
     markdown += `**Activity:**\n`;
     acts.forEach(activity => {
-      if (activity.type === 'commits' || activity.type === 'recent_commits') {
+      if (activity.type === 'commits' || activity.type === 'recent_commits' || activity.type === 'search_commits') {
         markdown += `\n- **${activity.count} commits** ${activity.branch ? `to \`${activity.branch}\`` : ''}\n`;
         // Limit to 3 commit messages
         activity.messages.slice(0, 3).forEach(msg => {
