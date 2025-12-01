@@ -234,31 +234,137 @@ ${activityMarkdown}
 
 ## Instructions for @claude
 
-Above is a complete list of all commits from the past week across all repositories. Each commit is linked - click any commit link to see the full code changes.
+You are a senior engineer and writer. Your job is to turn this weekly activity summary + commit list into a compelling, narrative-style blog post.
 
-**Your task:**
+You are given:
+- A high-level activity summary (dates, repos, commit counts)
+- Full lists of commits (titles + links) across multiple repos
+- Ability to click into any commit to inspect the diff if needed
 
-1. **Review the commits** - Scan through the list and click on any commits that look interesting to see the full code changes
-2. **Write a blog post** about the most significant or interesting work from the week:
-   - Technical and comprehensive, explaining both what AND why
-   - Include code examples by referencing the actual commits (click the links to see the code)
-   - Explain the problem being solved and the implementation approach
-   - Include links to GitHub repos, npm packages, and documentation
-   - Write as if teaching other developers
+Write as if you are the author of this work, in first person ("I").
 
-3. **Create the blog post:**
-   - Create a new markdown file in \`apps/homepage/posts/\` with a slugified filename
-   - Format: Start with "# Weekly Activity: [Descriptive Subtitle]"
-   - Update \`apps/homepage/blog.json\` to add the new post at the beginning of the posts array with \`"type": "ai"\`
-   - Create a pull request with your changes and label it "activity-post"
+### GOAL
 
-**Tips:**
-- Don't try to cover every commit - focus on the most interesting/significant work
-- Click commit links to see full diffs and understand what changed
-- Look for patterns or themes across multiple commits
-- Technical depth over breadth - explain one thing well rather than many things superficially
+Write a single, coherent blog post that:
 
-@claude Please review the commits above and create a high-quality technical blog post!`;
+- Tells a story about what I was trying to achieve this week
+- Highlights the most interesting technical decisions and problems
+- Shows how work across multiple repos connects into a bigger vision
+- Is enjoyable to read for intermediate-to-advanced developers
+
+Focus on **depth over breadth**.
+It is totally fine to ignore many commits and zoom in on 1–3 key themes.
+
+### AUDIENCE & VOICE
+
+- Audience: developers and technical founders
+- Assume they have general web/infra/AI context but have never seen this codebase before
+- Voice:
+  - First person ("I", "my")
+  - Conversational and honest, mildly opinionated
+  - Confident but not arrogant
+  - Willing to admit trade-offs, hacks, and unfinished edges
+
+Avoid corporate or marketing fluff. No "synergy", no "leverage".
+
+### HOW TO USE THE COMMITS
+
+1. **Scan everything first**
+   - Look over the Activity Summary and all commit titles across repos
+   - Group them mentally into 2–4 themes
+
+2. **Pick a main storyline**
+   - Choose ONE primary storyline for the post
+   - Optionally include 1–2 smaller side stories as sub-sections
+
+3. **Use commit links for depth**
+   - When something looks interesting, click the commit and scan the diff
+   - Pull out key details: data structures, APIs, patterns, weird bugs, or refactors
+   - Use those details to tell a story, not to list code line-by-line
+
+4. **DO NOT do this**
+   - Do NOT write a chronological "then I did X, then Y" recap
+   - Do NOT mention every repo or every commit
+   - Do NOT dump a bullet-point list of changes
+
+### STRUCTURE
+
+Use roughly this structure:
+
+1. **Title**
+   - Catchy but clear
+   - Examples: "Teaching My Self-Evolving Bot to Clean Up Its Own Mess" or "A Week of Making Omega Less Janky and More Autonomous"
+
+2. **Subtitle**
+   - One sentence that adds context: what this week was about in human language
+
+3. **Intro (1–3 short paragraphs)**
+   - Set the scene: what problem or goal defined this week?
+   - Reference the time period and scope lightly
+   - Hook the reader with some tension (a tricky bug, design dilemma, constraint)
+
+4. **Main sections (2–4 sections)**
+   For each main theme:
+   - Use a clear heading
+   - Explain:
+     - What the situation was before
+     - What hurt / what was messy
+     - What I decided to change, and why
+     - How I implemented it at a high level (reference key commits)
+     - What I learned or what still feels iffy
+   - Prioritise **insight** over exhaustive detail
+
+5. **Small section: "Tiny Changes That Added Up" (optional)**
+   - Briefly mention a handful of smaller commits that improved DX, performance, or reliability
+   - Explain why these boring changes actually matter
+
+6. **Links & Resources**
+   - Add a "## Links & Resources" section near the end
+   - Include clickable links to:
+     - All GitHub repositories mentioned
+     - Any npm packages referenced
+     - Documentation sites
+     - Tools or frameworks discussed
+   - Format as a clean bulleted list with descriptions
+
+7. **Closing section: "What's Next"**
+   - Share what this week unlocked
+   - Mention the next few steps or experiments you're excited about
+   - List 2-4 future ideas or directions being considered
+   - If appropriate, invite readers to follow the repos or try the project
+
+### STYLE & QUALITY GUARDRAILS
+
+- Don't apologise for imperfections; instead, frame them as trade-offs or iterations
+- Prefer concrete phrases over vague ones
+- Feel free to have opinions (why this architectural choice? why this library?)
+- Explain acronyms and project names briefly on first use
+
+### OUTPUT FORMAT
+
+- Output **only** the finished blog post in Markdown
+- Include:
+  - An H1 title at the top (\`# ...\`)
+  - A short italic subtitle under the title
+  - Logical headings (\`##\`, \`###\`) for sections
+  - Occasional bullet lists where it aids clarity
+  - Optional short code blocks if they concretely illustrate a point
+  - A "## Links & Resources" section with all relevant links
+  - A "## What's Next" section with future ideas
+
+Do NOT include meta commentary about how you wrote the post.
+Do NOT restate these instructions.
+Just output the blog post.
+
+### FINAL STEPS
+
+After writing the blog post:
+
+1. Create a new markdown file in \`apps/homepage/posts/\` with a slugified filename (e.g., \`weekly-activity-nov-24-2025.md\`)
+2. Update \`apps/homepage/blog.json\` to add the new post entry at the beginning of the posts array with \`"type": "ai"\`
+3. Create a pull request with your changes and label it "activity-post"
+
+@claude Please review the commits above and create a high-quality narrative blog post following these guidelines!`;
 
     const response = await octokit.issues.create({
       owner: 'thomasdavis',
