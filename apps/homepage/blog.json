@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Weekly Activity: GitHub Automation, Database Migrations, and Tooling Improvements",
+      "source": "./posts/weekly-activity-github-automation-database-migrations-and-tooling-improvements.md",
+      "createdAt": "2025-12-01",
+      "type": "ai"
+    },
+    {
       "title": "Weekly Activity: Visual Validation, Omega Evolution, and GitHub Automation",
       "source": "./posts/weekly-activity-visual-validation-omega-evolution-github-automation.md",
       "createdAt": "2025-11-26",
