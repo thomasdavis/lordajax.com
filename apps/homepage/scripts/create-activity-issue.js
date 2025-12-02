@@ -273,6 +273,27 @@ If a paragraph starts to sound like a promo or docs page, make it weirder or mor
 
 Prefer specific details ("I spent a dozen commits fighting Railway's config file path behaviour") over vague ones ("I improved deployment").
 
+### What Makes Good Blog Content
+
+Focus on work worth sharing with the world:
+
+✅ **Include:**
+- Novel algorithms and creative technical solutions
+- Interesting design decisions with clear rationale
+- Tutorial-style breakdowns ("here's how to build this in 20 lines")
+- Results and experiments (include failures and "false positives")
+- Personal motivation ("I recently read X which gave me the idea to...")
+- Code snippets that demonstrate the solution
+
+❌ **Skip:**
+- Infrastructure bugs (GitHub API limits, config file paths, deployment errors)
+- Dependency updates, version bumps, minor tweaks
+- Commit counts, PR numbers, repository statistics
+- Work that's only interesting internally (CI fixes, linting, etc.)
+
+**If a repo only had boring infrastructure work this week, it's okay to skip it entirely.**
+Only write about repositories with novel, interesting technical work worth sharing.
+
 ### Working With the Commits
 
 - Scan the summary and commit titles for all repos
@@ -303,23 +324,31 @@ Adapt this as needed to make the post better.
 
 3. **Intro**
    - 1–3 short paragraphs
-   - Set the scene: time period, rough scope (mention the repos, not commit counts)
-   - Introduce the main tension(s):
-     - e.g. "getting monorepos to behave in production", "standardising AI tools", "turning GitHub chaos into something coherent"
+   - Set the scene: time period, what inspired this week's work
+   - Introduce the main problem or question you were trying to solve
+   - Start with personal motivation: "I recently read...", "I had the idea to...", "I wanted to try..."
 
 4. **Per-Repo Sections**
-   - Create a section for each repository in the Activity Summary
-   - For each repo:
-     - Briefly remind the reader what this project is
-     - Describe what changed this week at a high level
-     - Highlight 1–3 interesting commits, decisions, or problems
-       - What hurt before?
-       - What did I change and why?
-       - Any notable patterns, designs, or test strategies?
+   - Only write about repos with interesting, novel work
+   - For each repo with something worth sharing:
+     - What inspired this work? ("I recently read...", "I wanted to try...")
+     - What's the interesting technical problem you solved?
+     - Include code snippets that demonstrate the solution
+     - Show results (even failures - "false positives gallery")
+     - Consider: could this be a mini-tutorial?
 
-   Some repos can be short (especially if mostly docs / small tweaks), but they should still feel intentional, not like an afterthought
+   **Skip repos that only had infrastructure work, bug fixes, or dependency updates.**
+   Focus on depth over completeness.
 
-5. **Connecting Threads / Hidden Synergies**
+5. **Tutorial-Style Sections (When Appropriate)**
+   If you built something teachable (like a new algorithm or tool):
+   - Break it down into steps
+   - Include code snippets with comments
+   - "This is super easy and you could likely have it working in an hour"
+   - Purposely over-simplify technical concepts
+   - Be self-aware: "written by a noob", "I had no idea how to do this"
+
+6. **Connecting Threads / Hidden Synergies**
    - Add a dedicated section that looks **across** repos
    - Call out overlaps and emerging patterns, for example:
      - Shared aesthetics (e.g. dithered / AI lab visuals appearing in multiple places)
@@ -330,7 +359,7 @@ Adapt this as needed to make the post better.
 
    Think of this as: "What's the bigger thing I seem to be building without fully admitting it yet?"
 
-6. **Future Ideas / What's Next**
+7. **Future Ideas / What's Next**
    - Add a section near the end listing **concrete** future directions inspired by this week:
      - Follow-up refactors
      - Experiments you want to run
@@ -338,7 +367,7 @@ Adapt this as needed to make the post better.
    - 3–7 bullet points is enough
    - It's helpful if at least some ideas explicitly span multiple repos
 
-7. **Links & Resources**
+8. **Links & Resources**
    - Finish with a "Links & Resources" section that points to:
      - GitHub repos mentioned
      - npm packages referenced
@@ -368,7 +397,8 @@ After writing the blog post:
 
 1. Create a new markdown file in \`apps/homepage/posts/\` with a slugified filename (e.g., \`weekly-activity-2025-11-24-to-2025-12-01.md\`)
 2. Update \`apps/homepage/blog.json\` to add the new post entry at the beginning of the \`posts\` array with \`"type": "ai"\`
-3. Create a pull request with your changes and label it \`"activity-post"\`
+3. DO NOT add any footer about "generated from X commits" - just end with the Links & Resources section
+4. Create a pull request with your changes and label it \`"activity-post"\`
 
 @claude Please review the commits above and create a high-quality blog post following these guidelines!`;
 
