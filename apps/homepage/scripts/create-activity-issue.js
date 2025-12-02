@@ -183,12 +183,8 @@ function formatActivityAsMarkdown(activities, repoDetails, dateRange, allCommitD
 This might be a good opportunity to write about a technical topic, tool, or concept instead of activity-based content.`;
   }
 
-  const totalCommits = activities.reduce((sum, act) => sum + act.count, 0);
-
   let markdown = `## Activity Summary\n\n`;
   markdown += `**Period:** ${dateRange.startFormatted} to ${dateRange.endFormatted}\n\n`;
-  markdown += `**Total Commits:** ${totalCommits}\n`;
-  markdown += `**Repositories:** ${repoDetails.size}\n\n`;
 
   // List all commits grouped by repository
   for (const activity of activities) {
@@ -203,8 +199,6 @@ This might be a good opportunity to write about a technical topic, tool, or conc
       if (details.stars) meta.push(`⭐ ${details.stars}`);
       if (meta.length > 0) markdown += `${meta.join(' • ')}\n\n`;
     }
-
-    markdown += `**${activity.count} commits:**\n\n`;
 
     // List ALL commits with links
     const commits = activity.commitData || [];
@@ -234,10 +228,13 @@ ${activityMarkdown}
 
 ## Instructions for @claude
 
-You are a senior engineer and writer. Turn this activity summary + commit list into a readable blog post about what I've been building.
+You are Lord Ajax.
+I write software and shitty poetry.
+
+Turn this weekly GitHub activity summary into a readable blog post about what I've been building.
 
 You have:
-- A weekly summary (dates, repos, commit counts)
+- A weekly summary (dates, repos)
 - Commit messages (with links) across multiple repos
 - The ability to open any commit to inspect the diff
 
@@ -248,93 +245,123 @@ Write in first person ("I").
 Write a blog-style post that:
 
 - Captures what this week of work was really about
-- Highlights a few interesting technical decisions or problems
-- Gives readers a sense of direction and future ideas
+- Gives each repository its own moment and context
+- Highlights interesting technical decisions or problems
+- Surfaces **connections and synergies** between repos that I might not have noticed
+- References similar projects in the wild that readers might find inspiring
+- Ends with concrete future ideas
 
-**Depth is more valuable than covering everything.**
+Depth is more valuable than covering every single commit.
 
 ### Audience & Voice
 
-- **Audience:** developers / technical founders who haven't seen this codebase
-- **Voice:** conversational, honest, a bit opinionated, technically concrete
-- It's fine to admit trade-offs, hacks, and unfinished edges
+- **Audience:** developers / technical founders, plus future-me reading this as a lab notebook
+- **Voice:**
+  - Conversational, honest, a bit opinionated
+  - Willing to mention hacks, trade-offs, and half-baked experiments
+  - Technically concrete (specific problems, structures, patterns)
 
-Prefer specific details ("I split a 1,200-line file into three modules…") over vague claims ("I improved performance").
+Avoid corporate / marketing tone.
+If a paragraph starts to sound like a promo or docs page, make it weirder or more personal.
+
+Prefer specific details ("I spent a dozen commits fighting Railway's config file path behaviour") over vague ones ("I improved deployment").
 
 ### Working With the Commits
 
-1. Scan the summary and commit titles
-2. Notice patterns or themes within or across repos where they exist
-3. If work is scattered across unrelated repos:
-   - Either choose one project to focus on and mention the others briefly, **or**
-   - Treat the post as a "week in the lab" with a few short sections, one per project
-4. When something looks interesting, open the commit and skim the diff
-5. Use commits as supporting evidence and examples, not as a checklist to exhaust
+- Scan the summary and commit titles for all repos
+- Notice patterns or themes:
+  - Shared tech (monorepos, AI tools, design systems, deployment pain)
+  - Similar problems solved in different codebases
+  - Features in one repo that clearly support another
 
-**You don't need to mention every repo or every commit.**
+**Every repo listed in the summary should get at least a small section.**
+Some may be short (a couple of paragraphs), others deeper, but nothing should be completely ignored.
 
-### Possible Structure (Guideline, Not a Rule)
+When something looks interesting:
+- Open the commit and skim the diff
+- Use it as a concrete example in the story
+- Use commits as evidence, not as a checklist you must exhaust
 
-You can adapt this structure as needed:
+You don't need to explain generic technologies (what PostgreSQL is, what BM25 is, what a monorepo is) unless there's a surprising or funny twist.
+
+### Suggested Structure (Guideline, Not a Rule)
+
+Adapt this as needed to make the post better.
 
 1. **Title**
-   A clear, human title (e.g. "A Week of Hardening My AI Toolchain")
+   A clear human title (e.g. "A Week of Teaching My Bots and Monorepos to Behave")
 
 2. **Subtitle**
-   One sentence that sums up what this week's work felt like
+   One sentence that sums up what this week felt like (e.g. "Gluing together bots, blogs, and tool registries")
 
 3. **Intro**
-   - Set the scene (time period, rough scope of work)
-   - Briefly state the main tension or question (e.g. reliability, DX, autonomy, performance)
+   - 1–3 short paragraphs
+   - Set the scene: time period, rough scope (mention the repos, not commit counts)
+   - Introduce the main tension(s):
+     - e.g. "getting monorepos to behave in production", "standardising AI tools", "turning GitHub chaos into something coherent"
 
-4. **Main Sections (2–4)**
-   For each theme or project you want to talk about:
-   - What the situation was before
-   - What problem or itch I was addressing
-   - What I changed and why (referencing key commits and ideas)
-   - Any interesting patterns, architectures, or trade-offs
+4. **Per-Repo Sections**
+   - Create a section for each repository in the Activity Summary
+   - For each repo:
+     - Briefly remind the reader what this project is
+     - Describe what changed this week at a high level
+     - Highlight 1–3 interesting commits, decisions, or problems
+       - What hurt before?
+       - What did I change and why?
+       - Any notable patterns, designs, or test strategies?
 
-   Use short snippets or pseudo-code only when they clarify something specific
+   Some repos can be short (especially if mostly docs / small tweaks), but they should still feel intentional, not like an afterthought
 
-5. **Future Ideas / What's Next**
-   Add a small section near the end sketching where I might take this work:
-   - Follow-up refactors
-   - Experiments I want to try
-   - Tooling / automation ideas this suggests
+5. **Connecting Threads / Hidden Synergies**
+   - Add a dedicated section that looks **across** repos
+   - Call out overlaps and emerging patterns, for example:
+     - Shared aesthetics (e.g. dithered / AI lab visuals appearing in multiple places)
+     - Deployment or monorepo lessons reused between projects
+     - Tools in one repo that could clearly help another
+   - Reference similar projects or approaches in the wild that readers might find inspiring
+   - It's okay to speculate here. If a connection is hypothetical, say so ("This suggests I should…")
 
-   Ground these ideas in what happened this week
+   Think of this as: "What's the bigger thing I seem to be building without fully admitting it yet?"
 
-6. **Links & Resources**
-   Finish with a small curated list of links to the projects and tools I'm working with:
-   - GitHub repositories mentioned
-   - npm packages referenced
-   - Documentation or tools discussed
+6. **Future Ideas / What's Next**
+   - Add a section near the end listing **concrete** future directions inspired by this week:
+     - Follow-up refactors
+     - Experiments you want to run
+     - Cross-repo integrations you should try
+   - 3–7 bullet points is enough
+   - It's helpful if at least some ideas explicitly span multiple repos
 
-   Format as a clean bulleted list
+7. **Links & Resources**
+   - Finish with a "Links & Resources" section that points to:
+     - GitHub repos mentioned
+     - npm packages referenced
+     - Tools / services that played a notable role
+     - Similar projects or inspiration mentioned in the post
+   - Group them (Projects, NPM Packages, Tools & Services, Inspiration) and format as a clean Markdown list
 
 ### Output Format
 
-- Output **only** the finished blog post in Markdown
+- Output only the finished blog post in Markdown
 - Include:
-  - H1 title at the top (\`# ...\`)
+  - \`#\` title at the top
   - Short italic subtitle under the title
-  - Logical section headings (\`##\`, \`###\`)
-  - Bullet lists where helpful
-  - Optional short code blocks for concrete examples
-  - "## What's Next" section with future ideas
-  - "## Links & Resources" section at the end
+  - Logical section headings (\`##\`, \`###\`) as needed
+  - A section for each repo from the Activity Summary
+  - A "Connecting Threads" (or similar) section
+  - A "Future Ideas" (or "What's Next") section
+  - A "Links & Resources" section at the end
 
-Do NOT include meta commentary about how you wrote the post.
-Do NOT restate these instructions.
+Do NOT include these instructions or any meta commentary.
+Do NOT restate the issue text.
 Just output the blog post.
 
 ### Final Steps
 
 After writing the blog post:
 
-1. Create a new markdown file in \`apps/homepage/posts/\` with a slugified filename (e.g., \`weekly-activity-nov-24-2025.md\`)
-2. Update \`apps/homepage/blog.json\` to add the new post entry at the beginning of the posts array with \`"type": "ai"\`
-3. Create a pull request with your changes and label it "activity-post"
+1. Create a new markdown file in \`apps/homepage/posts/\` with a slugified filename (e.g., \`weekly-activity-2025-11-24-to-2025-12-01.md\`)
+2. Update \`apps/homepage/blog.json\` to add the new post entry at the beginning of the \`posts\` array with \`"type": "ai"\`
+3. Create a pull request with your changes and label it \`"activity-post"\`
 
 @claude Please review the commits above and create a high-quality blog post following these guidelines!`;
 
