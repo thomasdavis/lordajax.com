@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "A Week of Glue Code, Generators, and GitHub's Hidden Limits",
+      "source": "./posts/weekly-activity-2025-11-25-to-2025-12-02.md",
+      "createdAt": "2025-12-02",
+      "type": "ai"
+    },
+    {
       "title": "A Week of Monorepo Migrations and Tool Standardization",
       "source": "./posts/week-of-monorepo-migrations-and-tool-standardization.md",
       "createdAt": "2025-12-01",
