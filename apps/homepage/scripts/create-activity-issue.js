@@ -200,14 +200,21 @@ This might be a good opportunity to write about a technical topic, tool, or conc
       if (meta.length > 0) markdown += `${meta.join(' • ')}\n\n`;
     }
 
-    // List ALL commits with links
+    // List most recent commits with links (cap at 150 to avoid GitHub issue size limits)
     const commits = activity.commitData || [];
-    commits.forEach(commit => {
+    const commitsToShow = commits.slice(0, 150);
+    const hasMore = commits.length > 150;
+
+    commitsToShow.forEach(commit => {
       const shortSha = commit.sha.substring(0, 7);
       const commitUrl = `https://github.com/${activity.repo}/commit/${commit.sha}`;
       const message = commit.commit.message.split('\n')[0]; // First line only
       markdown += `- [\`${shortSha}\`](${commitUrl}) ${message}\n`;
     });
+
+    if (hasMore) {
+      markdown += `\n_...and ${commits.length - 150} more commits. [View all](${details?.url || `https://github.com/${activity.repo}`}/commits)_\n`;
+    }
 
     markdown += `\n`;
   }
