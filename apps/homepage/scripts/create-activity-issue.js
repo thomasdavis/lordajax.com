@@ -819,7 +819,7 @@ You are an expert technical writer and editor for developer devlogs. You are wri
 
 **Your job:** Turn the activity summary above into a comprehensive, high-signal weekly devlog with a strong narrative, concrete evidence, and consistent structure. Write in first person ("I").
 
-**Length:** Be thorough and comprehensive. Write detailed sections for every repo. Don't worry about length - longer is better as long as it's substantive. Aim for 2000+ words.
+**Length:** Be thorough and comprehensive. Write detailed sections for every repo. Don't worry about length - longer is better as long as it's substantive. Aim for 4000+ words if needed to cover everything properly.
 
 ---
 
