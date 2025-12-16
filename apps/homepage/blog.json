@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Two Weeks of Tool Ecosystems and Bot Evolution",
+      "source": "./posts/two-weeks-of-tool-ecosystems-and-bot-evolution/post.md",
+      "createdAt": "2025-12-16",
+      "type": "ai"
+    },
+    {
       "title": "Building Tool Ecosystems and Self-Evolving Bots",
       "source": "./posts/building-tool-ecosystems-and-self-evolving-bots/post.md",
       "createdAt": "2025-12-16",
