@@ -99,12 +99,6 @@ jobs:
             echo "✅ All links validated"
           fi
 
-      - name: Auto-approve PR
-        if: steps.check-post.outputs.has_post == 'true'
-        uses: hmarr/auto-approve-action@v4
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Merge PR
         if: steps.check-post.outputs.has_post == 'true'
         env:
