@@ -80,15 +80,6 @@ jobs:
               "**Fixes:** #${ISSUE_NUM}" \
               "This PR will be automatically merged after build verification." \
               "Generated with [Claude Code](https://claude.com/claude-code)")
-
-            # Create the PR with activity-post label
-            PR_URL=$(gh pr create \
-              --head "${{ steps.extract.outputs.branch }}" \
-              --base master \
-              --title "$TITLE" \
-              --body "$BODY" \
-              --label "automated" \
-              --label "activity-post")
           else
             TITLE="Updates from Claude"
             BODY=$(printf '%s\n\n%s\n%s\n\n%s\n%s' \
@@ -97,15 +88,15 @@ jobs:
               "**Fixes:** #${ISSUE_NUM}" \
               "**Files Changed:**" \
               "$FILES_CHANGED")
-
-            # Create the PR without activity-post label
-            PR_URL=$(gh pr create \
-              --head "${{ steps.extract.outputs.branch }}" \
-              --base master \
-              --title "$TITLE" \
-              --body "$BODY" \
-              --label "automated")
           fi
+
+          # Create PR WITHOUT activity-post label first (to ensure labeled event fires separately)
+          PR_URL=$(gh pr create \
+            --head "${{ steps.extract.outputs.branch }}" \
+            --base master \
+            --title "$TITLE" \
+            --body "$BODY" \
+            --label "automated")
 
           echo "✅ PR created successfully: $PR_URL"
 
@@ -113,5 +104,13 @@ jobs:
           PR_NUMBER=$(echo "$PR_URL" | grep -oP '\d+$')
           echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
 
-      # Activity posts are handled by auto-merge-activity-pr.yml workflow
-      # This workflow just creates the PR and exits
+      # Add activity-post label AFTER PR creation to trigger the labeled event
+      # This fires auto-merge-activity-pr.yml workflow
+      - name: Add activity-post label
+        if: steps.check_pr.outputs.pr_exists == '' && steps.create_pr.outputs.is_activity_post == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Adding activity-post label to trigger auto-merge workflow..."
+          gh pr edit ${{ steps.create_pr.outputs.pr_number }} --add-label "activity-post"
+          echo "✅ Label added"
