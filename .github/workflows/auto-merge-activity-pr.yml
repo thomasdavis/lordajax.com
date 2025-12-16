@@ -115,6 +115,21 @@ jobs:
 
           echo "✅ PR merged successfully"
 
+      - name: Tweet about new blog post
+        if: steps.check-post.outputs.has_post == 'true'
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
+          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
+          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+        run: |
+          # Pull latest to get merged changes
+          git checkout master
+          git pull origin master
+          cd apps/homepage
+          node scripts/tweet-blog-post.js
+
       - name: Add success comment
         if: steps.check-post.outputs.has_post == 'true'
         uses: actions/github-script@v7
@@ -124,7 +139,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '✅ Build successful and links validated! PR has been merged. Thanks @claude!'
+              body: '✅ Build successful, links validated, PR merged, and tweet posted! Thanks @claude!'
             })
 
       - name: Build failed comment
