@@ -733,13 +733,25 @@ function chunkContent(content, maxSize = GITHUB_MAX_BODY) {
 }
 
 // ============================================================================
+// Escape @mentions to prevent triggering bots
+// ============================================================================
+function escapeAtMentions(text) {
+  // Replace @username patterns with escaped version (except in the trigger comment)
+  // This prevents accidentally triggering Claude multiple times from commit messages
+  return text.replace(/@(\w+)/g, '`@$1`');
+}
+
+// ============================================================================
 // Create GitHub issue (keep existing @claude instructions)
 // ============================================================================
 async function createActivityIssue(activityMarkdown, dateRange) {
   const issueTitle = `Weekly Activity: ${dateRange.startFormatted} to ${dateRange.endFormatted}`;
 
+  // Escape any @mentions in the activity data to prevent multiple triggers
+  const escapedMarkdown = escapeAtMentions(activityMarkdown);
+
   // Split activity markdown into chunks if needed
-  const activityChunks = chunkContent(activityMarkdown);
+  const activityChunks = chunkContent(escapedMarkdown);
   console.log(`   Activity markdown: ${activityMarkdown.length} chars, split into ${activityChunks.length} chunk(s)`);
 
   // Issue body contains activity data; instructions will be in final @claude comment
