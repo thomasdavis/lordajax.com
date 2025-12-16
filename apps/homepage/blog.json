@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Building Tool Ecosystems and Self-Evolving Bots",
+      "source": "./posts/building-tool-ecosystems-and-self-evolving-bots/post.md",
+      "createdAt": "2025-12-16",
+      "type": "ai"
+    },
+    {
       "title": "Teaching Bots to Route Tools and Psychoanalyze Users",
       "source": "./posts/teaching-bots-to-route-tools-and-psychoanalyze-users.md",
       "createdAt": "2025-12-02",
