@@ -1,0 +1,71 @@
+name: Tweet New Blog Post
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'apps/homepage/posts/**'
+      - 'apps/homepage/blog.json'
+
+jobs:
+  tweet:
+    runs-on: ubuntu-latest
+    # Only tweet for activity posts (auto-generated weekly posts)
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Need previous commit to detect changes
+
+      - name: Check for new blog post
+        id: check-post
+        run: |
+          # Get the newest post from blog.json
+          NEWEST_POST=$(node -e "
+            const blog = require('./apps/homepage/blog.json');
+            const newest = blog.posts[0];
+            console.log(JSON.stringify(newest));
+          ")
+          echo "newest_post=$NEWEST_POST" >> $GITHUB_OUTPUT
+
+          # Check if this is a new post (file was added in this commit)
+          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+          if echo "$CHANGED_FILES" | grep -q "apps/homepage/posts/"; then
+            echo "has_new_post=true" >> $GITHUB_OUTPUT
+            echo "✅ New blog post detected"
+          else
+            echo "has_new_post=false" >> $GITHUB_OUTPUT
+            echo "ℹ️ No new blog post in this commit"
+          fi
+
+      - name: Setup Node.js
+        if: steps.check-post.outputs.has_new_post == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        if: steps.check-post.outputs.has_new_post == 'true'
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9.15.0
+
+      - name: Install dependencies
+        if: steps.check-post.outputs.has_new_post == 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate and post tweet
+        if: steps.check-post.outputs.has_new_post == 'true'
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
+          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
+          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+        run: |
+          cd apps/homepage
+          node scripts/tweet-blog-post.js

@@ -99,7 +99,7 @@ cd apps/homepage && npx json-blog --serve
 
 ### AI SDK Usage
 - **ALWAYS use Vercel AI SDK** for AI integrations, never the OpenAI SDK directly
-- **Use GPT-4o model** (gpt-4o) for all AI generation tasks
+- **Use GPT-5.2 model** (gpt-5.2) for all AI generation tasks
 - Import pattern: `const { generateText } = require('ai'); const { openai } = require('@ai-sdk/openai');`
 - If unsure about API usage, research the latest Vercel AI SDK documentation
 

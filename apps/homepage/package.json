@@ -7,6 +7,7 @@
     "build": "jsonblog build blog.json",
     "generate-post": "node scripts/generate-blog-post.js",
     "fetch-videos": "node scripts/fetch-videos.js",
+    "tweet-post": "node scripts/tweet-blog-post.js",
     "prebuild": "npm run fetch-videos"
   },
   "dependencies": {
@@ -14,6 +15,7 @@
     "@octokit/rest": "^20.0.2",
     "ai": "^3.4.0",
     "dotenv": "^16.6.1",
+    "twitter-api-v2": "^1.18.2",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {

@@ -3,7 +3,7 @@ const path = require('path');
 const { Octokit } = require('@octokit/rest');
 
 // Load environment variables
-require('dotenv').config({ path: path.join(__dirname, '../../../.env') });
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
 // Initialize Octokit
 const octokit = new Octokit({
@@ -16,11 +16,11 @@ const getCurrentDate = () => {
   return date.toISOString().split('T')[0];
 };
 
-// Get date range for the week
+// Get date range for the past 2 weeks
 const getDateRange = () => {
   const endDate = new Date();
   const startDate = new Date();
-  startDate.setDate(startDate.getDate() - 7);
+  startDate.setDate(startDate.getDate() - 14);
 
   return {
     start: startDate.toISOString(),
@@ -395,10 +395,13 @@ Just output the blog post.
 
 After writing the blog post:
 
-1. Create a new markdown file in \`apps/homepage/posts/\` with a slugified filename (e.g., \`weekly-activity-2025-11-24-to-2025-12-01.md\`)
-2. Update \`apps/homepage/blog.json\` to add the new post entry at the beginning of the \`posts\` array with \`"type": "ai"\`
-3. DO NOT add any footer about "generated from X commits" - just end with the Links & Resources section
-4. Create a pull request with your changes and label it \`"activity-post"\`
+1. Create a new folder in \`apps/homepage/posts/\` with a slugified name (e.g., \`weekly-activity-teaching-bots-and-monorepos-to-behave\`)
+2. Save the blog post as \`post.md\` inside that folder (e.g., \`apps/homepage/posts/weekly-activity-teaching-bots-and-monorepos-to-behave/post.md\`)
+3. Update \`apps/homepage/blog.json\` to add the new post entry at the beginning of the \`posts\` array:
+   - Use \`"source": "./posts/your-folder-name/post.md"\`
+   - Include \`"type": "ai"\`
+4. DO NOT add any footer about "generated from X commits" - just end with the Links & Resources section
+5. Create a pull request with your changes and label it \`"activity-post"\`
 
 @claude Please review the commits above and create a high-quality blog post following these guidelines!`;
 

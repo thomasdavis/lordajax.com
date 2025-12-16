@@ -5,12 +5,16 @@ const { openai } = require('@ai-sdk/openai');
 const { generateText } = require('ai');
 
 // Load environment variables
-require('dotenv').config({ path: path.join(__dirname, '../../../.env') });
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
 // Initialize clients
 const octokit = new Octokit({
   auth: process.env.GH_ACCESS_TOKEN || process.env.GITHUB_TOKEN,
 });
+
+// Parse --days argument (default: 7)
+const daysArg = process.argv.find((arg) => arg.startsWith('--days='));
+const DAYS_BACK = daysArg ? parseInt(daysArg.split('=')[1], 10) : 7;
 
 // Get current date in YYYY-MM-DD format
 const getCurrentDate = () => {
@@ -18,10 +22,10 @@ const getCurrentDate = () => {
   return date.toISOString().split('T')[0];
 };
 
-// Get date 2 weeks ago
-const getTwoWeeksAgo = () => {
+// Get date X days ago
+const getSinceDate = () => {
   const date = new Date();
-  date.setDate(date.getDate() - 14);
+  date.setDate(date.getDate() - DAYS_BACK);
   return date.toISOString();
 };
 
@@ -131,7 +135,7 @@ async function hasWrittenAbout(projectName) {
 // Fetch GitHub activity with deep analysis
 async function fetchGitHubActivity(username) {
   try {
-    const since = getTwoWeeksAgo();
+    const since = getSinceDate();
     const activities = [];
     const repoDetails = new Map();
 
@@ -456,12 +460,12 @@ Format:
 
   try {
     const result = await generateText({
-      model: openai('gpt-4o'),
+      model: openai('gpt-5.2'),
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt }
       ],
-      maxCompletionTokens: 3000, // Allow longer posts
+      maxCompletionTokens: 3000,
     });
 
     return result.text;
@@ -506,7 +510,7 @@ function updateBlogJson(folderName, title) {
 // Main function
 async function main() {
   try {
-    console.log('Starting intelligent blog post generation...');
+    console.log(`Starting intelligent blog post generation (last ${DAYS_BACK} days)...`);
     console.log('Fetching GitHub activity and analyzing repositories...');
     
     const { activities, repoDetails } = await fetchGitHubActivity('thomasdavis');

@@ -39,6 +39,9 @@ importers:
       dotenv:
         specifier: ^16.6.1
         version: 16.6.1
+      twitter-api-v2:
+        specifier: ^1.18.2
+        version: 1.28.0
       xml2js:
         specifier: ^0.6.2
         version: 0.6.2
@@ -2399,6 +2402,9 @@ packages:
   turbo@2.6.1:
     resolution: {integrity: sha512-qBwXXuDT3rA53kbNafGbT5r++BrhRgx3sAo0cHoDAeG9g1ItTmUMgltz3Hy7Hazy1ODqNpR+C7QwqL6DYB52yA==}
     hasBin: true
+
+  twitter-api-v2@1.28.0:
+    resolution: {integrity: sha512-VBmiAMylCEr94OChaHJ+0TBrOZNrduwWUe7QLoa/KdOdv1fNiToJ0xZGOrNKFd2B7jrAdAkfUW6yA5LuXYOYLQ==}
 
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
@@ -5249,6 +5255,8 @@ snapshots:
       turbo-linux-arm64: 2.6.1
       turbo-windows-64: 2.6.1
       turbo-windows-arm64: 2.6.1
+
+  twitter-api-v2@1.28.0: {}
 
   type-check@0.4.0:
     dependencies:
