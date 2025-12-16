@@ -508,6 +508,43 @@ function generateExecutiveSummary(themes, publicRepos, stats) {
 }
 
 // ============================================================================
+// Categorize commits by theme for a single repo
+// ============================================================================
+function categorizeCommitsByTheme(commits) {
+  const themeCommits = {};
+  const uncategorized = [];
+
+  for (const commit of commits) {
+    const title = commit.commit?.message?.split('\n')[0]?.toLowerCase() || '';
+    const files = commit.enrichedData?.files?.map(f => f.filename?.toLowerCase() || '') || [];
+    const text = [title, ...files].join(' ');
+
+    let matched = false;
+    for (const [themeName, keywords] of Object.entries(THEME_KEYWORDS)) {
+      const matchCount = keywords.filter(kw => text.includes(kw)).length;
+      if (matchCount > 0) {
+        if (!themeCommits[themeName]) {
+          themeCommits[themeName] = [];
+        }
+        themeCommits[themeName].push(commit);
+        matched = true;
+        break; // Assign to first matching theme only
+      }
+    }
+
+    if (!matched) {
+      uncategorized.push(commit);
+    }
+  }
+
+  // Sort themes by number of commits
+  const sortedThemes = Object.entries(themeCommits)
+    .sort((a, b) => b[1].length - a[1].length);
+
+  return { sortedThemes, uncategorized };
+}
+
+// ============================================================================
 // Format activity as high-signal markdown
 // ============================================================================
 function formatActivityAsMarkdown(publicRepos, repoDetails, allEnrichedCommits, dateRange) {
@@ -530,49 +567,7 @@ function formatActivityAsMarkdown(publicRepos, repoDetails, allEnrichedCommits, 
   md += `\n`;
 
   // ─────────────────────────────────────────────────────────────────────────
-  // Themes
-  // ─────────────────────────────────────────────────────────────────────────
-  if (themes.length > 0) {
-    md += `## Themes\n\n`;
-    for (const theme of themes.slice(0, 8)) {
-      md += `### ${theme.name}\n\n`;
-      md += `**Repos:** ${theme.repos.map(r => `\`${r.split('/')[1]}\``).join(', ')}\n\n`;
-      md += `**Key commits:**\n`;
-      for (const c of theme.commits.slice(0, 5)) {
-        const shortSha = c.sha.slice(0, 7);
-        const url = `https://github.com/${c.repoFullName}/commit/${c.sha}`;
-        const title = c.commit?.message?.split('\n')[0] || '';
-        md += `- [\`${shortSha}\`](${url}) ${title}\n`;
-      }
-      md += `\n`;
-    }
-  }
-
-  // ─────────────────────────────────────────────────────────────────────────
-  // Top Commits Overall
-  // ─────────────────────────────────────────────────────────────────────────
-  const topCommits = [...allEnrichedCommits]
-    .filter(c => !c.enrichedData?.isLowSignal)
-    .sort((a, b) => (b.score || 0) - (a.score || 0))
-    .slice(0, 25);
-
-  if (topCommits.length > 0) {
-    md += `## Top Commits (Ranked by Impact)\n\n`;
-    for (const c of topCommits) {
-      const shortSha = c.sha.slice(0, 7);
-      const url = `https://github.com/${c.repoFullName}/commit/${c.sha}`;
-      const title = c.commit?.message?.split('\n')[0] || '';
-      const repoShort = c.repoFullName.split('/')[1];
-      const statsStr = c.enrichedData?.stats
-        ? ` (+${c.enrichedData.stats.additions}/-${c.enrichedData.stats.deletions})`
-        : '';
-      md += `- [\`${shortSha}\`](${url}) **${repoShort}**: ${title}${statsStr}\n`;
-    }
-    md += `\n`;
-  }
-
-  // ─────────────────────────────────────────────────────────────────────────
-  // Per-Repo Highlights
+  // Per-Repo Details (All commits grouped by theme)
   // ─────────────────────────────────────────────────────────────────────────
   // Separate high-signal vs low-signal repos
   const highSignalRepos = [];
@@ -590,9 +585,9 @@ function formatActivityAsMarkdown(publicRepos, repoDetails, allEnrichedCommits, 
   }
 
   if (highSignalRepos.length > 0) {
-    md += `## Per-Repo Highlights\n\n`;
+    md += `## Per-Repo Details\n\n`;
 
-    for (const { repoFullName, commits, details, repoEnriched, highSignalCommits } of highSignalRepos) {
+    for (const { repoFullName, commits, details, repoEnriched } of highSignalRepos) {
       const repoUrl = details?.url || `https://github.com/${repoFullName}`;
       const repoShort = repoFullName.split('/')[1];
 
@@ -602,10 +597,10 @@ function formatActivityAsMarkdown(publicRepos, repoDetails, allEnrichedCommits, 
         md += `> ${details.description}\n\n`;
       }
 
-      // Why include
+      // Summary stats
       const featureCount = commits.filter(c => /^(feat|add|implement)/i.test(c.commit?.message || '')).length;
       const fixCount = commits.filter(c => /^fix/i.test(c.commit?.message || '')).length;
-      md += `**Why included:** ${commits.length} commits`;
+      md += `**Summary:** ${commits.length} commits`;
       if (featureCount > 0) md += `, ${featureCount} features`;
       if (fixCount > 0) md += `, ${fixCount} fixes`;
       md += `\n\n`;
@@ -625,18 +620,38 @@ function formatActivityAsMarkdown(publicRepos, repoDetails, allEnrichedCommits, 
         md += `**Top files:** ${topFiles.map(([f]) => `\`${f.split('/').pop()}\``).join(', ')}\n\n`;
       }
 
-      // Best commits
-      const bestCommits = highSignalCommits
-        .sort((a, b) => (b.score || 0) - (a.score || 0))
-        .slice(0, 3);
+      // Group ALL commits by theme
+      const { sortedThemes, uncategorized } = categorizeCommitsByTheme(commits);
 
-      if (bestCommits.length > 0) {
-        md += `**Best commits:**\n`;
-        for (const c of bestCommits) {
+      // Output commits grouped by theme
+      for (const [themeName, themeCommits] of sortedThemes) {
+        md += `#### ${themeName}\n\n`;
+        // Sort by score within theme
+        const sortedCommits = [...themeCommits].sort((a, b) => (b.score || 0) - (a.score || 0));
+        for (const c of sortedCommits) {
           const shortSha = c.sha.slice(0, 7);
           const url = `https://github.com/${repoFullName}/commit/${c.sha}`;
           const title = c.commit?.message?.split('\n')[0] || '';
-          md += `- [\`${shortSha}\`](${url}) ${title}\n`;
+          const statsStr = c.enrichedData?.stats
+            ? ` (+${c.enrichedData.stats.additions}/-${c.enrichedData.stats.deletions})`
+            : '';
+          md += `- [\`${shortSha}\`](${url}) ${title}${statsStr}\n`;
+        }
+        md += `\n`;
+      }
+
+      // Output uncategorized commits if any
+      if (uncategorized.length > 0) {
+        md += `#### Other\n\n`;
+        const sortedUncategorized = [...uncategorized].sort((a, b) => (b.score || 0) - (a.score || 0));
+        for (const c of sortedUncategorized) {
+          const shortSha = c.sha.slice(0, 7);
+          const url = `https://github.com/${repoFullName}/commit/${c.sha}`;
+          const title = c.commit?.message?.split('\n')[0] || '';
+          const statsStr = c.enrichedData?.stats
+            ? ` (+${c.enrichedData.stats.additions}/-${c.enrichedData.stats.deletions})`
+            : '';
+          md += `- [\`${shortSha}\`](${url}) ${title}${statsStr}\n`;
         }
         md += `\n`;
       }
