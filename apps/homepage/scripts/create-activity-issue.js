@@ -751,7 +751,7 @@ async function createActivityIssue(activityMarkdown, dateRange) {
 ${activityChunks[0]}
 
 ---
-_Full instructions for @claude will be posted in a comment after all activity data._`;
+_Full instructions will be posted in a comment after all activity data._`;
 
   if (firstChunk.length <= GITHUB_MAX_BODY) {
     issueBody = firstChunk;
@@ -760,7 +760,7 @@ _Full instructions for @claude will be posted in a comment after all activity da
     // First chunk too big, put placeholder in issue body
     issueBody = `# Weekly GitHub Activity Blog Post Request
 
-_Activity data is split across comments below due to size. Full instructions for @claude will be posted in the final comment._`;
+_Activity data is split across comments below due to size. Full instructions will be posted in the final comment._`;
     remainingChunks = activityChunks;
   }
 
