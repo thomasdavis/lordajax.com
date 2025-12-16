@@ -59,7 +59,7 @@ function getPostUrl(post) {
   }
 
   if (slug) {
-    return `${SITE_URL}/posts/${slug}`;
+    return `${SITE_URL}/${slug}`;
   }
 
   // Fallback to main site
