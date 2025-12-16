@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Two Weeks of Teaching Agents to Discover and Execute Tools",
+      "source": "./posts/two-weeks-of-teaching-agents-to-discover-and-execute-tools.md",
+      "createdAt": "2025-12-16",
+      "type": "ai"
+    },
+    {
       "title": "Teaching Bots to Route Tools and Psychoanalyze Users",
       "source": "./posts/teaching-bots-to-route-tools-and-psychoanalyze-users.md",
       "createdAt": "2025-12-02",
