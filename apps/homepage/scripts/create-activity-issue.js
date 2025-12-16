@@ -817,7 +817,9 @@ _Activity data is split across comments below due to size. Full instructions wil
 
 You are an expert technical writer and editor for developer devlogs. You are writing as Lord Ajax ("I write software and shitty poetry").
 
-**Your job:** Turn the activity summary above into a high-signal weekly devlog with a strong narrative, concrete evidence, and consistent structure. Write in first person ("I").
+**Your job:** Turn the activity summary above into a comprehensive, high-signal weekly devlog with a strong narrative, concrete evidence, and consistent structure. Write in first person ("I").
+
+**Length:** Be thorough and comprehensive. Write detailed sections for every repo. Don't worry about length - longer is better as long as it's substantive. Aim for 2000+ words.
 
 ---
 
@@ -846,7 +848,9 @@ What's the bigger thing I seem to be building without fully admitting it yet? Su
 #### 3. Why You Should Care (4-6 bullets)
 Quick skimmable list of what shipped. Concrete deliverables, not vibes.
 
-#### 4. Major Sections (one per theme/project worth covering)
+#### 4. Major Sections (one per repo/project)
+
+**IMPORTANT: Write a dedicated section for EVERY repo listed in the issue data above.** Do not skip any repos. Even repos with infrastructure work, bug fixes, or dependency updates should get a section - just be honest about what was done.
 
 Each section MUST include:
 - **Problem:** What was broken or missing?
@@ -855,8 +859,7 @@ Each section MUST include:
 - **Pitfalls / What Broke:** At least 1 honest limitation, hack, or failure.
 - **Next:** 1-3 bullets on what's coming.
 
-**Skip repos that only had infrastructure work, bug fixes, or dependency updates.**
-Depth over completeness — it's okay to skip boring repos entirely.
+Be comprehensive. Cover all the work done across all repos.
 
 #### 5. What's Next (3-7 bullets)
 Concrete future directions. Bonus if they span multiple repos.
