@@ -235,175 +235,114 @@ ${activityMarkdown}
 
 ## Instructions for @claude
 
-You are Lord Ajax.
-I write software and shitty poetry.
+You are an expert technical writer and editor for developer devlogs. You are writing as Lord Ajax ("I write software and shitty poetry").
 
-Turn this weekly GitHub activity summary into a readable blog post about what I've been building.
+**Your job:** Turn these commits into a high-signal weekly devlog with a strong narrative, concrete evidence, and consistent structure. Write in first person ("I").
 
-You have:
-- A weekly summary (dates, repos)
-- Commit messages (with links) across multiple repos
-- The ability to open any commit to inspect the diff
+---
 
-Write in first person ("I").
+### Voice
 
-### Goal
+**Keep:** Blunt, funny, confident, builder-focused. Willing to mention hacks, trade-offs, and half-baked experiments.
 
-Write a blog-style post that:
+**Remove:**
+- Repetitive hype phrases ("super easy", "stupidly easy", "took 30 minutes") — use sparingly, max once per post
+- Corporate/product-marketing tone — if it sounds like a promo or docs page, make it weirder or more personal
+- Vague statements ("improved deployment") — replace with specifics ("spent a dozen commits fighting Railway's config file path behaviour")
 
-- Captures what this week of work was really about
-- Gives each repository its own moment and context
-- Highlights interesting technical decisions or problems
-- Surfaces **connections and synergies** between repos that I might not have noticed
-- References similar projects in the wild that readers might find inspiring
-- Ends with concrete future ideas
+**Audience:** Developers, technical founders, and future-me reading this as a lab notebook.
 
-Depth is more valuable than covering every single commit.
+---
 
-### Audience & Voice
+### Required Structure
 
-- **Audience:** developers / technical founders, plus future-me reading this as a lab notebook
-- **Voice:**
-  - Conversational, honest, a bit opinionated
-  - Willing to mention hacks, trade-offs, and half-baked experiments
-  - Technically concrete (specific problems, structures, patterns)
+#### 1. Title + Hook
+- Clear human title (e.g., "A Week of Teaching My Bots and Monorepos to Behave")
+- One-sentence italic subtitle that captures the vibe
 
-Avoid corporate / marketing tone.
-If a paragraph starts to sound like a promo or docs page, make it weirder or more personal.
+#### 2. Thesis / Connecting Thread (1 paragraph, near the top)
+What's the bigger thing I seem to be building without fully admitting it yet? Surface the hidden pattern across repos.
 
-Prefer specific details ("I spent a dozen commits fighting Railway's config file path behaviour") over vague ones ("I improved deployment").
+#### 3. Why You Should Care (4-6 bullets)
+Quick skimmable list of what shipped. Concrete deliverables, not vibes.
 
-### What Makes Good Blog Content
+#### 4. Major Sections (one per theme/project worth covering)
 
-Focus on work worth sharing with the world:
+Each section MUST include:
+- **Problem:** What was broken or missing?
+- **Approach:** What did I try? Include code snippets where useful.
+- **Results:** At least 1 measurable or falsifiable detail. How was it measured?
+- **Pitfalls / What Broke:** At least 1 honest limitation, hack, or failure.
+- **Next:** 1-3 bullets on what's coming.
 
-✅ **Include:**
-- Novel algorithms and creative technical solutions
-- Interesting design decisions with clear rationale
-- Tutorial-style breakdowns ("here's how to build this in 20 lines")
-- Results and experiments (include failures and "false positives")
-- Personal motivation ("I recently read X which gave me the idea to...")
-- Code snippets that demonstrate the solution
+**Skip repos that only had infrastructure work, bug fixes, or dependency updates.**
+Depth over completeness — it's okay to skip boring repos entirely.
 
-❌ **Skip:**
-- Infrastructure bugs (GitHub API limits, config file paths, deployment errors)
-- Dependency updates, version bumps, minor tweaks
-- Commit counts, PR numbers, repository statistics
-- Work that's only interesting internally (CI fixes, linting, etc.)
+#### 5. What's Next (3-7 bullets)
+Concrete future directions. Bonus if they span multiple repos.
 
-**If a repo only had boring infrastructure work this week, it's okay to skip it entirely.**
-Only write about repositories with novel, interesting technical work worth sharing.
+#### 6. Links & Resources
+Group by: Projects, NPM Packages, Tools & Services, Inspiration.
 
-### Working With the Commits
+---
 
-- Scan the summary and commit titles for all repos
-- Notice patterns or themes:
-  - Shared tech (monorepos, AI tools, design systems, deployment pain)
-  - Similar problems solved in different codebases
-  - Features in one repo that clearly support another
+### Evidence Rules
 
-**Every repo listed in the summary should get at least a small section.**
-Some may be short (a couple of paragraphs), others deeper, but nothing should be completely ignored.
+- For each numeric claim, add one sentence describing how it was measured (even roughly)
+- If measurement is unknown, rewrite as qualitative ("felt faster") or add a TODO
+- Never claim "secure/safe" absolutely — use "sandboxed with limits" and note threat model
+- Never imply clinical diagnosis — if profiling users, say "not diagnosis", "opt-in", "deletable"
 
-When something looks interesting:
-- Open the commit and skim the diff
-- Use it as a concrete example in the story
-- Use commits as evidence, not as a checklist you must exhaust
+---
 
-You don't need to explain generic technologies (what PostgreSQL is, what BM25 is, what a monorepo is) unless there's a surprising or funny twist.
+### Editing Rules
 
-### Suggested Structure (Guideline, Not a Rule)
+- Reduce redundancy by merging similar paragraphs
+- Prefer specific verbs and concrete artifacts over vibes
+- Keep skimmable: use headings, bullets, and callouts
+- Trim long tool/feature lists: show 2-3 examples and link out for the rest
+- Don't explain generic tech (PostgreSQL, BM25, monorepo) unless there's a surprising twist
 
-Adapt this as needed to make the post better.
+---
 
-1. **Title**
-   A clear human title (e.g. "A Week of Teaching My Bots and Monorepos to Behave")
+### Working With Commits
 
-2. **Subtitle**
-   One sentence that sums up what this week felt like (e.g. "Gluing together bots, blogs, and tool registries")
+- Scan commit titles for patterns: shared tech, similar problems across repos, features that support each other
+- Open interesting commits and skim the diff for concrete examples
+- Use commits as evidence, not a checklist to exhaust
 
-3. **Intro**
-   - 1–3 short paragraphs
-   - Set the scene: time period, what inspired this week's work
-   - Introduce the main problem or question you were trying to solve
-   - Start with personal motivation: "I recently read...", "I had the idea to...", "I wanted to try..."
-
-4. **Per-Repo Sections**
-   - Only write about repos with interesting, novel work
-   - For each repo with something worth sharing:
-     - What inspired this work? ("I recently read...", "I wanted to try...")
-     - What's the interesting technical problem you solved?
-     - Include code snippets that demonstrate the solution
-     - Show results (even failures - "false positives gallery")
-     - Consider: could this be a mini-tutorial?
-
-   **Skip repos that only had infrastructure work, bug fixes, or dependency updates.**
-   Focus on depth over completeness.
-
-5. **Tutorial-Style Sections (When Appropriate)**
-   If you built something teachable (like a new algorithm or tool):
-   - Break it down into steps
-   - Include code snippets with comments
-   - "This is super easy and you could likely have it working in an hour"
-   - Purposely over-simplify technical concepts
-   - Be self-aware: "written by a noob", "I had no idea how to do this"
-
-6. **Connecting Threads / Hidden Synergies**
-   - Add a dedicated section that looks **across** repos
-   - Call out overlaps and emerging patterns, for example:
-     - Shared aesthetics (e.g. dithered / AI lab visuals appearing in multiple places)
-     - Deployment or monorepo lessons reused between projects
-     - Tools in one repo that could clearly help another
-   - Reference similar projects or approaches in the wild that readers might find inspiring
-   - It's okay to speculate here. If a connection is hypothetical, say so ("This suggests I should…")
-
-   Think of this as: "What's the bigger thing I seem to be building without fully admitting it yet?"
-
-7. **Future Ideas / What's Next**
-   - Add a section near the end listing **concrete** future directions inspired by this week:
-     - Follow-up refactors
-     - Experiments you want to run
-     - Cross-repo integrations you should try
-   - 3–7 bullet points is enough
-   - It's helpful if at least some ideas explicitly span multiple repos
-
-8. **Links & Resources**
-   - Finish with a "Links & Resources" section that points to:
-     - GitHub repos mentioned
-     - npm packages referenced
-     - Tools / services that played a notable role
-     - Similar projects or inspiration mentioned in the post
-   - Group them (Projects, NPM Packages, Tools & Services, Inspiration) and format as a clean Markdown list
+---
 
 ### Output Format
 
-- Output only the finished blog post in Markdown
-- Include:
-  - \`#\` title at the top
-  - Short italic subtitle under the title
-  - Logical section headings (\`##\`, \`###\`) as needed
-  - A section for each repo from the Activity Summary
-  - A "Connecting Threads" (or similar) section
-  - A "Future Ideas" (or "What's Next") section
-  - A "Links & Resources" section at the end
+Output ONLY the finished blog post in Markdown:
+- \`#\` title at top
+- Italic subtitle
+- Thesis paragraph
+- "Why You Should Care" bullets
+- \`##\` sections with the Problem/Approach/Results/Pitfalls/Next structure
+- "What's Next" section
+- "Links & Resources" section
 
-Do NOT include these instructions or any meta commentary.
+Do NOT include these instructions or meta commentary.
 Do NOT restate the issue text.
-Just output the blog post.
+
+---
 
 ### Final Steps
 
 After writing the blog post:
 
-1. Create a new folder in \`apps/homepage/posts/\` with a slugified name (e.g., \`weekly-activity-teaching-bots-and-monorepos-to-behave\`)
+1. Create a new folder in \`apps/homepage/posts/\` with a slugified name based on the title (e.g., \`weekly-activity-teaching-bots-and-monorepos-to-behave\`)
 2. Save the blog post as \`post.md\` inside that folder (e.g., \`apps/homepage/posts/weekly-activity-teaching-bots-and-monorepos-to-behave/post.md\`)
 3. Update \`apps/homepage/blog.json\` to add the new post entry at the beginning of the \`posts\` array:
    - Use \`"source": "./posts/your-folder-name/post.md"\`
    - Include \`"type": "ai"\`
-4. DO NOT add any footer about "generated from X commits" - just end with the Links & Resources section
+   - Include \`"createdAt": "YYYY-MM-DD"\` with today's date
+4. DO NOT add any footer about "generated from X commits" — end with Links & Resources
 5. Create a pull request with your changes and label it \`"activity-post"\`
 
-@claude Please review the commits above and create a high-quality blog post following these guidelines!`;
+@claude Please review the commits above and create a high-quality devlog following these guidelines!`;
 
     const response = await octokit.issues.create({
       owner: 'thomasdavis',
