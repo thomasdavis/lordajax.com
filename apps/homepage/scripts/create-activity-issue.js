@@ -908,7 +908,11 @@ After writing the blog post:
    - Include \`"type": "ai"\`
    - Include \`"createdAt": "YYYY-MM-DD"\` with today's date
 4. DO NOT add any footer about "generated from X commits" — end with Links & Resources
-5. Create a pull request with your changes and label it \`"activity-post"\``;
+5. **IMPORTANT: Create a pull request** using the \`gh\` CLI:
+   - First commit your changes with a descriptive message
+   - Create and push a branch (branch name should start with \`claude/\`)
+   - Run: \`gh pr create --title "Weekly Activity: [Your Title]" --body "Auto-generated blog post. Fixes #[issue-number]" --label "activity-post" --label "automated"\`
+   - The PR MUST have the \`activity-post\` label for auto-merge to work`;
 
   await octokit.issues.createComment({
     owner: 'thomasdavis',
