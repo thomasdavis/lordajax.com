@@ -78,13 +78,13 @@ Write a tweet structured like this:
 
 2. Then for EACH project, a section like:
 
-**Project Name** (brief description)
-• bullet point of what you shipped
-• another bullet point
+PROJECT NAME (brief description)
+→ what you shipped
+→ another thing
 
-**Next Project** (brief description)
-• what you shipped
-• etc
+NEXT PROJECT (brief description)
+→ what you shipped
+→ etc
 
 3. Short closing line
 
@@ -95,7 +95,9 @@ ${content ? `Blog post content:\n${content}` : ''}
 IMPORTANT:
 - Output ONLY the tweet text, nothing else
 - Do NOT include the URL in your response (it will be added automatically)
-- Structure by PROJECT with **bold project names** followed by bullets under each
+- Twitter does NOT support markdown - use PLAIN TEXT only
+- Use ALL CAPS for project names (not **bold** or any markdown)
+- Use → or - for bullet points, NOT •
 - Keep bullets short and punchy - concrete deliverables only
 - NEVER mention commit counts or stats
 - No hashtags
