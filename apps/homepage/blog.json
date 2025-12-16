@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Two Weeks of Automation Chaos and Tool Ecosystems",
+      "source": "./posts/two-weeks-of-automation-chaos-and-tool-ecosystems/post.md",
+      "createdAt": "2025-12-16",
+      "type": "ai"
+    },
+    {
       "title": "Two Weeks of Shipping Across Five Repos: Tool Registries, Self-Evolving Bots, and Career AI",
       "source": "./posts/two-weeks-shipping-across-five-repos/post.md",
       "createdAt": "2025-12-16",
