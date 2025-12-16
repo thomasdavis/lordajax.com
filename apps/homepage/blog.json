@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Two Weeks of Infrastructure, Automation, and AI Tooling at Scale",
+      "source": "./posts/two-weeks-of-infrastructure-automation-and-ai-tooling/post.md",
+      "createdAt": "2025-12-16",
+      "type": "ai"
+    },
+    {
       "title": "Two Weeks of Automation Chaos and Tool Ecosystems",
       "source": "./posts/two-weeks-of-automation-chaos-and-tool-ecosystems/post.md",
       "createdAt": "2025-12-16",
