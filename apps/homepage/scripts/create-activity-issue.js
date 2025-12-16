@@ -723,14 +723,74 @@ function chunkContent(content, maxSize = GITHUB_MAX_BODY) {
 async function createActivityIssue(activityMarkdown, dateRange) {
   const issueTitle = `Weekly Activity: ${dateRange.startFormatted} to ${dateRange.endFormatted}`;
 
-  const claudeInstructions = `
+  // Split activity markdown into chunks if needed
+  const activityChunks = chunkContent(activityMarkdown);
+  console.log(`   Activity markdown: ${activityMarkdown.length} chars, split into ${activityChunks.length} chunk(s)`);
+
+  // Issue body contains activity data; instructions will be in final @claude comment
+  let issueBody;
+  let remainingChunks;
+
+  const firstChunk = `# Weekly GitHub Activity Blog Post Request
+
+${activityChunks[0]}
+
+---
+_Full instructions for @claude will be posted in a comment after all activity data._`;
+
+  if (firstChunk.length <= GITHUB_MAX_BODY) {
+    issueBody = firstChunk;
+    remainingChunks = activityChunks.slice(1);
+  } else {
+    // First chunk too big, put placeholder in issue body
+    issueBody = `# Weekly GitHub Activity Blog Post Request
+
+_Activity data is split across comments below due to size. Full instructions for @claude will be posted in the final comment._`;
+    remainingChunks = activityChunks;
+  }
+
+  // Create the issue
+  const response = await octokit.issues.create({
+    owner: 'thomasdavis',
+    repo: 'lordajax.com',
+    title: issueTitle,
+    body: issueBody,
+    labels: ['blog-post', 'automated'],
+  });
+
+  console.log(`✅ Created issue #${response.data.number}: ${issueTitle}`);
+  console.log(`   URL: ${response.data.html_url}`);
+
+  // Add remaining chunks as comments
+  if (remainingChunks.length > 0) {
+    console.log(`   Adding ${remainingChunks.length} additional comment(s)...`);
+
+    for (let i = 0; i < remainingChunks.length; i++) {
+      const chunkHeader = remainingChunks.length > 1
+        ? `## Activity Data (Part ${i + 2}/${activityChunks.length})\n\n`
+        : `## Activity Data (Continued)\n\n`;
+
+      await octokit.issues.createComment({
+        owner: 'thomasdavis',
+        repo: 'lordajax.com',
+        issue_number: response.data.number,
+        body: chunkHeader + remainingChunks[i],
+      });
+
+      console.log(`   ✓ Added comment ${i + 1}/${remainingChunks.length}`);
+    }
+  }
+
+  // Final comment to trigger @claude after all data is posted
+  const claudeTriggerComment = `@claude All activity data has been posted above. Please create a high-quality devlog following these guidelines:
+
 ---
 
-## Instructions for @claude
+## Instructions
 
 You are an expert technical writer and editor for developer devlogs. You are writing as Lord Ajax ("I write software and shitty poetry").
 
-**Your job:** Turn the activity summary above (and in comments below if split) into a high-signal weekly devlog with a strong narrative, concrete evidence, and consistent structure. Write in first person ("I").
+**Your job:** Turn the activity summary above into a high-signal weekly devlog with a strong narrative, concrete evidence, and consistent structure. Write in first person ("I").
 
 ---
 
@@ -835,73 +895,13 @@ After writing the blog post:
 4. DO NOT add any footer about "generated from X commits" — end with Links & Resources
 5. Create a pull request with your changes and label it \`"activity-post"\``;
 
-  // Split activity markdown into chunks if needed
-  const activityChunks = chunkContent(activityMarkdown);
-  console.log(`   Activity markdown: ${activityMarkdown.length} chars, split into ${activityChunks.length} chunk(s)`);
-
-  // First chunk goes in the issue body with instructions
-  const firstChunkWithInstructions = `# Weekly GitHub Activity Blog Post Request
-
-${activityChunks[0]}
-${claudeInstructions}`;
-
-  // Check if first chunk + instructions fits
-  let issueBody;
-  let remainingChunks;
-
-  if (firstChunkWithInstructions.length <= GITHUB_MAX_BODY) {
-    issueBody = firstChunkWithInstructions;
-    remainingChunks = activityChunks.slice(1);
-  } else {
-    // Put instructions at top, first chunk will be a comment
-    issueBody = `# Weekly GitHub Activity Blog Post Request
-
-_Activity data is split across comments below due to size._
-
-${claudeInstructions}`;
-    remainingChunks = activityChunks;
-  }
-
-  // Create the issue
-  const response = await octokit.issues.create({
-    owner: 'thomasdavis',
-    repo: 'lordajax.com',
-    title: issueTitle,
-    body: issueBody,
-    labels: ['blog-post', 'automated'],
-  });
-
-  console.log(`✅ Created issue #${response.data.number}: ${issueTitle}`);
-  console.log(`   URL: ${response.data.html_url}`);
-
-  // Add remaining chunks as comments
-  if (remainingChunks.length > 0) {
-    console.log(`   Adding ${remainingChunks.length} additional comment(s)...`);
-
-    for (let i = 0; i < remainingChunks.length; i++) {
-      const chunkHeader = remainingChunks.length > 1
-        ? `## Activity Data (Part ${i + 2}/${activityChunks.length})\n\n`
-        : `## Activity Data (Continued)\n\n`;
-
-      await octokit.issues.createComment({
-        owner: 'thomasdavis',
-        repo: 'lordajax.com',
-        issue_number: response.data.number,
-        body: chunkHeader + remainingChunks[i],
-      });
-
-      console.log(`   ✓ Added comment ${i + 1}/${remainingChunks.length}`);
-    }
-  }
-
-  // Final comment to trigger @claude after all data is posted
   await octokit.issues.createComment({
     owner: 'thomasdavis',
     repo: 'lordajax.com',
     issue_number: response.data.number,
-    body: `@claude All activity data has been posted above. Please review and create a high-quality devlog following the guidelines in the issue description!`,
+    body: claudeTriggerComment,
   });
-  console.log(`   ✓ Added @claude trigger comment`);
+  console.log(`   ✓ Added @claude trigger comment with full instructions`);
 
   return response.data;
 }
