@@ -2,7 +2,7 @@ name: Auto-Merge Activity Post PR
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, labeled]
     branches:
       - master
 
