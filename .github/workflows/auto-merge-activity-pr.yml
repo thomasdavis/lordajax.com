@@ -5,12 +5,22 @@ on:
     types: [opened, synchronize, reopened, labeled]
     branches:
       - master
+  # Allow explicit triggering from other workflows (needed because GITHUB_TOKEN events don't trigger workflows)
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to merge'
+        required: true
+        type: number
 
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
-    # Only run if PR has the "activity-post" label or title starts with "Weekly Activity"
+    # Only run if:
+    # - workflow_dispatch (explicit trigger), OR
+    # - PR has the "activity-post" label or title starts with "Weekly Activity"
     if: |
+      github.event_name == 'workflow_dispatch' ||
       contains(github.event.pull_request.labels.*.name, 'activity-post') ||
       startsWith(github.event.pull_request.title, 'Weekly Activity')
 
@@ -20,10 +30,33 @@ jobs:
       issues: write
 
     steps:
+      - name: Get PR details
+        id: pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Get PR number from input or event
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            PR_NUMBER="${{ inputs.pr_number }}"
+          else
+            PR_NUMBER="${{ github.event.pull_request.number }}"
+          fi
+          echo "number=$PR_NUMBER" >> $GITHUB_OUTPUT
+
+          # Get PR details
+          PR_DATA=$(gh pr view $PR_NUMBER --repo ${{ github.repository }} --json headRefName,headRefOid,title)
+          HEAD_REF=$(echo "$PR_DATA" | jq -r '.headRefName')
+          HEAD_SHA=$(echo "$PR_DATA" | jq -r '.headRefOid')
+          TITLE=$(echo "$PR_DATA" | jq -r '.title')
+
+          echo "head_ref=$HEAD_REF" >> $GITHUB_OUTPUT
+          echo "head_sha=$HEAD_SHA" >> $GITHUB_OUTPUT
+          echo "title=$TITLE" >> $GITHUB_OUTPUT
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ steps.pr.outputs.head_sha }}
           fetch-depth: 0
 
       - name: Fetch master
@@ -108,7 +141,7 @@ jobs:
           sleep 10
 
           # Merge directly (not --auto)
-          gh pr merge ${{ github.event.pull_request.number }} \
+          gh pr merge ${{ steps.pr.outputs.number }} \
             --merge \
             --delete-branch \
             --admin
@@ -136,7 +169,7 @@ jobs:
         with:
           script: |
             github.rest.issues.createComment({
-              issue_number: context.issue.number,
+              issue_number: ${{ steps.pr.outputs.number }},
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: '✅ Build successful, links validated, PR merged, and tweet posted! Thanks @claude!'
@@ -148,7 +181,7 @@ jobs:
         with:
           script: |
             github.rest.issues.createComment({
-              issue_number: context.issue.number,
+              issue_number: ${{ steps.pr.outputs.number }},
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: '❌ Build or link validation failed. Please review the workflow logs and fix any issues.'

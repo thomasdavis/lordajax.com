@@ -11,6 +11,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
+      actions: write
 
     steps:
       - name: Checkout repository
@@ -104,13 +105,24 @@ jobs:
           PR_NUMBER=$(echo "$PR_URL" | grep -oP '\d+$')
           echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
 
-      # Add activity-post label AFTER PR creation to trigger the labeled event
-      # This fires auto-merge-activity-pr.yml workflow
+      # Add activity-post label for tracking
       - name: Add activity-post label
         if: steps.check_pr.outputs.pr_exists == '' && steps.create_pr.outputs.is_activity_post == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "Adding activity-post label to trigger auto-merge workflow..."
+          echo "Adding activity-post label..."
           gh pr edit ${{ steps.create_pr.outputs.pr_number }} --add-label "activity-post"
           echo "✅ Label added"
+
+      # Explicitly trigger the auto-merge workflow
+      # (GITHUB_TOKEN events don't trigger other workflows, so we must call it directly)
+      - name: Trigger auto-merge workflow
+        if: steps.check_pr.outputs.pr_exists == '' && steps.create_pr.outputs.is_activity_post == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Triggering auto-merge workflow for PR #${{ steps.create_pr.outputs.pr_number }}..."
+          gh workflow run auto-merge-activity-pr.yml \
+            --field pr_number=${{ steps.create_pr.outputs.pr_number }}
+          echo "✅ Auto-merge workflow triggered"
