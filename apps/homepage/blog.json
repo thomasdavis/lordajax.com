@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Two Weeks of Tool Execution, Terminal Rendering, and Automation Pipelines",
+      "source": "./posts/two-weeks-of-tool-execution-terminal-rendering-and-automation-pipelines/post.md",
+      "createdAt": "2025-12-28",
+      "type": "ai"
+    },
+    {
       "title": "Two Weeks of AI Tooling, Terminal MMOs, and Codebase Archaeology",
       "source": "./posts/two-weeks-of-ai-tooling-terminal-mmos-and-codebase-archaeology/post.md",
       "createdAt": "2025-12-21",
