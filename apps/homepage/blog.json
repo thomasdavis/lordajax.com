@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Two Weeks of Career Pathways, Motion Engines, and AI Infrastructure",
+      "source": "./posts/two-weeks-of-career-pathways-motion-engines-and-ai-infrastructure/post.md",
+      "createdAt": "2026-01-11",
+      "type": "ai"
+    },
+    {
       "title": "Two Weeks of Building Tool Ecosystems, AI Agents, and 3D Worlds",
       "source": "./posts/two-weeks-building-tool-ecosystems-ai-agents-and-3d-worlds/post.md",
       "createdAt": "2026-01-04",
