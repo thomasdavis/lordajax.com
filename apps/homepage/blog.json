@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Two Weeks of API Platforms, Career Graphs, and Pokémon",
+      "source": "./posts/two-weeks-of-api-platforms-career-graphs-and-pokemon/post.md",
+      "createdAt": "2026-01-18",
+      "type": "ai"
+    },
+    {
       "title": "Two Weeks of Career Pathways, Motion Engines, and AI Infrastructure",
       "source": "./posts/two-weeks-of-career-pathways-motion-engines-and-ai-infrastructure/post.md",
       "createdAt": "2026-01-11",
