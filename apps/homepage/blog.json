@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Two Weeks of Platform APIs, Discord Bots, and Pokémon",
+      "source": "./posts/two-weeks-of-platform-apis-discord-bots-and-pokemon/post.md",
+      "createdAt": "2026-01-25",
+      "type": "ai"
+    },
+    {
       "title": "Two Weeks of API Platforms, Career Graphs, and Pokémon",
       "source": "./posts/two-weeks-of-api-platforms-career-graphs-and-pokemon/post.md",
       "createdAt": "2026-01-18",
