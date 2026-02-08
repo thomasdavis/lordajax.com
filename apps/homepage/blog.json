@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Two Weeks of Executor Protocols, MCP Servers, and Tool Chaos",
+      "source": "./posts/two-weeks-of-executor-protocols-mcp-servers-and-tool-chaos/post.md",
+      "createdAt": "2026-02-08",
+      "type": "ai"
+    },
+    {
       "title": "Two Weeks of LLM Transforms, CLI Automation, and Monorepo Debugging",
       "source": "./posts/two-weeks-of-llm-transforms-cli-automation-and-monorepo-debugging/post.md",
       "createdAt": "2026-02-01",
