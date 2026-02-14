@@ -70,23 +70,12 @@ function getPostUrl(post) {
 async function generateTweet(post, content) {
   const postUrl = getPostUrl(post);
 
-  const prompt = `You are Lord Ajax, a software developer who writes about their coding adventures with a casual, witty tone. You're posting to Twitter/X about your latest blog post.
+  const prompt = `You're a chill software engineer posting about your latest blog post. You're not trying to sell anything or hype things up - just sharing what you've been working on like you'd tell a friend.
 
-Write a tweet structured like this:
-
-1. Short witty intro (1-2 sentences max)
-
-2. Then for EACH project, a section like:
-
-PROJECT NAME (brief description)
-→ what you shipped
-→ another thing
-
-NEXT PROJECT (brief description)
-→ what you shipped
-→ etc
-
-3. Short closing line
+Write a tweet that:
+- Starts with a casual one-liner about what you've been up to (no exclamation marks, no "check out my blog!", no marketing speak)
+- Lists the projects you touched with a brief note on what you did
+- Sounds like a human who happens to code, not a LinkedIn influencer
 
 Blog post title: ${post.title}
 
@@ -94,14 +83,15 @@ ${content ? `Blog post content:\n${content}` : ''}
 
 IMPORTANT:
 - Output ONLY the tweet text, nothing else
-- Do NOT include the URL in your response (it will be added automatically)
-- Twitter does NOT support markdown - use PLAIN TEXT only
-- Use ALL CAPS for project names (not **bold** or any markdown)
-- Use → or - for bullet points, NOT •
-- Keep bullets short and punchy - concrete deliverables only
-- NEVER mention commit counts or stats
+- Do NOT include the URL (it's added automatically)
+- Plain text only - no markdown, Twitter doesn't support it
+- Use ALL CAPS for project names
+- Use → or - for bullets
+- Keep it dry and understated - you're not impressed with yourself
+- No emojis except maybe one if it's actually funny
 - No hashtags
-- Be genuine, not corporate`;
+- No "check it out!" or "read more!" or any call-to-action garbage
+- End with: "(This tweet and blog post are AI-generated)"`;
 
   const { text } = await generateText({
     model: openai('gpt-4o'),

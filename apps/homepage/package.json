@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "jsonblog serve blog.json",
-    "build": "jsonblog build blog.json",
+    "build": "node scripts/build-site.mjs",
     "generate-post": "node scripts/generate-blog-post.js",
     "fetch-videos": "node scripts/fetch-videos.js",
     "tweet-post": "node scripts/tweet-blog-post.js",
