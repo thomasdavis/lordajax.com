@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Two Weeks of Error Pipelines, AI Monitoring, and Production Chaos",
+      "source": "./posts/two-weeks-of-error-pipelines-ai-monitoring-and-production-chaos/post.md",
+      "createdAt": "2026-02-15",
+      "type": "ai"
+    },
+    {
       "title": "Two Weeks of Executor Protocols, MCP Servers, and Tool Chaos",
       "source": "./posts/two-weeks-of-executor-protocols-mcp-servers-and-tool-chaos/post.md",
       "createdAt": "2026-02-08",
