@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Two Weeks of Forth GPTs, Self-Healing Pipelines, and Indigenous Language Maps",
+      "source": "./posts/two-weeks-of-forth-gpts-self-healing-pipelines-and-indigenous-language-maps/post.md",
+      "createdAt": "2026-02-22",
+      "type": "ai"
+    },
+    {
       "title": "Two Weeks of Error Pipelines, AI Monitoring, and Production Chaos",
       "source": "./posts/two-weeks-of-error-pipelines-ai-monitoring-and-production-chaos/post.md",
       "createdAt": "2026-02-15",
