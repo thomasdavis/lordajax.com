@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Two Weeks of Vulkan Kernels, Evolutionary Training, and Finding Your Coding Soulmate on GitHub",
+      "source": "./posts/two-weeks-of-vulkan-kernels-evolutionary-training-and-github-mates/post.md",
+      "createdAt": "2026-03-01",
+      "type": "ai"
+    },
+    {
       "title": "Two Weeks of Forth GPTs, Self-Healing Pipelines, and Indigenous Language Maps",
       "source": "./posts/two-weeks-of-forth-gpts-self-healing-pipelines-and-indigenous-language-maps/post.md",
       "createdAt": "2026-02-22",
