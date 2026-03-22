@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "A Week of Encrypted Bots, AI-Ranked Job Hunts, and TUIs That Actually Ship",
+      "source": "./posts/weekly-activity-encrypted-bots-ai-job-hunts-and-tuis-that-ship/post.md",
+      "createdAt": "2026-03-22",
+      "type": "ai"
+    },
+    {
       "title": "A Week of GPU Kernel Tuning, Physics Jenga, and Building the npm for AI Tools",
       "source": "./posts/weekly-activity-gpu-kernels-jenga-and-the-npm-for-ai-tools/post.md",
       "createdAt": "2026-03-08",
