@@ -40,30 +40,16 @@ function getPostContent(post) {
   return null;
 }
 
-// Generate post URL from source path
+// Generate post URL by slugifying the title (matches the blog generator's behavior)
 function getPostUrl(post) {
-  // Extract slug from source path
-  // e.g., "./posts/week-of-monorepo-migrations.md" -> "week-of-monorepo-migrations"
-  // or "./posts/my-post/post.md" -> "my-post"
-  const source = post.source;
-  let slug;
+  const slug = post.title
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
 
-  if (source.includes('/post.md')) {
-    // Directory format: ./posts/slug/post.md
-    const match = source.match(/\.\/posts\/([^/]+)\/post\.md/);
-    slug = match ? match[1] : null;
-  } else {
-    // Simple format: ./posts/slug.md
-    const match = source.match(/\.\/posts\/([^.]+)\.md/);
-    slug = match ? match[1] : null;
-  }
-
-  if (slug) {
-    return `${SITE_URL}/${slug}`;
-  }
-
-  // Fallback to main site
-  return SITE_URL;
+  return `${SITE_URL}/${slug}`;
 }
 
 // Generate a witty tweet using AI
