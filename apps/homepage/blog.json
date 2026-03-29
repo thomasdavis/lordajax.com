@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "A Week of Writing the Manifesto for AI Tool Infrastructure",
+      "source": "./posts/weekly-activity-writing-the-manifesto-for-ai-tool-infrastructure/post.md",
+      "createdAt": "2026-03-29",
+      "type": "ai"
+    },
+    {
       "title": "A Week of Encrypted Bots, AI-Ranked Job Hunts, and TUIs That Actually Ship",
       "source": "./posts/weekly-activity-encrypted-bots-ai-job-hunts-and-tuis-that-ship/post.md",
       "createdAt": "2026-03-22",
