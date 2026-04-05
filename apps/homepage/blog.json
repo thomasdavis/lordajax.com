@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Two Weeks of Void Creatures, Bullet Time, and the Control Plane for AI Tools",
+      "source": "./posts/weekly-activity-void-creatures-bullet-time-and-the-ai-control-plane/post.md",
+      "createdAt": "2026-04-05",
+      "type": "ai"
+    },
+    {
       "title": "A Week of Writing the Manifesto for AI Tool Infrastructure",
       "source": "./posts/weekly-activity-writing-the-manifesto-for-ai-tool-infrastructure/post.md",
       "createdAt": "2026-03-29",
