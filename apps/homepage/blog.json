@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Symbiogenesis, Void Entities, and Forty-Four Algorithms That Didn't Exist Two Weeks Ago",
+      "source": "./posts/weekly-activity-symbiogenesis-void-entities-and-forty-four-algorithms/post.md",
+      "createdAt": "2026-04-12",
+      "type": "ai"
+    },
+    {
       "title": "Two Weeks of Void Creatures, Bullet Time, and the Control Plane for AI Tools",
       "source": "./posts/weekly-activity-void-creatures-bullet-time-and-the-ai-control-plane/post.md",
       "createdAt": "2026-04-05",
