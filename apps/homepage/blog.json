@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "An Aboriginal Language OS, Genomic Curvature Tensors, and the No-Shortcuts Rule",
+      "source": "./posts/weekly-activity-aboriginal-os-genomic-tensors-no-shortcuts/post.md",
+      "createdAt": "2026-04-19",
+      "type": "ai"
+    },
+    {
       "title": "Symbiogenesis, Void Entities, and Forty-Four Algorithms That Didn't Exist Two Weeks Ago",
       "source": "./posts/weekly-activity-symbiogenesis-void-entities-and-forty-four-algorithms/post.md",
       "createdAt": "2026-04-12",
