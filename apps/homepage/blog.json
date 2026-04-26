@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Sandboxed Claude Workers, Wikipedia-Style UX, and the Week Dontopedia Went Public",
+      "source": "./posts/weekly-activity-sandboxed-claude-workers-wikipedia-ux-dontopedia-public/post.md",
+      "createdAt": "2026-04-26",
+      "type": "ai"
+    },
+    {
       "title": "An Aboriginal Language OS, Genomic Curvature Tensors, and the No-Shortcuts Rule",
       "source": "./posts/weekly-activity-aboriginal-os-genomic-tensors-no-shortcuts/post.md",
       "createdAt": "2026-04-19",
