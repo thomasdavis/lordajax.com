@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Scientific Paper Simulators, LLM Provider Chaos, and the Week Donto Grew Up",
+      "source": "./posts/weekly-activity-scientific-simulators-llm-chaos-and-donto-grows-up/post.md",
+      "createdAt": "2026-05-03",
+      "type": "ai"
+    },
+    {
       "title": "Sandboxed Claude Workers, Wikipedia-Style UX, and the Week Dontopedia Went Public",
       "source": "./posts/weekly-activity-sandboxed-claude-workers-wikipedia-ux-dontopedia-public/post.md",
       "createdAt": "2026-04-26",
