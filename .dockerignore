@@ -1,0 +1,12 @@
+**/node_modules
+**/.next
+**/.turbo
+**/.cache
+**/build
+**/.vercel
+.git
+.github
+.serena
+.claude
+.DS_Store
+**/.DS_Store
