@@ -20,6 +20,6 @@
   },
   "devDependencies": {
     "@jsonblog/cli": "^3.1.0",
-    "@jsonblog/generator-tailwind": "^4.3.0"
+    "jsonblog-generator-mono": "workspace:*"
   }
 }

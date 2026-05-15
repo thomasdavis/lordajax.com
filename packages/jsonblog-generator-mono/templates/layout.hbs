@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{#if post}}{{post.title}} :: {{/if}}{{#if page}}{{page.title}} :: {{/if}}{{blog.site.title}}</title>
+  <meta name="description" content="{{#if post}}{{post.description}}{{else if page}}{{page.description}}{{else}}{{blog.site.description}}{{/if}}">
+  <link rel="stylesheet" href="/main.css">
+  <link rel="alternate" type="application/rss+xml" title="{{blog.site.title}} RSS" href="/rss.xml">
+  {{#if blog.site.url}}<link rel="canonical" href="{{blog.site.url}}">{{/if}}
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="banner">
+<span class="banner-title">$ {{blog.site.title}}</span>
+{{#if blog.site.description}}<span class="banner-meta"># {{blog.site.description}}</span>{{/if}}
+    </header>
+
+    <nav class="sitenav">
+      <a href="/">~/index</a>{{#each pages}}<a href="/{{slug}}">~/{{slug}}</a>{{/each}}<a href="/rss.xml">~/rss</a>
+    </nav>
+
+    <main>
+      {{> content}}
+    </main>
+
+    <footer class="foot">
+      // built with <a href="https://jsonblog.dev">jsonblog</a>{{#if generatorName}} · theme={{generatorName}}{{#if generatorVersion}}@{{generatorVersion}}{{/if}}{{/if}}
+    </footer>
+  </div>
+</body>
+</html>

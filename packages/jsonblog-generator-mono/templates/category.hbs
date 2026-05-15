@@ -1,0 +1,20 @@
+{{#> layout}}
+  {{#*inline "content"}}
+    <div class="log-head">
+      <span>// category: {{category}}</span>
+      <span>{{posts.length}} entries</span>
+    </div>
+
+    <ul class="log">
+      {{#each posts}}
+        <li class="log-entry">
+          <span class="log-date">{{#if this.createdAt}}{{formatDate this.createdAt}}{{else}}----------{{/if}}</span>
+          <span class="log-tag">{{#if (eq this.type 'ai')}}[AI]{{else if this.categories}}[{{this.categories.[0]}}]{{else}}[post]{{/if}}</span>
+          <span class="log-title"><a href="/{{this.slug}}">{{this.title}}</a></span>
+        </li>
+      {{/each}}
+    </ul>
+
+    <a href="/" class="back">&lt;- back to index</a>
+  {{/inline}}
+{{/layout}}

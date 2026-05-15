@@ -16,7 +16,7 @@ const HOMEPAGE_DIR = join(__dirname, '..');
 const BUILD_DIR = join(HOMEPAGE_DIR, 'build');
 
 // Import the generator
-const { generateBlog } = await import('@jsonblog/generator-tailwind');
+const { generateBlog } = await import('jsonblog-generator-mono');
 
 // Load blog config
 const blogJson = JSON.parse(readFileSync(join(HOMEPAGE_DIR, 'blog.json'), 'utf-8'));
@@ -96,23 +96,23 @@ if (outputFiles.has('sitemap.xml') && devlogSitemap) {
 }
 
 // Post-process all HTML files
-const BACK_LINK_OLD = '<a href="/" class="font-mono text-sm text-accent-blue hover:text-accent-cyan uppercase tracking-wider">\u2190 Back to posts</a>';
-const BACK_LINK_NEW = '<a href="/devlog" class="font-mono text-sm text-accent-blue hover:text-accent-cyan uppercase tracking-wider">\u2190 Back to devlog</a>';
+const BACK_LINK_OLD = '<a href="/" class="back">&lt;- back to index</a>';
+const BACK_LINK_NEW = '<a href="/devlog" class="back">&lt;- back to devlog</a>';
 
 for (const [name, content] of outputFiles) {
   if (!name.endsWith('.html')) continue;
 
   let html = content;
 
-  // Inject Devlog nav link before </nav>
+  // Inject Devlog nav link before /rss
   html = html.replace(
-    '</nav>',
-    '          <a href="/devlog">Devlog</a>\n      </nav>',
+    '<a href="/rss.xml">~/rss</a>',
+    '<a href="/devlog">~/devlog</a><a href="/rss.xml">~/rss</a>',
   );
 
   // Fix devlog index page title
   if (name === 'devlog/index.html') {
-    html = html.replace(/<title>[^<]*<\/title>/, '<title>Devlog - Lord Ajax</title>');
+    html = html.replace(/<title>[^<]*<\/title>/, '<title>devlog :: Lord Ajax</title>');
   }
 
   // Fix AI post pages: "Back to posts" → "Back to devlog" linking to /devlog

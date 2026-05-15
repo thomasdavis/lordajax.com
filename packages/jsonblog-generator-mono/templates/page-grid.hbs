@@ -1,0 +1,57 @@
+{{#> layout}}
+  {{#*inline "content"}}
+    <div class="post">
+      <div class="log-head" style="margin-bottom:18px">
+        <span>// {{page.slug}}</span>
+        {{#if page.items}}<span>{{page.items.length}} items</span>{{/if}}
+      </div>
+
+      <h1 class="post-title">{{page.title}}</h1>
+
+      {{#if page.description}}
+        <p style="color:var(--muted); margin-bottom:20px">{{page.description}}</p>
+      {{/if}}
+
+      {{#if page.content}}
+        <div class="content" style="margin-bottom:24px">{{{page.content}}}</div>
+      {{/if}}
+
+      {{#if page.items}}
+        {{#each page.items}}
+          {{#if this.featured}}
+            <article class="featured">
+              <div class="featured-label">// featured</div>
+              {{#if this.image}}
+                <a href="{{this.url}}"><img src="{{this.image}}" alt="{{this.title}}" style="display:block;width:100%;height:auto;border:1px solid var(--rule-soft);margin:8px 0"></a>
+              {{/if}}
+              <h2 style="font-size:16px;margin:8px 0 6px">
+                {{#if this.url}}<a href="{{this.url}}" style="color:var(--fg);text-decoration:none">{{this.title}}</a>{{else}}{{this.title}}{{/if}}
+              </h2>
+              {{#if this.date}}<div style="color:var(--muted);font-size:12px">{{formatDate this.date}}</div>{{/if}}
+              {{#if this.description}}<p style="margin-top:8px">{{this.description}}</p>{{/if}}
+            </article>
+          {{/if}}
+        {{/each}}
+
+        <div class="grid">
+          {{#each page.items}}
+            {{#unless this.featured}}
+              <article class="grid-card">
+                {{#if this.thumbnail}}
+                  <a href="{{this.url}}"><img src="{{this.thumbnail}}" alt="{{this.title}}"></a>
+                {{else if this.image}}
+                  <a href="{{this.url}}"><img src="{{this.image}}" alt="{{this.title}}"></a>
+                {{/if}}
+                <h3>{{#if this.url}}<a href="{{this.url}}">{{this.title}}</a>{{else}}{{this.title}}{{/if}}</h3>
+                {{#if this.date}}<div class="meta">{{formatDate this.date}}</div>{{/if}}
+                {{#if this.description}}<div class="meta" style="margin-top:4px">{{this.description}}</div>{{/if}}
+              </article>
+            {{/unless}}
+          {{/each}}
+        </div>
+      {{/if}}
+
+      <a href="/" class="back">&lt;- back to index</a>
+    </div>
+  {{/inline}}
+{{/layout}}
