@@ -2,11 +2,9 @@
   {{#*inline "content"}}
     <article class="post">
       <div class="post-frontmatter">
-        <span class="kv"><span class="k">title</span>    :: {{post.title}}</span>
-        {{~#if post.createdAt~}}<span class="kv"><span class="k">date</span>     :: {{formatDate post.createdAt}}</span>{{~/if~}}
-        {{~#if post.type~}}<span class="kv"><span class="k">type</span>     :: {{post.type}}</span>{{~/if~}}
-        {{~#if post.categories~}}<span class="kv"><span class="k">category</span> :: {{post.categories.[0]}}</span>{{~/if~}}
-        {{~#if post.tags~}}<span class="kv"><span class="k">tags</span>     :: {{#each post.tags}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}</span>{{~/if~}}
+        {{~#if post.createdAt~}}<span class="kv"><span class="k">date</span><span class="v">{{formatDate post.createdAt}}</span></span>{{~/if~}}
+        {{~#if post.type~}}<span class="kv"><span class="k">type</span><span class="v">{{post.type}}</span></span>{{~/if~}}
+        {{~#if post.categories~}}<span class="kv"><span class="k">in</span><span class="v">{{post.categories.[0]}}</span></span>{{~/if~}}
       </div>
 
       <h1 class="post-title">{{post.title}}</h1>
@@ -17,11 +15,11 @@
 
       {{#if post.tags}}
         <div class="tags">
-          {{#each post.tags}}<a href="/tag/{{slugify this}}" class="tag">#{{this}}</a>{{/each}}
+          {{#each post.tags}}<a href="/tag/{{slugify this}}" class="tag">{{this}}</a>{{/each}}
         </div>
       {{/if}}
 
-      <a href="/" class="back">&lt;- back to index</a>
+      <a href="/" class="back">← back to index</a>
     </article>
   {{/inline}}
 {{/layout}}

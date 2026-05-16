@@ -1,7 +1,7 @@
 {
   "name": "jsonblog-generator-mono",
-  "version": "0.1.0",
-  "description": "Black-and-white monospace engineering theme for JSON Blog",
+  "version": "0.2.0",
+  "description": "Warm paper, serif prose, mono UI — a subtle engineering theme for JSON Blog",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

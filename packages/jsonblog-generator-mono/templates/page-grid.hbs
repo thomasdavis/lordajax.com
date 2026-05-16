@@ -1,34 +1,30 @@
 {{#> layout}}
   {{#*inline "content"}}
-    <div class="post">
-      <div class="log-head" style="margin-bottom:18px">
-        <span>// {{page.slug}}</span>
-        {{#if page.items}}<span>{{page.items.length}} items</span>{{/if}}
-      </div>
-
-      <h1 class="post-title">{{page.title}}</h1>
+    <div>
+      <div class="page-eyebrow">{{page.slug}}</div>
+      <h1 class="post-title" style="max-width:680px">{{page.title}}</h1>
 
       {{#if page.description}}
-        <p style="color:var(--muted); margin-bottom:20px">{{page.description}}</p>
+        <p style="max-width:680px; color:var(--ink-2); font-style:italic; margin:-18px 0 28px">{{page.description}}</p>
       {{/if}}
 
       {{#if page.content}}
-        <div class="content" style="margin-bottom:24px">{{{page.content}}}</div>
+        <div class="content" style="max-width:680px; margin-bottom:36px">{{{page.content}}}</div>
       {{/if}}
 
       {{#if page.items}}
         {{#each page.items}}
           {{#if this.featured}}
             <article class="featured">
-              <div class="featured-label">// featured</div>
+              <div class="featured-label">featured</div>
               {{#if this.image}}
-                <a href="{{this.url}}"><img src="{{this.image}}" alt="{{this.title}}" style="display:block;width:100%;height:auto;border:1px solid var(--rule-soft);margin:8px 0"></a>
+                <a href="{{this.url}}"><img src="{{this.image}}" alt="{{this.title}}" style="display:block;width:100%;height:auto;border-radius:3px;margin:0 0 14px"></a>
               {{/if}}
-              <h2 style="font-size:16px;margin:8px 0 6px">
-                {{#if this.url}}<a href="{{this.url}}" style="color:var(--fg);text-decoration:none">{{this.title}}</a>{{else}}{{this.title}}{{/if}}
+              <h2 style="font-family:var(--serif);font-size:24px;font-weight:600;line-height:1.25;letter-spacing:-0.01em;margin:0 0 6px">
+                {{#if this.url}}<a href="{{this.url}}" style="color:var(--ink);text-decoration:none">{{this.title}}</a>{{else}}{{this.title}}{{/if}}
               </h2>
-              {{#if this.date}}<div style="color:var(--muted);font-size:12px">{{formatDate this.date}}</div>{{/if}}
-              {{#if this.description}}<p style="margin-top:8px">{{this.description}}</p>{{/if}}
+              {{#if this.date}}<div style="color:var(--muted);font-family:var(--mono);font-size:11px;letter-spacing:0.04em">{{formatDate this.date}}</div>{{/if}}
+              {{#if this.description}}<p style="margin-top:10px;color:var(--ink-2)">{{this.description}}</p>{{/if}}
             </article>
           {{/if}}
         {{/each}}
@@ -44,14 +40,13 @@
                 {{/if}}
                 <h3>{{#if this.url}}<a href="{{this.url}}">{{this.title}}</a>{{else}}{{this.title}}{{/if}}</h3>
                 {{#if this.date}}<div class="meta">{{formatDate this.date}}</div>{{/if}}
-                {{#if this.description}}<div class="meta" style="margin-top:4px">{{this.description}}</div>{{/if}}
               </article>
             {{/unless}}
           {{/each}}
         </div>
       {{/if}}
 
-      <a href="/" class="back">&lt;- back to index</a>
+      <a href="/" class="back">← back to index</a>
     </div>
   {{/inline}}
 {{/layout}}

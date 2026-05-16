@@ -96,26 +96,26 @@ if (outputFiles.has('sitemap.xml') && devlogSitemap) {
 }
 
 // Post-process all HTML files
-const BACK_LINK_OLD = '<a href="/" class="back">&lt;- back to index</a>';
-const BACK_LINK_NEW = '<a href="/devlog" class="back">&lt;- back to devlog</a>';
+const BACK_LINK_OLD = '<a href="/" class="back">← back to index</a>';
+const BACK_LINK_NEW = '<a href="/devlog" class="back">← back to devlog</a>';
 
 for (const [name, content] of outputFiles) {
   if (!name.endsWith('.html')) continue;
 
   let html = content;
 
-  // Inject Devlog nav link before /rss
+  // Inject devlog nav link before /rss
   html = html.replace(
-    '<a href="/rss.xml">~/rss</a>',
-    '<a href="/devlog">~/devlog</a><a href="/rss.xml">~/rss</a>',
+    '<a href="/rss.xml">rss</a>',
+    '<a href="/devlog">devlog</a><a href="/rss.xml">rss</a>',
   );
 
   // Fix devlog index page title
   if (name === 'devlog/index.html') {
-    html = html.replace(/<title>[^<]*<\/title>/, '<title>devlog :: Lord Ajax</title>');
+    html = html.replace(/<title>[^<]*<\/title>/, '<title>devlog — Lord Ajax</title>');
   }
 
-  // Fix AI post pages: "Back to posts" → "Back to devlog" linking to /devlog
+  // AI post pages: "back to index" → "back to devlog"
   const slugMatch = name.match(/^([^/]+)\/index\.html$/);
   if (slugMatch && aiPostSlugs.has(slugMatch[1])) {
     html = html.replace(BACK_LINK_OLD, BACK_LINK_NEW);

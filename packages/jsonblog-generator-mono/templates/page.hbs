@@ -1,18 +1,14 @@
 {{#> layout}}
   {{#*inline "content"}}
     <article class="post">
-      <div class="log-head" style="margin-bottom:18px">
-        <span>// {{page.slug}}</span>
-        {{#if page.description}}<span>{{page.description}}</span>{{/if}}
-      </div>
-
+      <div class="page-eyebrow">{{page.slug}}</div>
       <h1 class="post-title">{{page.title}}</h1>
 
       <div class="content">
         {{{page.content}}}
       </div>
 
-      <a href="/" class="back">&lt;- back to index</a>
+      <a href="/" class="back">← back to index</a>
     </article>
   {{/inline}}
 {{/layout}}
