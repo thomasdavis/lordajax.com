@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Five Milestones, Five State Scrapers, and the Week the Knowledge Stack Got a Spine",
+      "source": "./posts/weekly-activity-five-milestones-five-scrapers-knowledge-stack/post.md",
+      "createdAt": "2026-05-17",
+      "type": "ai"
+    },
+    {
       "title": "Two Hundred Commits, a Self-Editing Discord Bot, and the Week Donto Grew a Trust Kernel",
       "source": "./posts/weekly-activity-trust-kernel-self-editing-bots-and-paper-simulation-at-scale/post.md",
       "createdAt": "2026-05-10",
