@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Async Queues, Deep Mode, and the Week My Memory Stack Started Acting Like Real Infrastructure",
+      "source": "./posts/weekly-activity-async-queues-deep-extraction-memory-stack/post.md",
+      "createdAt": "2026-05-31",
+      "type": "ai"
+    },
+    {
       "title": "Source Bodies, Citation Popovers, and the Two Weeks Donto Learned to Show Its Work",
       "source": "./posts/weekly-activity-source-provenance-citation-popovers-knowledge-stack-paper-trail/post.md",
       "createdAt": "2026-05-24",
