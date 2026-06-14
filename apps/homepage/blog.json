@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Forty Themes, Seven Packages, and a CLI That Finally Knows What It's Doing",
+      "source": "./posts/weekly-activity-forty-themes-seven-packages-cli-ecosystem/post.md",
+      "createdAt": "2026-06-14",
+      "type": "ai"
+    },
+    {
       "title": "Async Queues, Deep Mode, and the Week My Memory Stack Started Acting Like Real Infrastructure",
       "source": "./posts/weekly-activity-async-queues-deep-extraction-memory-stack/post.md",
       "createdAt": "2026-05-31",
