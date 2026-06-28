@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Neural Voices, Elder-Friendly Portals, and the Two Weeks mobtranslate.com Got a Voice Stack",
+      "source": "./posts/weekly-activity-neural-voices-elder-portals-indigenous-language-stack/post.md",
+      "createdAt": "2026-06-28",
+      "type": "ai"
+    },
+    {
       "title": "Forty Themes, Seven Packages, and a CLI That Finally Knows What It's Doing",
       "source": "./posts/weekly-activity-forty-themes-seven-packages-cli-ecosystem/post.md",
       "createdAt": "2026-06-14",
