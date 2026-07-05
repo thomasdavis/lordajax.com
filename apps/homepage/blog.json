@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "An Android Keyboard, a Rebrand, and the Week I Snapshotted Everything Before Blowing It Up",
+      "source": "./posts/weekly-activity-android-keyboard-nixos-snapshot-rebrand-launch/post.md",
+      "createdAt": "2026-07-05",
+      "type": "ai"
+    },
+    {
       "title": "Neural Voices, Elder-Friendly Portals, and the Two Weeks mobtranslate.com Got a Voice Stack",
       "source": "./posts/weekly-activity-neural-voices-elder-portals-indigenous-language-stack/post.md",
       "createdAt": "2026-06-28",
