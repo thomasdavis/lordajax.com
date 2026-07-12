@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "A Deep-Time Wind-Map, 1,204 Language Codes, and the Fortnight mobtranslate.com Stopped Being a Website",
+      "source": "./posts/weekly-activity-deep-time-windmap-dictionaries-typology-language-os/post.md",
+      "createdAt": "2026-07-12",
+      "type": "ai"
+    },
+    {
       "title": "An Android Keyboard, a Rebrand, and the Week I Snapshotted Everything Before Blowing It Up",
       "source": "./posts/weekly-activity-android-keyboard-nixos-snapshot-rebrand-launch/post.md",
       "createdAt": "2026-07-05",
