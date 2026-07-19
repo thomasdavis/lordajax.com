@@ -28,6 +28,12 @@
   ],
   "posts": [
     {
+      "title": "Auth Holes, a Finished Atlas, and the Week Everyone Paid Down Debt They'd Been Ignoring",
+      "source": "./posts/weekly-activity-auth-holes-finished-atlas-security-debt/post.md",
+      "createdAt": "2026-07-19",
+      "type": "ai"
+    },
+    {
       "title": "A Deep-Time Wind-Map, 1,204 Language Codes, and the Fortnight mobtranslate.com Stopped Being a Website",
       "source": "./posts/weekly-activity-deep-time-windmap-dictionaries-typology-language-os/post.md",
       "createdAt": "2026-07-12",
