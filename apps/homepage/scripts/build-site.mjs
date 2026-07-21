@@ -10,6 +10,7 @@
 import { readFileSync, writeFileSync, mkdirSync, rmSync, copyFileSync, existsSync, readdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { createHash } from 'crypto';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const HOMEPAGE_DIR = join(__dirname, '..');
@@ -109,10 +110,20 @@ if (outputFiles.has('sitemap.xml') && devlogSitemap) {
 const BACK_LINK_OLD = '<a href="/" class="back">← back to index</a>';
 const BACK_LINK_NEW = '<a href="/devlog" class="back">← back to devlog</a>';
 
+// Content-hash the stylesheet so the URL changes when the CSS changes — busts any
+// CDN/browser cache deterministically (same CSS ⇒ same hash ⇒ same URL).
+const cssHash = createHash('sha256')
+  .update(outputFiles.get('main.css') || '')
+  .digest('hex')
+  .slice(0, 8);
+
 for (const [name, content] of outputFiles) {
   if (!name.endsWith('.html')) continue;
 
   let html = content;
+
+  // Cache-bust the stylesheet link.
+  html = html.replace('href="/main.css"', `href="/main.css?v=${cssHash}"`);
 
   // Inject devlog nav link before /rss
   html = html.replace(
