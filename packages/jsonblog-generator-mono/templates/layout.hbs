@@ -8,6 +8,8 @@
   {{#if blog.basics.name}}<meta name="author" content="{{blog.basics.name}}">{{/if}}
   <meta name="theme-color" content="#f7f4ee" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#12100e" media="(prefers-color-scheme: dark)">
+  <link rel="preload" href="/fonts/source-serif-4.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/main.css">
   <link rel="alternate" type="application/rss+xml" title="{{blog.site.title}} RSS" href="/rss.xml">
   {{#if blog.site.url}}<link rel="canonical" href="{{blog.site.url}}{{#if post}}/{{post.slug}}/{{else if page}}/{{page.slug}}/{{/if}}">{{/if}}

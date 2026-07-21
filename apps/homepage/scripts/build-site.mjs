@@ -7,7 +7,7 @@
  * - /devlog: AI posts only
  */
 
-import { readFileSync, writeFileSync, mkdirSync, rmSync, copyFileSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, copyFileSync, existsSync, readdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -147,6 +147,15 @@ for (const [name, content] of outputFiles) {
 for (const asset of ['og.png', 'og.svg']) {
   const src = join(HOMEPAGE_DIR, 'assets', asset);
   if (existsSync(src)) copyFileSync(src, join(BUILD_DIR, asset));
+}
+
+// Copy self-hosted fonts into the build output at /fonts.
+const fontsSrc = join(HOMEPAGE_DIR, 'assets', 'fonts');
+if (existsSync(fontsSrc)) {
+  mkdirSync(join(BUILD_DIR, 'fonts'), { recursive: true });
+  for (const f of readdirSync(fontsSrc)) {
+    copyFileSync(join(fontsSrc, f), join(BUILD_DIR, 'fonts', f));
+  }
 }
 
 console.log(`\nBuild complete! ${outputFiles.size} files written to build/`);
