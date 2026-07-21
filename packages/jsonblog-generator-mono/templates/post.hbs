@@ -2,7 +2,7 @@
   {{#*inline "content"}}
     <article class="post">
       <div class="post-frontmatter">
-        {{~#if post.createdAt~}}<span class="kv"><span class="k">date</span><span class="v">{{formatDate post.createdAt}}</span></span>{{~/if~}}
+        {{~#if post.createdAt~}}<span class="kv"><span class="k">date</span><time class="v" datetime="{{post.createdAt}}">{{formatDate post.createdAt}}</time></span>{{~/if~}}
         {{~#if post.type~}}<span class="kv"><span class="k">type</span><span class="v">{{post.type}}</span></span>{{~/if~}}
         {{~#if post.categories~}}<span class="kv"><span class="k">in</span><span class="v">{{post.categories.[0]}}</span></span>{{~/if~}}
       </div>
@@ -15,8 +15,15 @@
 
       {{#if post.tags}}
         <div class="tags">
-          {{#each post.tags}}<a href="/tag/{{slugify this}}" class="tag">{{this}}</a>{{/each}}
+          {{#each post.tags}}<a href="/tag/{{slugify this}}/" class="tag">{{this}}</a>{{/each}}
         </div>
+      {{/if}}
+
+      {{#if (or newerPost olderPost)}}
+        <nav class="postnav" aria-label="More posts">
+          {{#if newerPost}}<a class="postnav-prev" rel="prev" href="/{{newerPost.slug}}/"><span class="postnav-dir">← newer</span><span class="postnav-title">{{newerPost.title}}</span></a>{{else}}<span></span>{{/if}}
+          {{#if olderPost}}<a class="postnav-next" rel="next" href="/{{olderPost.slug}}/"><span class="postnav-dir">older →</span><span class="postnav-title">{{olderPost.title}}</span></a>{{else}}<span></span>{{/if}}
+        </nav>
       {{/if}}
 
       <a href="/" class="back">← back to index</a>

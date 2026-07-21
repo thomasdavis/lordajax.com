@@ -7,7 +7,7 @@
  * - /devlog: AI posts only
  */
 
-import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, copyFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -84,8 +84,9 @@ if (outputFiles.has('sitemap.xml') && devlogSitemap) {
   });
 
   // Build new entries: devlog page + AI post pages
+  const siteUrl = (blogJson.site && blogJson.site.url) || '';
   const devlogPageEntry = `  <url>
-    <loc>https://example.com/devlog/</loc>
+    <loc>${siteUrl}/devlog/</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>`;
@@ -93,6 +94,15 @@ if (outputFiles.has('sitemap.xml') && devlogSitemap) {
   const newEntries = [devlogPageEntry, ...aiUrlEntries.map(e => `  ${e}`)].join('\n');
   sitemap = sitemap.replace('</urlset>', `${newEntries}\n</urlset>`);
   outputFiles.set('sitemap.xml', sitemap);
+}
+
+// robots.txt (with a Sitemap pointer) so crawlers find everything.
+{
+  const siteUrl = (blogJson.site && blogJson.site.url) || '';
+  outputFiles.set(
+    'robots.txt',
+    `User-agent: *\nAllow: /\n${siteUrl ? `\nSitemap: ${siteUrl}/sitemap.xml\n` : ''}`
+  );
 }
 
 // Post-process all HTML files
@@ -131,6 +141,12 @@ for (const [name, content] of outputFiles) {
   const filePath = join(BUILD_DIR, name);
   mkdirSync(dirname(filePath), { recursive: true });
   writeFileSync(filePath, content);
+}
+
+// Copy binary static assets (OG image, etc.) into the build output.
+for (const asset of ['og.png', 'og.svg']) {
+  const src = join(HOMEPAGE_DIR, 'assets', asset);
+  if (existsSync(src)) copyFileSync(src, join(BUILD_DIR, asset));
 }
 
 console.log(`\nBuild complete! ${outputFiles.size} files written to build/`);

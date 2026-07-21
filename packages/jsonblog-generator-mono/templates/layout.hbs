@@ -4,24 +4,45 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{#if post}}{{post.title}} — {{/if}}{{#if page}}{{page.title}} — {{/if}}{{blog.site.title}}</title>
-  <meta name="description" content="{{#if post}}{{post.description}}{{else if page}}{{page.description}}{{else}}{{blog.site.description}}{{/if}}">
+  <meta name="description" content="{{#if post}}{{#if post.description}}{{post.description}}{{else}}{{post.excerpt}}{{/if}}{{else if page}}{{#if page.description}}{{page.description}}{{else}}{{page.excerpt}}{{/if}}{{else}}{{blog.site.description}}{{/if}}">
+  {{#if blog.basics.name}}<meta name="author" content="{{blog.basics.name}}">{{/if}}
+  <meta name="theme-color" content="#f7f4ee" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#12100e" media="(prefers-color-scheme: dark)">
   <link rel="stylesheet" href="/main.css">
   <link rel="alternate" type="application/rss+xml" title="{{blog.site.title}} RSS" href="/rss.xml">
-  {{#if blog.site.url}}<link rel="canonical" href="{{blog.site.url}}">{{/if}}
+  {{#if blog.site.url}}<link rel="canonical" href="{{blog.site.url}}{{#if post}}/{{post.slug}}/{{else if page}}/{{page.slug}}/{{/if}}">{{/if}}
+
+  <meta property="og:site_name" content="{{blog.site.title}}">
+  <meta property="og:type" content="{{#if post}}article{{else}}website{{/if}}">
+  <meta property="og:title" content="{{#if post}}{{post.title}}{{else if page}}{{page.title}}{{else}}{{blog.site.title}}{{/if}}">
+  <meta property="og:description" content="{{#if post}}{{#if post.description}}{{post.description}}{{else}}{{post.excerpt}}{{/if}}{{else if page}}{{page.description}}{{else}}{{blog.site.description}}{{/if}}">
+  {{#if blog.site.url}}<meta property="og:url" content="{{blog.site.url}}{{#if post}}/{{post.slug}}/{{else if page}}/{{page.slug}}/{{/if}}">{{/if}}
+  {{#if blog.basics.image}}<meta property="og:image" content="{{blog.basics.image}}">{{else if blog.site.url}}<meta property="og:image" content="{{blog.site.url}}/og.png">{{/if}}
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{#if post}}{{post.title}}{{else}}{{blog.site.title}}{{/if}}">
+  <meta name="twitter:description" content="{{#if post}}{{#if post.description}}{{post.description}}{{else}}{{post.excerpt}}{{/if}}{{else}}{{blog.site.description}}{{/if}}">
+
+  {{#if post}}
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":{{json post.title}} {{#if blog.site.url}},"url":"{{blog.site.url}}/{{post.slug}}/"{{/if}}{{#if post.createdAt}},"datePublished":"{{post.createdAt}}"{{/if}}{{#if post.excerpt}},"description":{{json post.excerpt}} {{/if}}{{#if blog.basics.name}},"author":{"@type":"Person","name":{{json blog.basics.name}} }{{/if}} }</script>
+  {{else}}{{#unless page}}
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":{{json blog.site.title}} {{#if blog.site.url}},"url":"{{blog.site.url}}"{{/if}}{{#if blog.site.description}},"description":{{json blog.site.description}} {{/if}}{{#if blog.basics.name}},"author":{"@type":"Person","name":{{json blog.basics.name}} }{{/if}} }</script>
+  {{/unless}}{{/if}}
 </head>
 <body>
+  <a class="skip" href="#main">Skip to content</a>
   <div class="wrap">
 
     <header class="banner">
-      <span class="banner-title">{{blog.site.title}}</span>
+      <a class="banner-title" href="/">{{blog.site.title}}</a>
       {{#if blog.site.description}}<span class="banner-meta">{{blog.site.description}}</span>{{/if}}
     </header>
 
-    <nav class="sitenav">
-      <a href="/">index</a>{{#each pages}}<a href="/{{slug}}">{{slug}}</a>{{/each}}<a href="/rss.xml">rss</a>
+    <nav class="sitenav" aria-label="Primary">
+      <a href="/">index</a>{{#each pages}}<a href="/{{slug}}/">{{slug}}</a>{{/each}}<a href="/rss.xml">rss</a>
     </nav>
 
-    <main>
+    <main id="main">
       {{> content}}
     </main>
 

@@ -1,13 +1,15 @@
 {
   "site": {
     "title": "Lord Ajax",
-    "description": "i write software and shitty poetry"
+    "description": "i write software and shitty poetry",
+    "url": "https://ajaxdavis.dev"
   },
   "generator": {
     "name": "@jsonblog/generator-tailwind"
   },
   "basics": {
-    "name": "Lord Ajax"
+    "name": "Lord Ajax",
+    "image": "https://ajaxdavis.dev/og.png"
   },
   "pages": [
     {

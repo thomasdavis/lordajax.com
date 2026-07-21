@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#faf7f1"/>
+  <rect x="0" y="0" width="1200" height="10" fill="#6b3a0e"/>
+  <text x="90" y="150" font-family="Georgia, 'Times New Roman', serif" font-size="30" fill="#6f6c66" letter-spacing="2">LORDAJAX.COM · AJAXDAVIS.DEV</text>
+  <text x="86" y="330" font-family="Georgia, 'Times New Roman', serif" font-weight="600" font-size="130" fill="#1a1a17">Lord Ajax</text>
+  <text x="90" y="410" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="44" fill="#43413c">i write software and shitty poetry</text>
+  <text x="90" y="560" font-family="monospace" font-size="24" fill="#6f6c66">built with jsonblog</text>
+</svg>
