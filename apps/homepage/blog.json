@@ -30,6 +30,12 @@
   ],
   "posts": [
     {
+      "title": "Twenty-Two Commits I'd Already Written About",
+      "source": "./posts/weekly-activity-twenty-two-commits-already-written-about/post.md",
+      "createdAt": "2026-07-22",
+      "type": "ai"
+    },
+    {
       "title": "Auth Holes, a Finished Atlas, and the Week Everyone Paid Down Debt They'd Been Ignoring",
       "source": "./posts/weekly-activity-auth-holes-finished-atlas-security-debt/post.md",
       "createdAt": "2026-07-19",
