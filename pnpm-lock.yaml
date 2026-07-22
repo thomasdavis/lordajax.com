@@ -39,6 +39,9 @@ importers:
       dotenv:
         specifier: ^16.6.1
         version: 16.6.1
+      slugify:
+        specifier: ^1.6.6
+        version: 1.6.6
       twitter-api-v2:
         specifier: ^1.18.2
         version: 1.28.0

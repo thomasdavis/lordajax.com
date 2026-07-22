@@ -4,18 +4,18 @@
   "private": true,
   "scripts": {
     "dev": "jsonblog serve blog.json",
-    "build": "node scripts/build-canvas.mjs",
+    "build": "node scripts/build-site.mjs",
+    "build:canvas": "node scripts/build-canvas.mjs",
     "generate-post": "node scripts/generate-blog-post.js",
     "fetch-videos": "node scripts/fetch-videos.js",
-    "tweet-post": "node scripts/tweet-blog-post.js",
-    "prebuild": "npm run fetch-videos",
-    "build:mono": "node scripts/build-site.mjs"
+    "tweet-post": "node scripts/tweet-blog-post.js"
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.70",
     "@octokit/rest": "^20.0.2",
     "ai": "^3.4.0",
     "dotenv": "^16.6.1",
+    "slugify": "^1.6.6",
     "twitter-api-v2": "^1.18.2",
     "xml2js": "^0.6.2"
   },

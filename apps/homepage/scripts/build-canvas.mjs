@@ -6,7 +6,9 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const HP = dirname(dirname(fileURLToPath(import.meta.url)));
-const OUT = join(HP, 'build');
+// Output dir is overridable (CANVAS_OUT) so the box deploy can build to a temp
+// dir and atomically swap — a mid-build failure never empties the live build/.
+const OUT = process.env.CANVAS_OUT ? join(HP, process.env.CANVAS_OUT) : join(HP, 'build');
 const blog = JSON.parse(readFileSync(join(HP, 'blog.json'), 'utf8'));
 
 const files = await generate(blog, HP);
@@ -17,4 +19,4 @@ for (const f of files) {
   if (f.copyFrom) copyFileSync(f.copyFrom, p);
   else writeFileSync(p, f.content ?? '');
 }
-console.log(`Canvas build complete — ${files.length} files → build/`);
+console.log(`Canvas build complete — ${files.length} files → ${OUT}`);

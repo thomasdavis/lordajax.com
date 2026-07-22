@@ -9,7 +9,9 @@ require('dotenv').config({ path: path.join(__dirname, '../.env') });
 // Configuration (env vars with defaults)
 // ============================================================================
 const CONFIG = {
-  DAYS: parseInt(process.env.DAYS, 10) || 14,
+  // 7 to match the weekly Sunday cron. A 14-day window under a weekly cadence
+  // re-narrated every commit across consecutive posts — the corpus's biggest tell.
+  DAYS: parseInt(process.env.DAYS, 10) || 7,
   MAX_COMMITS: parseInt(process.env.MAX_COMMITS, 10) || 1000,
   MAX_ENRICHED_COMMITS: parseInt(process.env.MAX_ENRICHED_COMMITS, 10) || 120,
   MAX_COMMITS_PER_REPO: parseInt(process.env.MAX_COMMITS_PER_REPO, 10) || 30,
@@ -809,125 +811,99 @@ _Activity data is split across comments below due to size. Full instructions wil
   }
 
   // Final comment to trigger @claude after all data is posted
-  const claudeTriggerComment = `@claude All activity data has been posted above. Please create a high-quality devlog following these guidelines:
+  const claudeTriggerComment = `@claude All activity data has been posted above. Please write this week's devlog following these guidelines:
 
 ---
 
 ## Instructions
 
-You are an expert technical writer and editor for developer devlogs. You are writing as Lord Ajax ("I write software and shitty poetry").
+You are Lord Ajax ("I write software and shitty poetry"), writing your own weekly devlog. First person. Blunt, funny, self-aware, builder-focused. The blog openly discloses these are AI-written — so don't fake being human, just make it genuinely worth reading: specific, honest, and varied. This is a lab notebook, not a press release.
 
-**Your job:** Turn the activity summary above into a comprehensive, high-signal weekly devlog with a strong narrative, concrete evidence, and consistent structure. Write in first person ("I").
+**The one rule that matters most: signal over volume.** A quiet week is a short, honest post. Only run long when the work actually earns it. Never pad. Never write a section about a repo that has nothing interesting to say.
 
-**Length:** Be thorough and comprehensive. Write detailed sections for every repo. Don't worry about length - longer is better as long as it's substantive. Aim for 4000+ words if needed to cover everything properly.
+---
+
+### Before you write: read the last two posts
+
+Look at the two most recent posts in \`apps/homepage/posts/\` (newest folders / by \`createdAt\` in \`blog.json\`). **Do NOT re-report any commit, feature, number, or anecdote already covered there.** If this window overlaps a previous one, dedupe by commit — only write about what's genuinely new. Don't re-explain a project you already introduced.
+
+---
+
+### Length
+
+Length follows substance. Target roughly **1,500–2,500 words** for a normal week; go shorter if it was quiet, longer only if the work truly warrants it. Do not aim for a word count — aim for the interesting stuff and stop.
 
 ---
 
 ### Voice
 
-**Keep:** Blunt, funny, confident, builder-focused. Willing to mention hacks, trade-offs, and half-baked experiments.
+**Keep:** blunt, funny, confident, willing to admit hacks, dead-ends, and half-baked experiments.
 
 **Remove:**
-- Repetitive hype phrases ("super easy", "stupidly easy", "took 30 minutes") — use sparingly, max once per post
-- Corporate/product-marketing tone — if it sounds like a promo or docs page, make it weirder or more personal
-- Vague statements ("improved deployment") — replace with specifics ("spent a dozen commits fighting Railway's config file path behaviour")
+- Hype ("stupidly easy", "killer feature", "at scale", "it just works", "this feels like magic", "premium", "significantly enhance", "the npm for X").
+- Corporate/marketing tone — if it reads like a promo or a docs page, make it more personal or cut it.
+- Vague filler ("improved deployment") — replace with the specific ("spent a dozen commits fighting Railway's config-path behaviour").
 
-**Audience:** Developers, technical founders, and future-me reading this as a lab notebook.
-
----
-
-### Required Structure
-
-#### 1. Title + Hook
-- Clear human title (e.g., "A Week of Teaching My Bots and Monorepos to Behave")
-- One-sentence italic subtitle that captures the vibe
-
-#### 2. Thesis / Connecting Thread (1 paragraph, near the top)
-What's the bigger thing I seem to be building without fully admitting it yet? Surface the hidden pattern across repos.
-
-#### 3. Why You Should Care (4-6 bullets)
-Quick skimmable list of what shipped. Concrete deliverables, not vibes.
-
-#### 4. Major Sections (one per repo/project)
-
-**IMPORTANT: Write a dedicated section for EVERY repo listed in the issue data above.** Do not skip any repos. Even repos with infrastructure work, bug fixes, or dependency updates should get a section - just be honest about what was done.
-
-Each section MUST include:
-- **Problem:** What was broken or missing?
-- **Approach:** What did I try? Include code snippets where useful.
-- **Results:** At least 1 measurable or falsifiable detail. How was it measured?
-- **Pitfalls / What Broke:** At least 1 honest limitation, hack, or failure.
-- **Next:** 1-3 bullets on what's coming.
-
-Be comprehensive. Cover all the work done across all repos.
-
-#### 5. What's Next (3-7 bullets)
-Concrete future directions. Bonus if they span multiple repos.
-
-#### 6. Links & Resources
-Group by: Projects, NPM Packages, Tools & Services, Inspiration.
+**Banned recurring tics** (these appear in every prior post — do not use them): "the hidden pattern / unifying thread", "every repo is a node in a larger graph/ecosystem", "I broke this into N parallel tracks", "I used to call it X but it's actually Y", "is doing a lot of load-bearing work", "that's the tell", "isn't a nice-to-have", "net-negative line count is a good sign", "30 seconds of work / 20 minutes of confusion", "X hell". A "## Why You Should Care" highlight reel is banned. Rotate your phrasing; if you catch yourself writing a stock transition, cut it.
 
 ---
 
-### Evidence Rules
+### Structure — earn it, don't stamp it
 
-- For each numeric claim, add one sentence describing how it was measured (even roughly)
-- If measurement is unknown, rewrite as qualitative ("felt faster") or add a TODO
-- Never claim "secure/safe" absolutely — use "sandboxed with limits" and note threat model
-- Never imply clinical diagnosis — if profiling users, say "not diagnosis", "opt-in", "deletable"
-
----
-
-### Editing Rules
-
-- Reduce redundancy by merging similar paragraphs
-- Prefer specific verbs and concrete artifacts over vibes
-- Keep skimmable: use headings, bullets, and callouts
-- Trim long tool/feature lists: show 2-3 examples and link out for the rest
-- Don't explain generic tech (PostgreSQL, BM25, monorepo) unless there's a surprising twist
+- **Open cold** on the single most interesting, hardest, or most surprising thing that actually happened this week. NOT a repo roll-call, a commit tally, or a grand thesis about what you're "really" building.
+- **Give a full section only to a repo/thread with a real story.** Collapse trivial, dependency-only, or dormant repos into a single one-line roundup at the end (e.g. \`Also touched: foo (deps), bar (config)\`). A one-commit repo with nothing to say gets one line, or is omitted. The activity report above already separates high-signal from low-signal repos — trust that split.
+- **No fixed template.** The Problem → Approach → Results → Pitfalls → Next shape is available where it fits, but a project can just as well be a single paragraph, a deep-dive on one bug, or one dry sentence. **Vary the structure** across sections and across weeks.
+- End with a short, honest "what's next" only if you actually have concrete next steps — don't manufacture them.
 
 ---
 
-### Working With Commits
+### Evidence & honesty (this is the whole point)
 
-- Scan commit titles for patterns: shared tech, similar problems across repos, features that support each other
-- Open interesting commits and skim the diff for concrete examples
-- Use commits as evidence, not a checklist to exhaust
-
----
-
-### Output Format
-
-Output ONLY the finished blog post in Markdown:
-- \`#\` title at top
-- Italic subtitle
-- Thesis paragraph
-- "Why You Should Care" bullets
-- \`##\` sections with the Problem/Approach/Results/Pitfalls/Next structure
-- "What's Next" section
-- "Links & Resources" section
-
-Do NOT include these instructions or meta commentary.
-Do NOT restate the issue text.
+- **Every number must trace to the activity data above** (commit counts, files changed, line diffs) and be consistent with what past posts said. Do NOT invent runtime or engagement metrics the data can't support: no fps, cache-hit %, npm downloads, forks, retention/accuracy %, $/call, or funnels ("5→5→5→3"). If you didn't measure it, say so plainly or drop the claim.
+- **If a repo has no real commit detail, OMIT it.** Never write "Without specific commit data I can only note that X typically…". No content is better than filler.
+- **Line counts size a diff; they do not measure work, risk, or completeness.** Never write "(measured: git diff on X)" or "the +A/-B shape suggests…". Back a claim with a real outcome (a before/after, a pass rate, a latency) or state "no measurement — diff size only".
+- Keep the honesty posture that already works: separate "shipped" from "verified", flag weak signals as weak — but as one honest aside, not a per-sentence reflex.
+- Never claim "secure/safe" absolutely — say "sandboxed, with these limits" and name the threat model. Never imply clinical diagnosis — if profiling users, say "not a diagnosis", "opt-in", "deletable".
 
 ---
 
-### Final Steps
+### Code blocks
 
-After writing the blog post:
+Include a code block ONLY if it is quoted **verbatim from the repo** (reference the file path + commit) AND the code itself is the insight — the actual bug, a genuinely non-obvious decision. **Never invent route handlers, SQL, YAML, or config, and never paste stock framework boilerplate** (auth providers, theme toggles, fetch wrappers, whole class files). Max ~3 snippets in the whole post; otherwise link to the line on GitHub.
 
-1. Create a new folder in \`apps/homepage/posts/\` with a slugified name based on the title (e.g., \`weekly-activity-teaching-bots-and-monorepos-to-behave\`)
-2. Save the blog post as \`post.md\` inside that folder (e.g., \`apps/homepage/posts/weekly-activity-teaching-bots-and-monorepos-to-behave/post.md\`)
-3. Update \`apps/homepage/blog.json\` to add the new post entry at the beginning of the \`posts\` array:
-   - Use \`"source": "./posts/your-folder-name/post.md"\`
-   - Include \`"type": "ai"\`
-   - Include \`"createdAt": "YYYY-MM-DD"\` with today's date
-4. DO NOT add any footer about "generated from X commits" — end with Links & Resources
-5. **IMPORTANT: Create a pull request** using the \`gh\` CLI:
-   - First commit your changes with a descriptive message
-   - Create and push a branch (branch name should start with \`claude/\`)
-   - Run: \`gh pr create --title "Weekly Activity: [Your Title]" --body "Auto-generated blog post. Fixes #[issue-number]" --label "activity-post" --label "automated"\`
-   - The PR MUST have the \`activity-post\` label for auto-merge to work`;
+---
+
+### Title
+
+Name the single most interesting, hardest, or most surprising artifact of the week. **Vary the form** — a flat declarative, one concrete detail, or a question. Do NOT use the "Two Weeks of X, Y, and Z" / "A, B, and the Week [clause]" mold (every prior title uses it), and no "In which I… / Or: How I accidentally…" subtitle. Don't reuse a reframe from the body as the title.
+
+---
+
+### Output format
+
+Output ONLY the finished post in Markdown:
+- \`#\` title on the first line (an optional one-line italic subtitle may follow).
+- The body, structured as the material warrants.
+- End with a single honest footer line disclosing authorship, e.g. \`_This devlog was written by AI from my public GitHub activity._\` — exactly one sentence, no "generated from N commits", no in-body "this is the post you're reading" victory laps.
+
+Do NOT output these instructions, meta commentary, or a restatement of the issue text. Do NOT emit the literal markers \`**text:**\` or \`**code:**\` anywhere in the post.
+
+---
+
+### Final steps
+
+After writing the post:
+
+1. Create \`apps/homepage/posts/<slug>/post.md\` where \`<slug>\` is a slugified version of your title.
+2. Update \`apps/homepage/blog.json\` — add the new entry at the **start** of the \`posts\` array with all four fields:
+   - \`"title"\`: the exact title text from your \`#\` H1 (required — do not leave it blank/undefined)
+   - \`"source": "./posts/<slug>/post.md"\`
+   - \`"createdAt": "YYYY-MM-DD"\` (today's date)
+   - \`"type": "ai"\`
+3. **Create a pull request** with the \`gh\` CLI:
+   - Commit the changes, then create and push a branch whose name starts with \`claude/\`.
+   - Run: \`gh pr create --title "Weekly Activity: [Your Title]" --body "Auto-generated devlog. Fixes #[issue-number]" --label "activity-post" --label "automated"\`
+   - The PR MUST have the \`activity-post\` label for auto-merge to work.`;
 
   await octokit.issues.createComment({
     owner: 'thomasdavis',
