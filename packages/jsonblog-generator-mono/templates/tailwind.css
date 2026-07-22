@@ -306,6 +306,23 @@ html, body {
   font-size: inherit;
   color: var(--ink-2);
 }
+/* Shiki syntax highlighting — build-time, dual light/dark via CSS variables (no
+   runtime JS). Keep the warm-paper container; use Shiki only for token colours. */
+.content pre.shiki { background: var(--paper-2); }
+.content pre.shiki,
+.content pre.shiki span {
+  color: var(--shiki-light);
+  font-style: var(--shiki-light-font-style, inherit);
+  font-weight: var(--shiki-light-font-weight, inherit);
+}
+@media (prefers-color-scheme: dark) {
+  .content pre.shiki,
+  .content pre.shiki span {
+    color: var(--shiki-dark);
+    font-style: var(--shiki-dark-font-style, inherit);
+    font-weight: var(--shiki-dark-font-weight, inherit);
+  }
+}
 .content hr {
   border: none;
   height: 1px;

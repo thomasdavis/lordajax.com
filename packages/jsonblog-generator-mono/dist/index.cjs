@@ -89,7 +89,52 @@ var logger = (0, import_pino.default)({
   level: process.env.LOG_LEVEL || "warn"
 });
 var logger_default = logger;
-var md = new import_markdown_it.default({ html: true, linkify: true, typographer: true });
+var SHIKI_LANGS = [
+  "javascript",
+  "typescript",
+  "tsx",
+  "json",
+  "bash",
+  "python",
+  "rust",
+  "go",
+  "sql",
+  "yaml",
+  "html",
+  "css",
+  "markdown",
+  "diff"
+];
+var highlighterPromise;
+async function getHighlighter() {
+  if (!highlighterPromise) {
+    const { createHighlighter } = await import("shiki");
+    highlighterPromise = createHighlighter({
+      themes: ["github-light", "github-dark"],
+      langs: SHIKI_LANGS
+    });
+  }
+  return highlighterPromise;
+}
+function createMarkdown(highlighter) {
+  return new import_markdown_it.default({
+    html: true,
+    linkify: true,
+    typographer: true,
+    highlight: highlighter ? (code, lang) => {
+      const language = highlighter.getLoadedLanguages().includes(lang) ? lang : "text";
+      try {
+        return highlighter.codeToHtml(code, {
+          lang: language,
+          themes: { light: "github-light", dark: "github-dark" },
+          defaultColor: false
+        });
+      } catch {
+        return "";
+      }
+    } : void 0
+  });
+}
 async function fetchFile(uri, basePath) {
   try {
     if (uri.startsWith("http")) {
@@ -130,72 +175,55 @@ async function fetchFile(uri, basePath) {
 async function processContent(items, type, basePath, stripPostTitle) {
   if (!items) return [];
   logger_default.info(`Processing ${items.length} ${type}s`);
-  const processedItems = await Promise.all(
+  const resolved = await Promise.all(
     items.map(async (item) => {
       let gridItems = "items" in item ? item.items : void 0;
+      let content = item.content || "";
+      let failed = false;
       try {
-        let content = item.content || "";
         if ("source" in item && item.source) {
-          const fetchedContent = await fetchFile(item.source, basePath);
-          if (fetchedContent) {
-            content = fetchedContent;
-          }
+          const fetched = await fetchFile(item.source, basePath);
+          if (fetched) content = fetched;
         }
         if ("itemsSource" in item && item.itemsSource) {
-          const fetchedItems = await fetchFile(item.itemsSource, basePath);
-          if (fetchedItems) {
+          const fetched = await fetchFile(item.itemsSource, basePath);
+          if (fetched) {
             try {
-              gridItems = JSON.parse(fetchedItems);
-              logger_default.debug(
-                { itemsSource: item.itemsSource },
-                "Loaded grid items from external file"
-              );
+              gridItems = JSON.parse(fetched);
             } catch (error) {
               logger_default.error({ error, itemsSource: item.itemsSource }, "Failed to parse items JSON");
             }
           }
         }
-        if (!content && (!("layout" in item) || item.layout !== "grid")) {
-          return {
-            ...item,
-            content: "<p>Error: No content found</p>",
-            slug: slug(item.title),
-            ...gridItems && { items: gridItems }
-          };
-        }
-        try {
-          let rendered = content ? md.render(String(content)) : "";
-          if (type === "post" && stripPostTitle) {
-            rendered = rendered.replace(/<h1[^>]*>.*?<\/h1>/, "");
-          }
-          const excerpt = rendered.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim().slice(0, 160);
-          return {
-            ...item,
-            content: rendered,
-            excerpt,
-            slug: slug(item.title),
-            ...gridItems && { items: gridItems }
-          };
-        } catch (error) {
-          logger_default.error({ error, title: item.title }, "Failed to render markdown");
-          return {
-            ...item,
-            content: "<p>Error: Failed to render content</p>",
-            slug: slug(item.title),
-            ...gridItems && { items: gridItems }
-          };
-        }
       } catch (error) {
         logger_default.error({ error, title: item.title, type }, "Failed to process content");
-        return {
-          ...item,
-          content: "<p>Error: Failed to process content</p>",
-          slug: slug(item.title),
-          ...gridItems && { items: gridItems }
-        };
+        failed = true;
       }
+      return { item, content, gridItems, failed };
     })
   );
+  const hasCode = resolved.some((r) => r.content.includes("```") || r.content.includes("~~~"));
+  const md = createMarkdown(hasCode ? await getHighlighter() : void 0);
+  const processedItems = resolved.map(({ item, content, gridItems, failed }) => {
+    const withItems = gridItems ? { items: gridItems } : {};
+    if (failed) {
+      return { ...item, content: "<p>Error: Failed to process content</p>", slug: slug(item.title), ...withItems };
+    }
+    if (!content && (!("layout" in item) || item.layout !== "grid")) {
+      return { ...item, content: "<p>Error: No content found</p>", slug: slug(item.title), ...withItems };
+    }
+    try {
+      let rendered = content ? md.render(String(content)) : "";
+      if (type === "post" && stripPostTitle) {
+        rendered = rendered.replace(/<h1[^>]*>.*?<\/h1>/, "");
+      }
+      const excerpt = rendered.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim().slice(0, 160);
+      return { ...item, content: rendered, excerpt, slug: slug(item.title), ...withItems };
+    } catch (error) {
+      logger_default.error({ error, title: item.title }, "Failed to render markdown");
+      return { ...item, content: "<p>Error: Failed to render content</p>", slug: slug(item.title), ...withItems };
+    }
+  });
   return processedItems.sort((a, b) => {
     if (type === "post" && "createdAt" in a && "createdAt" in b) {
       return new Date(b.createdAt || "").getTime() - new Date(a.createdAt || "").getTime();
