@@ -30,7 +30,8 @@
   ],
   "posts": [
     {
-      "title": "Twenty-Two Commits I'd Already Written About",
+      "title": "The $50k Job at the Top of My $150k List",
+      "slug": "twenty-two-commits-id-already-written-about",
       "source": "./posts/weekly-activity-twenty-two-commits-already-written-about/post.md",
       "createdAt": "2026-07-22",
       "type": "ai"
