@@ -10,15 +10,15 @@ require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
 // Site configuration
 const SITE_URL = 'https://ajaxdavis.dev';
-// Twitter counts every link as this many characters (t.co wrapping), regardless
-// of the real URL length.
-const TCO_LEN = 23;
-const TWEET_MAX = 280;
+// The account is X Premium, so tweets are long-form. This is only a sanity ceiling
+// well under the 25k Premium limit — we do NOT truncate to 280.
+const TWEET_MAX = 8000;
 // Openly disclosed — the devlog is AI-written and so is this tweet.
 const DISCLOSURE = '(AI-written: blog + tweet)';
 // MUST match the site generator's slug exactly (@jsonblog/helpers `slug`), or the
 // tweet links to a 404. slugify maps &→"and" and transliterates accents
-// (Pokémon→pokemon) — a hand-rolled regex silently dropped those and broke links.
+// (Pokémon→pokemon). NOTE: the tweet URL prefers the post's explicit `slug` field
+// (getPostUrl) so a pinned page URL and the tweet never disagree.
 const SLUGIFY_OPTS = { lower: true, strict: true, remove: /[*+~.()'"!:@]/g };
 
 // Initialize Twitter client
@@ -51,75 +51,66 @@ function getPostContent(post) {
   return null;
 }
 
-// Generate post URL — MUST match the site generator's slug (see SLUGIFY_OPTS).
-// Trailing slash matches the page's canonical URL (avoids a redirect hop).
+// Generate post URL. Prefer the post's explicit `slug` (the site generator honours
+// it too), else derive it exactly the way the generator does. This is what keeps
+// the tweet link and the real page URL in lock-step — no 404s.
 function getPostUrl(post) {
-  return `${SITE_URL}/${slugify(post.title, SLUGIFY_OPTS)}/`;
+  const slug = post.slug || slugify(post.title, SLUGIFY_OPTS);
+  return `${SITE_URL}/${slug}/`;
 }
 
-// Twitter's weighted length: the URL always costs TCO_LEN, everything else 1/char.
-function weightedLength(body, url) {
-  return body.length + 2 /* \n\n */ + TCO_LEN + 2 /* \n\n */ + DISCLOSURE.length;
-}
-
-// Trim to a whole-sentence/word boundary so the tweet never mid-cuts a word.
-function trimToBudget(text, maxChars) {
+// Trim to a line boundary — only ever hit if the model wildly overshoots the
+// Premium-safe ceiling; normal tweets pass through untouched.
+function trimToLineBoundary(text, maxChars) {
   if (text.length <= maxChars) return text;
   let cut = text.slice(0, maxChars);
-  const lastBreak = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('\n'), cut.lastIndexOf(' '));
+  const lastBreak = Math.max(cut.lastIndexOf('\n'), cut.lastIndexOf('. '));
   if (lastBreak > maxChars * 0.5) cut = cut.slice(0, lastBreak);
-  return cut.replace(/[\s\-—→,.]+$/, '').trim();
+  return cut.trim();
 }
 
-// Generate a tweet, then GUARANTEE it fits in 280 weighted chars.
+// Generate a long-form (X Premium) tweet: a per-project technical rundown of the
+// week. Not capped at 280 — the account is Premium.
 async function generateTweet(post, content) {
   const postUrl = getPostUrl(post);
-  // Body budget = 280 − (blank line) − t.co URL − (blank line) − disclosure.
-  const bodyBudget = TWEET_MAX - (2 + TCO_LEN + 2 + DISCLOSURE.length);
+  const bodyCeiling = TWEET_MAX - (2 + postUrl.length + 2 + DISCLOSURE.length);
 
-  const prompt = `You're a software engineer quietly noting what you shipped, like a text to a friend — not selling anything. The blog post you're linking is an AI-written weekly devlog.
+  const prompt = `You're a software engineer posting a technical rundown of what you shipped this week, linking your weekly devlog (which is AI-written). The account is X Premium, so this is a LONG-FORM tweet — length is fine; substance matters.
 
-Write the body of a tweet (no URL, no sign-off — those are appended for you):
-- Open with one dry, specific line about the week's actual work (no "excited to share", no "check out", no hype).
-- Then 2–4 short lines, one per project you touched, each naming the project in ALL CAPS and what changed. Pick the most interesting ones; don't list everything.
-- Sound like a person who happens to code, not a LinkedIn post.
+Write the BODY of the tweet (the URL and an AI-disclosure line are appended for you — do not write them):
+- Start with one dry, specific line summarizing the week (no "excited to", no "check out", no hype).
+- Then ONE line per project you actually worked on this week — cover EVERY project, don't drop any. Name each project in ALL CAPS, then a concrete TECHNICAL detail that conveys the complexity of what was done (the actual mechanism, algorithm, bug, or design decision — not "improved X"). Examples of the right altitude: "JSONRESUME: hybrid retrieval — dense embeddings fused with a Postgres tsvector arm — plus Rocchio negative-feedback to bend ranking away from rejected jobs", "TPMJS: fixed a React hydration mismatch from reading devicePixelRatio during SSR; gated canvas work behind an isHydrated flag".
+- Dry, precise, engineer-to-engineer. No marketing, no emoji, no hashtags, no calls to action.
+
+Ground every detail in the post below — pull the real specifics, invent nothing. If you're unsure of a project's technical detail, keep it factual and modest rather than embellishing.
 
 Blog post title: ${post.title}
-${content ? `\nBlog post content (for grounding — pull real specifics, invent nothing):\n${content.slice(0, 6000)}` : ''}
+${content ? `\nBlog post content:\n${content.slice(0, 12000)}` : ''}
 
-HARD RULES:
-- Output ONLY the tweet body. No preamble, no quotes around it.
-- The body MUST be at most ${bodyBudget} characters. Count them. Shorter is fine.
-- Plain text only (Twitter has no markdown). Use "→" or "-" for bullets.
-- No hashtags, no emojis, no calls to action, no exclamation marks.
-- Do NOT write the URL and do NOT write any AI-disclosure line — both are added automatically.`;
+Output ONLY the tweet body (no preamble, no surrounding quotes, no URL, no disclosure line). Stay under ${bodyCeiling} characters.`;
 
   let body = '';
   try {
-    // NB: the AI SDK option is `maxTokens` — `maxCompletionTokens` is silently ignored.
-    const { text } = await generateText({ model: openai('gpt-4o'), prompt, maxTokens: 160 });
+    const { text } = await generateText({ model: openai('gpt-4o'), prompt, maxTokens: 1200 });
     body = (text || '').trim();
   } catch (e) {
     console.error('⚠️  Tweet generation failed, falling back to title:', e.message);
     body = post.title;
   }
 
-  // Belt-and-suspenders: strip model artifacts (preamble, wrapping quotes), any
-  // URL/disclosure it added anyway, then hard-trim so the final tweet is ALWAYS
-  // ≤ 280 weighted chars.
+  // Strip model artifacts + anything it appended that we add ourselves.
   body = body
-    .replace(/^\s*(here'?s|sure|okay|ok)[^\n:]*:\s*/i, '') // "Here's your tweet:" preamble
-    .replace(/^["'“”`]+|["'“”`]+$/g, '') // wrapping quotes
+    .replace(/^\s*(here'?s|sure|okay|ok)[^\n:]*:\s*/i, '')
+    .replace(/^["'“”`]+|["'“”`]+$/g, '')
     .replace(/https?:\/\/\S+/g, '')
     .replace(/\(?\s*(this\s+)?(tweet|post|blog)[^)\n]*ai[- ]?(generated|written)[^)\n]*\)?/gi, '')
     .replace(/\(?\s*ai[- ](generated|written)[^)\n]*\)?/gi, '')
     .trim();
-  body = trimToBudget(body, bodyBudget);
-  if (!body) body = trimToBudget(post.title, bodyBudget);
+  body = trimToLineBoundary(body, bodyCeiling);
+  if (!body) body = post.title;
 
   const fullTweet = `${body}\n\n${postUrl}\n\n${DISCLOSURE}`;
-  const weighted = weightedLength(body, postUrl);
-  console.log(`   tweet weighted length: ${weighted}/${TWEET_MAX} (body ${body.length}/${bodyBudget})`);
+  console.log(`   tweet length: ${fullTweet.length} chars (body ${body.length}), url ${postUrl}`);
   return fullTweet;
 }
 

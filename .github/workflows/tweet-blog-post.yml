@@ -1,12 +1,11 @@
 name: Tweet New Blog Post
 
 on:
-  push:
-    branches:
-      - master
-    paths:
-      - 'apps/homepage/posts/**'
-      - 'apps/homepage/blog.json'
+  # Automated weekly tweets fire from auto-merge-activity-pr.yml's own tweet step
+  # (single source of truth). This push trigger used to re-fire on ANY commit that
+  # touched posts/** or blog.json — so editing or regenerating a post re-tweeted the
+  # newest one. Disabled to that end; manual dispatch only.
+  workflow_dispatch:
 
 jobs:
   tweet:
