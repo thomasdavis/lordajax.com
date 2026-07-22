@@ -31,9 +31,12 @@ jobs:
           ")
           echo "newest_post=$NEWEST_POST" >> $GITHUB_OUTPUT
 
-          # Check if this is a new post (file was added in this commit)
-          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
-          if echo "$CHANGED_FILES" | grep -q "apps/homepage/posts/"; then
+          # Manual dispatch = force a tweet for the current newest post.
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "has_new_post=true" >> $GITHUB_OUTPUT
+            echo "▶️ Manual dispatch — tweeting the newest post"
+          # Otherwise only tweet when a post file was actually added in this commit.
+          elif git diff --name-only HEAD~1 HEAD | grep -q "apps/homepage/posts/"; then
             echo "has_new_post=true" >> $GITHUB_OUTPUT
             echo "✅ New blog post detected"
           else
