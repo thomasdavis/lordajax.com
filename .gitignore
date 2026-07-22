@@ -38,3 +38,6 @@ yarn-error.log*
 
 # cache
 .cache
+
+# stray canvas output (superseded by build/)
+canvas-build/

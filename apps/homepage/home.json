@@ -1,71 +1,33 @@
 {
-  "brand": "Ajax Davis",
-  "tagline": ["Building open systems.", "Documenting everything."],
+  "brand": "Lord Ajax",
+  "tagline": ["Open source, open data.", "Building in public."],
   "nav": [
-    { "label": "Essays", "href": "/" },
-    { "label": "Notes", "href": "/tag/notes/" },
+    { "label": "Essays", "href": "/essays/" },
+    { "label": "Devlog", "href": "/devlog/" },
     { "label": "Projects", "href": "/projects/" },
-    { "label": "Archive", "href": "/archive/" },
+    { "label": "Videos", "href": "/videos/" },
     { "label": "About", "href": "/about/" }
   ],
   "hero": {
-    "headline": "Open systems last longer.",
-    "subhead": "So I build them, and write everything down.",
-    "intro": "I work on the unglamorous foundations: language, knowledge, archives, software, and public infrastructure. I ship code, publish docs, and keep a public record so others can build on top.",
+    "headline": "I write software",
+    "subhead": "and shitty poetry.",
+    "intro": "I'm Thomas. I build open tools for language, knowledge, and the web — JSON Resume, Mob Translate, Donto — and write about what I learn along the way.",
     "aboutHref": "/about/",
-    "lens": ["Evidence", "Language", "Public infrastructure"],
-    "location": "Far North Queensland, Australia",
-    "lastUpdated": "19 July 2026"
+    "lens": ["Open standards", "Language", "Knowledge"],
+    "building": "Donto — an evidence substrate",
+    "location": "Australia"
   },
-  "featured": {
-    "label": "Featured essay",
-    "title": "The Case for Durable Public Systems",
-    "summary": "Why legibility, boring interfaces, and open formats are a form of resilience.",
-    "href": "/introducing-json-blog/"
-  },
-  "notes": [
-    { "date": "19 Jul 2026", "title": "Debt is a design choice, not a mystery", "href": "/auth-holes-a-finished-atlas-and-the-week-everyone-paid-down-debt-theyd-been-ignoring/" },
-    { "date": "16 Jul 2026", "title": "Every system eventually becomes someone else's legacy", "href": "/two-weeks-of-shipping-tool-registries-self-evolving-bots-and-codebase-weaving/" },
-    { "date": "12 Jul 2026", "title": "On translation as infrastructure", "href": "/a-deep-time-wind-map-1204-language-codes-and-the-fortnight-mobtranslatecom-stopped-being-a-website/" },
-    { "date": "09 Jul 2026", "title": "Standards are slow compost, not instant fertilizer", "href": "/llm-friendly-language/" },
-    { "date": "06 Jul 2026", "title": "Notes on verifiability and trust without gatekeepers", "href": "/source-bodies-citation-popovers-and-the-two-weeks-donto-learned-to-show-its-work/" }
-  ],
   "projects": [
-    { "letter": "D", "color": "#1f2b3a", "name": "Donto", "description": "Evidence OS for claims, sources, contradictions and time.", "tags": ["Evidence", "Knowledge"], "license": "Open source", "status": "Active", "href": "https://donto.org" },
-    { "letter": "T", "color": "#5f6234", "name": "Mob Translate", "description": "A living dictionary and translation memory in the open.", "tags": ["Language", "Lexicography"], "license": "Open data", "status": "Active", "href": "https://mobtranslate.com" },
-    { "letter": "A", "color": "#b08a52", "name": "Apex", "description": "Modern delivery infrastructure for small, verifiable units.", "tags": ["Infrastructure", "Delivery"], "license": "Open source", "status": "In progress", "href": "https://omegaai.dev" },
-    { "letter": "J", "color": "#c0562e", "name": "JSON Resume", "description": "The original open standard for professional profiles.", "tags": ["Standards", "Identity"], "license": "Open standard", "status": "Maintenance", "href": "https://jsonresume.org" }
+    { "letter": "J", "color": "#c0562e", "name": "JSON Resume", "description": "The original open standard for resumes, in JSON. Themes, hosting, and a whole ecosystem.", "tags": ["Standards", "Identity"], "license": "Open standard", "status": "Maintained", "href": "https://jsonresume.org" },
+    { "letter": "M", "color": "#5f6234", "name": "Mob Translate", "description": "A living dictionary and translator for Australian Aboriginal languages, built in the open.", "tags": ["Language", "Lexicography"], "license": "Open data", "status": "Active", "href": "https://mobtranslate.com" },
+    { "letter": "D", "color": "#1f2b3a", "name": "Donto", "description": "An evidence substrate for claims, sources, contradictions, and time.", "tags": ["Evidence", "Knowledge"], "license": "Open source", "status": "Active", "href": "https://donto.org" },
+    { "letter": "O", "color": "#b08a52", "name": "Omega", "description": "A self-editing Discord agent that lives across chat and a persistent world.", "tags": ["Agents", "Infrastructure"], "license": "Open source", "status": "In progress", "href": "https://omegaai.dev" }
   ],
-  "themes": [
-    { "icon": "あ", "name": "Language", "count": 27, "description": "Lexicons, translation, writing systems, and meaning." },
-    { "icon": "◍", "name": "Knowledge", "count": 31, "description": "Evidence, claims, sources, contradictions, and time." },
-    { "icon": "▤", "name": "Archives", "count": 18, "description": "Memory, preservation, verifiability, and access." },
-    { "icon": "▦", "name": "Infrastructure", "count": 26, "description": "Systems, protocols, data formats, and platforms." },
-    { "icon": "‹›", "name": "Software", "count": 34, "description": "Developer tools, DX, and sustainable code." },
-    { "icon": "⌂", "name": "Public systems", "count": 23, "description": "Institutions, standards, and civic technology." }
-  ],
-  "reading": [
-    { "title": "A short history of public standards", "progress": 60 },
-    { "title": "Designing for verifiability", "progress": 35 },
-    { "title": "A lexicon for living languages", "progress": 20 },
-    { "title": "Notes on digital preservation", "progress": 10 }
-  ],
-  "quote": {
-    "text": "The goal isn't to publish more. It's to make the record clearer, so the next person can move faster and make fewer mistakes.",
-    "author": "Ajax Davis"
-  },
-  "newsletter": {
-    "title": "New essays & notes",
-    "description": "Occasional letters about systems, writing, and what I'm building.",
-    "placeholder": "Your email",
-    "action": "Subscribe",
-    "note": "No spam. Unsubscribe any time."
-  },
-  "footerNote": "Built in public. For public use.",
+  "footerNote": "Built in public.",
   "social": [
     { "label": "RSS", "href": "/rss.xml" },
     { "label": "GitHub", "href": "https://github.com/thomasdavis" },
-    { "label": "Mastodon", "href": "#" },
+    { "label": "Twitter", "href": "https://twitter.com/ajaxdavis" },
     { "label": "Email", "href": "mailto:thomasalwyndavis@gmail.com" }
   ]
 }
