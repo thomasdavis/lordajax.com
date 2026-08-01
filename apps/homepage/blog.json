@@ -30,6 +30,11 @@
   ],
   "posts": [
     {
+      "title": "430 Input Required",
+      "source": "./posts/x430-http-elicitation/post.md",
+      "createdAt": "2026-08-01"
+    },
+    {
       "title": "The $50k Job at the Top of My $150k List",
       "slug": "twenty-two-commits-id-already-written-about",
       "source": "./posts/weekly-activity-twenty-two-commits-already-written-about/post.md",
