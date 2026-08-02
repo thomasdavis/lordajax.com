@@ -9,7 +9,7 @@
 <pre class="crap-wire"><code>GET  /records                          → 403 (or 430) + challenge
 POST /.well-known/input-challenges/…   → 204 + Input-Proof
 GET  /records  + Input-Proof           → 200 OK</code></pre>
-<p class="crap-actions"><a href="#try-it">Run the exchange</a> <a href="https://github.com/thomasdavis/crap">Read the code</a> <a href="https://crap.donto.org/spec.html">Read the spec</a></p>
+<p class="crap-actions"><a href="#try-it">Run the exchange</a> <a href="https://github.com/thomasdavis/crap">Read the code</a> <a href="https://crap.blah.dev/spec.html">Read the spec</a></p>
 <p class="crap-facts">3 packages · 28 end-to-end tests · MIT · works on plain <code>403</code> today</p>
 </div>
 
@@ -32,7 +32,7 @@ The server hands back a challenge. Smallest useful version;
 
 ```json
 {
-  "type": "https://crap.donto.org/problems/input-required",
+  "type": "https://crap.blah.dev/problems/input-required",
   "status": 403,
   "challenge": {
     "id": "ch_zC4mV8xQ",
@@ -48,7 +48,7 @@ The server hands back a challenge. Smallest useful version;
 }
 ```
 
-The agent POSTs its answers to that transaction resource, gets back a `204` with an `Input-Proof` header, then retries the original request with the proof attached and gets its 200. That's the whole state machine. The [full challenge document](https://crap.donto.org/spec.html#4-the-challenge) has another dozen fields, and every one of them is there to stop something bad happening, which I'll get to.
+The agent POSTs its answers to that transaction resource, gets back a `204` with an `Input-Proof` header, then retries the original request with the proof attached and gets its 200. That's the whole state machine. The [full challenge document](https://crap.blah.dev/spec.html#4-the-challenge) has another dozen fields, and every one of them is there to stop something bad happening, which I'll get to.
 
 ## Try it
 
@@ -177,7 +177,7 @@ RFC 9470 is the closest relative and worth reading, because it's exactly this sh
 
 The status code is the least interesting part and I'd rather it didn't sink the idea.
 
-The normative wire format is a plain `403` with `application/problem+json` and the type `https://crap.donto.org/problems/input-required`, which goes through every proxy, gateway and SDK that exists today. Clients detect a challenge by the problem type, never by the status code. `430 Input Required` is an optional profile the server only uses if the client sent `Accept-Input-Required: v=2` first.
+The normative wire format is a plain `403` with `application/problem+json` and the type `https://crap.blah.dev/problems/input-required`, which goes through every proxy, gateway and SDK that exists today. Clients detect a challenge by the problem type, never by the status code. `430 Input Required` is an optional profile the server only uses if the client sent `Accept-Input-Required: v=2` first.
 
 So if `430` never gets registered, nothing breaks. Getting a problem type registered is a much lower bar than a status code, and that's the piece that actually matters.
 
@@ -222,7 +222,7 @@ I originally had these as a ladder, A0 through A4, where a server could ask for 
 
 This is the part I actually want. Everything above has already been rewritten once because someone pointed out that the client would happily post your declarations to any origin a challenge named, which is a fairly bad bug to have shipped in a protocol about not oversharing. There'll be more.
 
-Open questions, also in [the spec](https://crap.donto.org/spec.html#11-open-questions);
+Open questions, also in [the spec](https://crap.blah.dev/spec.html#11-open-questions);
 
 - **Should answers travel?** If you told one archive your purpose, should another archive be allowed to accept that? Very convenient. Also a tracking vector with a ribbon on it.
 - **Should there be a shared vocabulary?** If every server invents its own `purpose` field with its own enum then agents drown, but if a committee owns the vocabulary then nothing ever ships.

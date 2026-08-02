@@ -152,7 +152,7 @@
     say('bad', label,
       'content-type: application/problem+json\ncache-control: no-store\nvary: accept-input-required\n\n' +
       JSON.stringify({
-        type: 'https://crap.donto.org/problems/input-required',
+        type: 'https://crap.blah.dev/problems/input-required',
         status: res.status,
         challenge: {
           id: res.challenge.id,
