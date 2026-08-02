@@ -30,8 +30,9 @@
   ],
   "posts": [
     {
-      "title": "430 Input Required",
-      "source": "./posts/x430-http-elicitation/post.md",
+      "title": "CRAP: Conditional Resource Access Protocol",
+      "slug": "crap",
+      "source": "./posts/crap/post.md",
       "createdAt": "2026-08-01"
     },
     {
