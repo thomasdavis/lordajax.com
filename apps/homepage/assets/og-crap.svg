@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#fbfaf7"/>
+  <rect x="0" y="0" width="1200" height="10" fill="#8a4b1f"/>
+  <text x="80" y="132" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="26" letter-spacing="6" fill="#8a4b1f">430 INPUT REQUIRED</text>
+  <text x="80" y="238" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="30" fill="#16150f">GET  /records          </text>
+  <text x="560" y="238" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="30" fill="#6b6759">→  challenge</text>
+  <text x="80" y="292" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="30" fill="#16150f">POST answers           </text>
+  <text x="560" y="292" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="30" fill="#6b6759">→  proof</text>
+  <text x="80" y="346" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="30" fill="#16150f">GET  /records + proof  </text>
+  <text x="560" y="346" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="30" fill="#16150f">→  200 OK</text>
+  <line x1="80" y1="420" x2="1120" y2="420" stroke="#ddd8c9" stroke-width="2"/>
+  <text x="80" y="500" font-family="Georgia,'Source Serif 4',serif" font-size="76" font-weight="700" fill="#16150f">CRAP</text>
+  <text x="80" y="552" font-family="Georgia,'Source Serif 4',serif" font-size="30" fill="#6b6759">Conditional Resource Access Protocol</text>
+  <text x="80" y="596" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="20" fill="#8a4b1f">ajaxdavis.dev/crap</text>
+</svg>

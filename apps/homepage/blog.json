@@ -33,7 +33,9 @@
       "title": "CRAP: Conditional Resource Access Protocol",
       "slug": "crap",
       "source": "./posts/crap/post.md",
-      "createdAt": "2026-08-01"
+      "createdAt": "2026-08-01",
+      "description": "An experimental HTTP protocol that lets a resource request structured, per-request input before making a recoverable access decision.",
+      "image": "/assets/og-crap.png"
     },
     {
       "title": "The $50k Job at the Top of My $150k List",
