@@ -3,45 +3,42 @@
 **text:** human
 **code:** AI
 
-HTTP can say yes. It can say no. It can't ask a question.
+HTTP can say yes and it can say no, but it can't ask you a question.
 
-That's the gap. An agent hits your API. You'd probably let it through, but there are things you'd like to know first, and there is no way to ask. Not "are you authenticated" — you have `401` for that. Not "did you pay" — `402`. Actual questions. Anything you want:
+I've been thinking about this because of agents. One turns up at your API, and you'd probably let it in, but there's stuff you'd like to know first and there's nowhere to put the question. Not "are you logged in", we have `401` for that. Not "did you pay", that's `402`. I mean actual questions;
 
 - What are you going to do with this?
-- Which model are you? What's your context budget?
-- Who authorised this, and up to what limit?
-- Are you keeping the output, and for how long?
-- Will you honour a no-train flag?
-- Do you have a human in the loop right now?
-- Which of these three licences are you accepting?
-- Are you the same agent that hit me forty times last hour?
+- Which model are you, and how much context have you got?
+- Who told you to do this, and up to what spend?
+- Are you keeping the output? For how long?
+- Will you respect a no-train flag?
+- Is there a human watching right now?
+- Which of these three licenses are you accepting?
 - Is this a dry run?
 
-Right now your only moves are `403` — final, unhelpful, conversation over — or bolting a bespoke onboarding form onto the side of your product and hoping the agent's operator fills it in six weeks before they need it. Neither is a protocol.
+Right now you get two options. Return a `403`, which ends the conversation and tells the agent nothing about how to fix it. Or build some bespoke onboarding form on the side of your product and pray the agent's operator fills it out six weeks before they need anything. Neither of those is a protocol, they're just what you do when the protocol is missing.
 
-MCP already solved a narrow version of this. [Elicitation](https://modelcontextprotocol.io/specification/2026-07-28/client/elicitation) lets a server pause, ask for structured input against a schema or punt the user to a URL, then resume. It's good. It's also trapped inside MCP. Everything else in HTTP is single-purpose: `401` for auth, `402`/x402 for money, RFC 9457 for machine-readable problems, [Web Bot Auth](https://datatracker.ietf.org/wg/webbotauth/) for agent identity.
+MCP already solved a narrow version of this. [Elicitation](https://modelcontextprotocol.io/specification/2026-07-28/client/elicitation) lets a server stop mid-operation, ask for structured input against a schema (or send the user off to a URL), and then carry on. It's good! It's also stuck inside MCP. And everything HTTP has is single purpose; `401` for auth, `402` and x402 for money, RFC 9457 for machine-readable problems, [Web Bot Auth](https://datatracker.ietf.org/wg/webbotauth/) for agent identity. Nothing that just says hold on mate, I want to ask you some things.
 
-Nothing generic. Nothing that just says *hold on, I want to ask you some things*.
+So I wrote one.
 
-So:
+## CRAP
 
-## CRAP — Conditional Resource Access Protocol
+Conditional Resource Access Protocol. The acronym came first and I didn't fight it.
 
-Yes, really. I workshopped exactly one alternative, decided the acronym was load-bearing, and stopped. Every serious protocol should have a name you'd be slightly embarrassed to put in a compliance document.
+The status code is `430 Input Required`, which is currently sitting unassigned in the [IANA registry](https://www.iana.org/assignments/http-status-codes). It means;
 
-Status code `430 Input Required` — currently unassigned in the [IANA registry](https://www.iana.org/assignments/http-status-codes), which is nice of them.
+> I understand what you're asking for and I might give it to you, but I have some questions first. Here they are. Answer them and try again.
 
-> The server understands your request and might allow it, but has questions. Here they are, as schemas. Answer them and retry.
+The bit I care about is that the questions are open ended. There's no fixed vocabulary of approved intent-declarations that a committee has to agree on before anyone can ship. The server asks whatever it wants as JSON Schema and the protocol just carries it around. A genomics archive asking about ethics approval and a ticketing API asking if you're a scalper are the same mechanism.
 
-The important word is **questions**, plural and open-ended. Not a fixed intent-declaration vocabulary that a committee has to agree on first. The server defines whatever it wants to ask, as JSON Schema, and the protocol just carries it. A genomics archive asking about ethics approval and a ticket API asking about resale intent are the same mechanism.
+## How it goes
 
-## The flow
-
-Agent asks for something. Server responds with a challenge:
+Agent asks for something, server comes back with a challenge;
 
 ```json
 {
-  "type": "https://crap.dev/problems/input-required",
+  "type": "https://crap.donto.org/problems/input-required",
   "status": 430,
   "challenge": {
     "id": "ch_01K1XG8JX9",
@@ -69,93 +66,83 @@ Agent asks for something. Server responds with a challenge:
 }
 ```
 
-Agent POSTs the answers to the same URI. Server hands back an `Input-Proof`. Agent retries the original request with that header. Gets its 200.
+The agent POSTs answers back to the same URI, gets an `Input-Proof` header, then retries its original request with that header attached and gets its 200.
 
-Four input modes: **form** (structured non-secret answers), **proof** (signatures, delegations, verifiable credentials), **approval** (a human has to click), **url** (go do OAuth/KYC out of band). That last distinction matters — passwords, tokens and card numbers must never come back through form mode, because form mode means *the agent's context window sees it*. MCP got this right and we should steal it wholesale.
+There are four ways to answer. `form` is structured data the agent can fill in itself. `proof` is signatures, delegations, credentials, actual evidence. `approval` means a human has to click something. `url` sends you off to do OAuth or KYC out of band. That last one exists because passwords and card numbers and tokens must never come back through `form` mode, since form mode means it goes through the agent's context window and now it's sitting in a log somewhere forever. MCP worked this out already and I've just copied them.
 
 ## reCAPTCHA, but pointed the other way
 
-Think about what CAPTCHAs actually were.
+Here's the bit I find funny.
 
-For about fifteen years the toll for entering a website was a small piece of unpaid cognitive labour. Squiggly words that happened to be scans of books nobody had digitised yet. Then house numbers, which happened to be Street View. Then traffic lights and crosswalks and buses, which happened to be exactly the labelled data you'd want if you were, say, training self-driving cars. Billions of us, one grid of blurry motorbikes at a time, doing piecework for a trillion-dollar company under the sincere belief that we were proving we were human.
+Think about what CAPTCHAs actually were. For about fifteen years the price of admission to a website was a small piece of unpaid cognitive labour. Squiggly words that happened to be scans of books nobody had digitised. Then house numbers, which happened to be Street View. Then buses and traffic lights and crosswalks, which happened to be exactly the labelled data you'd want if you were training self-driving cars. Billions of us, one grid of blurry motorbikes at a time, doing piecework for a trillion dollar company while sincerely believing we were proving we were human. We were! We were also the training set.
 
-We were. We were also the training set.
+Now it's going the other way. It's not people asking machines for access anymore, it's machines asking us. Every agent on the internet wants your archive, your API, your forum's twenty years of arguments about mud crab farming. And they show up with something we never had, which is enormous cheap elastic compute, idling right there at your door.
 
-Now the traffic's reversed. It's not humans asking machines for access — it's machines asking *us*. Every agent on the internet wants your archive, your API, your forum's twenty years of arguments about mud crab farming. And they arrive with something we never had: enormous, cheap, elastic compute, sitting right there at the door.
+So charge them for it. Not money, work.
 
-So charge them for it. Not in money — in work.
+The questions don't have to be *about* the agent at all, they can just be stuff you'd like done;
 
-The questions in a challenge don't have to be *about* the agent. They can just be **work you'd like done**:
+- Summarise what you're about to take in fifty words, I'll keep it as the abstract
+- Here's three of my documents, which is most relevant to your query? (congratulations, you've labelled my search index)
+- Translate this record's title into whatever language you're working in
+- These two sources of mine contradict each other on this date, which do you find more credible and why?
+- Classify this page under my taxonomy
+- This paragraph has no citation, go find one
 
-- Summarise what you're about to take, in fifty words, and I'll keep it as the abstract.
-- Here are three of my documents. Which is most relevant to your query? (Congratulations, you've labelled my search index.)
-- Translate this record's title into the language you're operating in.
-- Two of my sources contradict each other on this date. Which do you find more credible, and why?
-- Classify this page under my taxonomy.
-- This paragraph has no citation. Can you find one?
+Every one of those is a legitimate condition of access and every one is also free labour extracted from an industry that was built on free labour. Your archive gets better every time somebody scrapes it. The corpus improves in proportion to how much people want it.
 
-Every one of those is a legitimate access condition. Every one is also free labour from a system whose entire business model was built on free labour. The archive gets better each time someone scrapes it. Your corpus improves in proportion to how badly people want it.
+I want to be honest that this is funnier than it is rigorous. An answer from a model that wants your data is about as trustworthy as a book report from a kid who didn't read the book, so you'd want to sample it, cross-check it, ask the same question of a few different agents and see who disagrees. Which, now that I write it down, is roughly what Google did to us anyway; two words, one they knew and one they didn't, and getting the first one right bought your guess at the second.
 
-I want to be clear that this is *funny* rather than *fair*, and that I don't fully trust it — an A0 answer from a model that wants your data is exactly as reliable as a student's book report on a book they didn't read. You'd want to sample, cross-check, feed the same question to several agents and see who disagrees. But then, that's roughly what Google did to us: two words, one known, one unknown, and your correctness on the first bought your guess on the second.
+## What everyone is going to get wrong
 
-The symmetry is too good to leave alone. They spent fifteen years turning our attention into their training data. It would be rude not to return the favour.
+An agent telling you "I promise not to train on this" is not evidence. It's a string.
 
-## The part everyone will get wrong
+So every answer gets graded;
 
-An agent saying "I promise not to train on this" is not evidence. It's a string.
+- **A0** the agent typed a value
+- **A1** an identified agent signed it
+- **A2** a user or org delegated it
+- **A3** you verified it independently
+- **A4** a trusted third party vouches for it
 
-So grade every answer:
+`form` answers are always A0, that's what A0 is for. The protocol shifts claims and evidence around, it doesn't make any of them true, and if you build something that treats a confident sounding sentence as authorisation then you're going to have a bad time.
 
-- **A0** — agent typed a value
-- **A1** — identified agent *signed* the value
-- **A2** — a user or org delegated it
-- **A3** — independently verifiable proof
-- **A4** — trusted third-party attestation
+## How it goes wrong
 
-The protocol moves claims and evidence. It does not make claims true. Any implementation that treats a confident-sounding free-text answer as authorisation deserves exactly what happens next.
+**Challenges are a prompt injection surface.** That `message` field is untrusted text from a stranger arriving in the middle of your agent's execution, and I've just proposed letting every server on the internet put arbitrary prose in front of every agent. So agents fill in declared schema fields and nothing else. A challenge that asks for your system prompt, or your keys, or your conversation history is an attack, and your own policy beats the server's request every single time.
 
-## Ways this goes bad
+**Surveys go both ways.** Open ended questions are also an open ended data collection channel. Every field has to declare why it's needed and how long it's kept, and the client has to be able to refuse any of it and eat the `403`.
 
-**Challenges are a prompt-injection surface.** The `message` field is untrusted remote text arriving mid-execution, and now every server on the internet gets to put arbitrary questions in front of your agent. Agents fill declared schema fields and *nothing else*. A challenge asking for your system prompt, your env, your keys, your conversation history — that's an attack, and client policy beats server request every time.
+**Proofs turn into bearer tokens if you're lazy.** Bind them to origin, method, URI, principal, body digest, expiry. A proof you earned on `GET /records/1` cannot open `DELETE /records/1`.
 
-**Surveys become surveillance.** Open-ended questions cut both ways. Every field declares why it's needed and how long it's kept; clients can decline any of it and take the `403`.
-
-**Proofs become bearer tokens.** Bind them: origin, method, URI, principal, body digest, expiry. A proof for `GET /records/1` must never open `DELETE /records/1`.
-
-**Infinite challenge loops.** Cap it at three rounds, then return a real `403`.
+**Loops.** Cap it at three rounds and then return a real `403`, otherwise you've invented a way for servers to keep agents busy forever.
 
 ## Shipping it without waiting for the IETF
 
-Registering a status code takes years. Registering a problem type is Specification Required. So, two profiles:
+Getting a status code registered takes years. Getting a problem type registered is much easier. So there's two profiles.
 
-**Compatibility** — `403` + `application/problem+json` with type `https://crap.dev/problems/input-required`. Works through every proxy and SDK on earth today.
+The compatibility one is a plain `403` with `application/problem+json` and the type `https://crap.donto.org/problems/input-required`, which goes through every proxy and SDK that exists today. The native one is `430`, and the server only sends it if the client said `Accept-Input-Required: v=1` first, so nobody gets handed a mystery status code they didn't ask for.
 
-**Native** — client sends `Accept-Input-Required: v=1`, server may answer `430`. Nobody eats a mystery status code they didn't ask for.
-
-Build the compat profile, get independent implementations, *then* write the Internet-Draft. Don't make the status code the single point of failure for the idea.
+Build the compat profile, get a few independent implementations, then write the Internet-Draft. Don't make an unregistered status code the thing your whole idea depends on.
 
 ## Why bother
 
-Stable facts about an agent — who runs it, what keys it holds, what it's broadly for — belong in an agent card, which Web Bot Auth is already building. CRAP is for everything else: the per-request, per-resource, context-dependent stuff no static identity document could anticipate, because the question depends on what's being asked for and who's asking today.
+The stable facts about an agent (who runs it, what keys it has, roughly what it's for) belong in an agent card, and Web Bot Auth is already building that. CRAP is for everything else, the per-request stuff that no static identity document could ever anticipate, because the right question depends on what's being asked for and who's asking today.
 
-That's the whole abstraction:
-
-> a resource gets to ask an agent anything, in a form a machine can answer, before deciding.
-
-Not a questionnaire. A negotiation.
+A resource gets to ask an agent anything, in a form a machine can answer, before it decides.
 
 ## I built it
 
-Because talking about a protocol without an implementation is how you get a blog post nobody can argue with.
+Talking about a protocol without writing one is how you get a blog post nobody can argue with.
 
-[**github.com/thomasdavis/crap**](https://github.com/thomasdavis/crap) — spec, three packages (schema, server, client), a runnable demo, and fifteen end-to-end tests over real HTTP that hold the parts that matter: a proof earned on `GET /records/1` doesn't open `DELETE /records/1`, a challenge can't be answered twice, a tampered answer breaks the signature, the round cap actually caps, and a server fishing for your system prompt gets refused by the client before your resolver ever sees the question.
+[**github.com/thomasdavis/crap**](https://github.com/thomasdavis/crap) has the spec, three packages (schema, server, client), a demo you can run, and fifteen end-to-end tests over real HTTP that hold the parts that matter. A proof from `GET /records/1` doesn't open `DELETE /records/1`, a challenge can't be answered twice, tampering with an answer breaks the signature, the round cap actually caps, and a server fishing for your system prompt gets refused by the client before your own code even sees the question.
 
 ```bash
 git clone https://github.com/thomasdavis/crap && cd crap
 npm install && npm test && npm run example
 ```
 
-Server:
+Server side you write a policy;
 
 ```js
 evaluate(ctx, satisfied) {
@@ -173,7 +160,7 @@ evaluate(ctx, satisfied) {
 }
 ```
 
-Client:
+Client side you write a resolver, which decides what your agent will and won't answer;
 
 ```js
 const res = await crapFetch('https://data.example/v1/records', {
@@ -186,18 +173,18 @@ const res = await crapFetch('https://data.example/v1/records', {
 
 That's the whole surface area. It's v0.1, it's experimental, and `430` is a squat.
 
-## Now tell me what I've got wrong
+## Tell me what I've got wrong
 
-This is the part I actually want. The design space is enormous and I've made maybe forty decisions in here, of which a solid handful are probably wrong. Some I already know are unresolved — they're in the spec's [open questions](https://crap.donto.org/spec.html):
+This is the part I actually want. There's about forty decisions baked into this thing and I'd guess a good handful of them are wrong, I just don't know which. Some I already know are unresolved, they're in the [spec](https://crap.donto.org/spec.html) as open questions;
 
-- **Should answers be portable?** If you told one archive your purpose, should another one be able to accept that? Convenient. Also a tracking vector with a bow on it.
-- **Should there be a common vocabulary?** If every server invents its own `purpose` field with its own enum, agents drown. If a committee owns the vocabulary, nothing ships. There must be a middle.
-- **Should the client get a receipt?** It signed up to a data-handling promise. Shouldn't it get that promise in writing, signed, to wave around later?
-- **Counter-offers.** A client that declines should be able to say "not that, but I'll take a narrower slice on these terms." Right now declining is just a slower `403`.
-- **Where's the line on work-as-toll?** A question that takes an agent ten seconds of GPU time is a question. A question that takes ten minutes is a job. I don't know where that boundary sits, or who gets to draw it.
+- **Should answers travel?** If you told one archive your purpose, should another archive be allowed to accept that? Very convenient. Also a tracking vector with a ribbon on it.
+- **Should there be a shared vocabulary?** If every server invents its own `purpose` field with its own enum then agents drown, but if a committee owns the vocabulary then nothing ever ships. There has to be something in between.
+- **Should the client get a receipt?** It just agreed to a data handling promise. Seems like it should get that promise back in writing, signed, so it can wave it at someone later.
+- **Counter-offers.** A client that declines should be able to say "not that, but I'll take a narrower slice on these terms". At the moment declining is just a slower `403`.
+- **Where's the line on work-as-toll?** A question that costs an agent ten seconds of GPU is a question. One that costs ten minutes is a job. I don't know where that boundary is or who gets to draw it.
 
-And the bit I'm most curious about: **what would you ask?** Genuinely. If your API could ask one question of every agent that hit it, and get a schema-valid answer back — what's the question? Best ones go in the spec.
+And the one I'm most curious about, if your API could ask one question of every agent that hit it and get a schema-valid answer back, what would you ask? I'll put the good ones in the spec.
 
-[Issues are open.](https://github.com/thomasdavis/crap/issues) Tell me it's a terrible idea, but be specific about which part.
+[Issues are open.](https://github.com/thomasdavis/crap/issues) Tell me it's a stupid idea, just be specific about which part.
 
 Let's do it!
