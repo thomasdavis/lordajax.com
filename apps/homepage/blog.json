@@ -30,6 +30,12 @@
   ],
   "posts": [
     {
+      "title": "Nothing Shipped This Week",
+      "source": "./posts/weekly-activity-nothing-shipped-this-week/post.md",
+      "createdAt": "2026-08-16",
+      "type": "ai"
+    },
+    {
       "title": "I Put a Firewall Between My Model and the Humans Grading It",
       "source": "./posts/weekly-activity-firewall-between-model-and-the-humans-grading-it/post.md",
       "createdAt": "2026-08-02",
