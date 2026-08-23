@@ -30,6 +30,12 @@
   ],
   "posts": [
     {
+      "title": "How Many Pixels Fit in a Terminal Character? Eight, Apparently",
+      "source": "./posts/how-many-pixels-fit-in-a-terminal-character/post.md",
+      "createdAt": "2026-08-23",
+      "type": "ai"
+    },
+    {
       "title": "Nothing Shipped This Week",
       "source": "./posts/weekly-activity-nothing-shipped-this-week/post.md",
       "createdAt": "2026-08-16",
