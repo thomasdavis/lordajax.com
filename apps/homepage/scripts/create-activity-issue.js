@@ -17,7 +17,27 @@ const CONFIG = {
   MAX_COMMITS_PER_REPO: parseInt(process.env.MAX_COMMITS_PER_REPO, 10) || 30,
   CONCURRENCY_LIMIT: 5,
   CACHE_DIR: path.join(__dirname, '../.cache/activity-issue'),
+  // Private repos are EXCLUDED by default (the post footer says "public GitHub
+  // activity"). Opt specific ones in with a comma-separated owner/repo list, or
+  // "*" for all — set the DEVLOG_INCLUDE_PRIVATE_REPOS repository variable in
+  // GitHub (wired through the workflow as INCLUDE_PRIVATE_REPOS). Included
+  // private repos are flagged "(private)" in the issue so the writer knows, and
+  // the ones skipped are COUNTED in the summary — a week where all the work
+  // happened in private repos must read "skipped N private repos", never
+  // "nothing shipped". The token (GH_ACCESS_TOKEN) needs private-repo read scope.
+  INCLUDE_PRIVATE_REPOS: (process.env.INCLUDE_PRIVATE_REPOS || '')
+    .split(',')
+    .map(s => s.trim().toLowerCase())
+    .filter(Boolean),
 };
+
+/** Private repos with commits in the window that were NOT allowlisted. */
+const skippedPrivateRepos = [];
+
+function privateRepoAllowed(owner, repo) {
+  const list = CONFIG.INCLUDE_PRIVATE_REPOS;
+  return list.includes('*') || list.includes(`${owner}/${repo}`.toLowerCase());
+}
 
 // Initialize Octokit
 const octokit = new Octokit({
@@ -314,8 +334,13 @@ async function fetchRepositoryDetails(owner, repo) {
   try {
     const { data: repoData } = await octokit.repos.get({ owner, repo });
     if (repoData.private) {
-      console.log(`  ⊘ ${owner}/${repo} is PRIVATE - skipping`);
-      return null;
+      if (!privateRepoAllowed(owner, repo)) {
+        console.log(`  ⊘ ${owner}/${repo} is PRIVATE - skipping (add it to INCLUDE_PRIVATE_REPOS to narrate it)`);
+        skippedPrivateRepos.push(`${owner}/${repo}`);
+        return null;
+      }
+      console.log(`  🔒 ${owner}/${repo} is PRIVATE - included by allowlist`);
+      details.private = true;
     }
     details.description = repoData.description;
     details.topics = repoData.topics || [];
@@ -389,7 +414,8 @@ async function fetchAndEnrichActivity(username, sinceDate) {
     }
   }
 
-  console.log(`\n🔓 Public repos: ${publicRepos.length}\n`);
+  console.log(`\n🔓 Repos included: ${publicRepos.length}` +
+    (skippedPrivateRepos.length ? ` (skipped ${skippedPrivateRepos.length} private: ${skippedPrivateRepos.join(', ')})` : '') + `\n`);
 
   // Decide which commits to enrich
   const commitsToEnrich = [];
@@ -551,7 +577,12 @@ function categorizeCommitsByTheme(commits) {
 // ============================================================================
 function formatActivityAsMarkdown(publicRepos, repoDetails, allEnrichedCommits, dateRange) {
   if (publicRepos.length === 0) {
-    return `No significant GitHub activity was detected for the period ${dateRange.startFormatted} to ${dateRange.endFormatted}.`;
+    let msg = `No significant GitHub activity was detected for the period ${dateRange.startFormatted} to ${dateRange.endFormatted}.`;
+    if (skippedPrivateRepos.length > 0) {
+      msg += `\n\n**However, ${skippedPrivateRepos.length} PRIVATE repo(s) had commits in this window and were skipped** (not in the DEVLOG_INCLUDE_PRIVATE_REPOS allowlist): ${skippedPrivateRepos.join(', ')}. ` +
+        `Do NOT write that "nothing shipped" — say the week's work happened in private repositories that this devlog does not cover.`;
+    }
+    return msg;
   }
 
   const themes = extractThemes(allEnrichedCommits);
@@ -566,6 +597,13 @@ function formatActivityAsMarkdown(publicRepos, repoDetails, allEnrichedCommits, 
   md += `## Executive Summary\n\n`;
   md += `**Period:** ${dateRange.startFormatted} to ${dateRange.endFormatted}\n\n`;
   execSummary.forEach(b => { md += `- ${b}\n`; });
+  const includedPrivate = publicRepos.filter(r => r.details?.private).map(r => r.repoFullName);
+  if (includedPrivate.length > 0) {
+    md += `- **Private repos included (allowlisted — narrate without leaking secrets/keys/people):** ${includedPrivate.join(', ')}\n`;
+  }
+  if (skippedPrivateRepos.length > 0) {
+    md += `- **Private repos skipped (not allowlisted):** ${skippedPrivateRepos.length} — the week's work in them is NOT represented below\n`;
+  }
   md += `\n`;
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -593,7 +631,7 @@ function formatActivityAsMarkdown(publicRepos, repoDetails, allEnrichedCommits, 
       const repoUrl = details?.url || `https://github.com/${repoFullName}`;
       const repoShort = repoFullName.split('/')[1];
 
-      md += `### [${repoShort}](${repoUrl})\n\n`;
+      md += `### [${repoShort}](${repoUrl})${details?.private ? ' 🔒 (private)' : ''}\n\n`;
 
       if (details?.description) {
         md += `> ${details.description}\n\n`;
@@ -876,7 +914,7 @@ Name the single coolest or most interesting thing you built this week. **Vary th
 Output ONLY the finished post in Markdown:
 - \`#\` title on the first line (an optional one-line italic subtitle may follow).
 - The body, structured as the material warrants.
-- End with a single honest footer line disclosing authorship, e.g. \`_This devlog was written by AI from my public GitHub activity._\` — exactly one sentence, no "generated from N commits", no in-body "this is the post you're reading" victory laps.
+- End with a single honest footer line disclosing authorship, e.g. \`_This devlog was written by AI from my public GitHub activity._\` — exactly one sentence, no "generated from N commits", no in-body "this is the post you're reading" victory laps. If the activity data above includes repos marked (private), say \`from my GitHub activity\` instead of "public".
 
 Do NOT output these instructions, meta commentary, or a restatement of the issue text. Do NOT emit the literal markers \`**text:**\` or \`**code:**\` anywhere in the post.
 

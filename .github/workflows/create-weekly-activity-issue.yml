@@ -34,6 +34,9 @@ jobs:
         env:
           GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Comma-separated owner/repo allowlist of PRIVATE repos to narrate (or "*").
+          # Repository variable — Settings → Secrets and variables → Actions → Variables.
+          INCLUDE_PRIVATE_REPOS: ${{ vars.DEVLOG_INCLUDE_PRIVATE_REPOS }}
         run: |
           cd apps/homepage
           node scripts/create-activity-issue.js
