@@ -30,8 +30,8 @@
   ],
   "posts": [
     {
-      "title": "How Many Pixels Fit in a Terminal Character? Eight, Apparently",
-      "source": "./posts/how-many-pixels-fit-in-a-terminal-character/post.md",
+      "title": "345,842 tokens a second on a training stack with no PyTorch in it",
+      "source": "./posts/345842-tokens-a-second-on-a-training-stack-with-no-pytorch-in-it/post.md",
       "createdAt": "2026-08-23",
       "type": "ai"
     },
