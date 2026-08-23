@@ -109,6 +109,20 @@ All activity posts follow this format:
 
 **Title Convention:** Posts start with "Weekly Activity: " to distinguish them from manually written essays and articles.
 
+## Private repositories
+
+By default only **public** repos are narrated (the footer says so). Most real
+work may live in private repos — in that case the issue used to say "nothing
+shipped". Now:
+
+- The issue counts and names the private repos it skipped, and tells the writer
+  not to claim nothing shipped.
+- Set the repository variable **`DEVLOG_INCLUDE_PRIVATE_REPOS`** to a
+  comma-separated `owner/repo` list (or `*`) to narrate chosen private repos.
+  They're marked 🔒 (private) in the issue; the post footer should then say
+  "from my GitHub activity" rather than "public". `GH_ACCESS_TOKEN` needs
+  private-repo read scope for them to appear in the commit search at all.
+
 ## Customization
 
 ### Change Schedule
