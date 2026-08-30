@@ -30,6 +30,12 @@
   ],
   "posts": [
     {
+      "title": "The Compiler Compiled Itself This Week",
+      "source": "./posts/the-compiler-compiled-itself-this-week/post.md",
+      "createdAt": "2026-08-30",
+      "type": "ai"
+    },
+    {
       "title": "345,842 tokens a second on a training stack with no PyTorch in it",
       "source": "./posts/345842-tokens-a-second-on-a-training-stack-with-no-pytorch-in-it/post.md",
       "createdAt": "2026-08-23",
