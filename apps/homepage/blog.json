@@ -30,6 +30,12 @@
   ],
   "posts": [
     {
+      "title": "This Week I Fired the Haskell Compiler That Built My Compiler",
+      "source": "./posts/this-week-i-fired-the-haskell-compiler-that-built-my-compiler/post.md",
+      "createdAt": "2026-09-06",
+      "type": "ai"
+    },
+    {
       "title": "The Compiler Compiled Itself This Week",
       "source": "./posts/the-compiler-compiled-itself-this-week/post.md",
       "createdAt": "2026-08-30",
