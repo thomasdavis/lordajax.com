@@ -30,6 +30,12 @@
   ],
   "posts": [
     {
+      "title": "Bit-for-Bit or It Didn't Happen",
+      "source": "./posts/bit-for-bit-or-it-didnt-happen/post.md",
+      "createdAt": "2026-09-20",
+      "type": "ai"
+    },
+    {
       "title": "This Week I Fired the Haskell Compiler That Built My Compiler",
       "source": "./posts/this-week-i-fired-the-haskell-compiler-that-built-my-compiler/post.md",
       "createdAt": "2026-09-06",
