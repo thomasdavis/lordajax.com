@@ -30,6 +30,12 @@
   ],
   "posts": [
     {
+      "title": "Polling a GPU Fence Every 20 Microseconds Instead of 1 Millisecond",
+      "source": "./posts/polling-a-gpu-fence-every-20-microseconds/post.md",
+      "createdAt": "2026-10-04",
+      "type": "ai"
+    },
+    {
       "title": "Bit-for-Bit or It Didn't Happen",
       "source": "./posts/bit-for-bit-or-it-didnt-happen/post.md",
       "createdAt": "2026-09-20",
