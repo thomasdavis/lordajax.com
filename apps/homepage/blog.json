@@ -30,6 +30,12 @@
   ],
   "posts": [
     {
+      "title": "Making GPT-2 train faster by launching fewer kernels",
+      "source": "./posts/making-gpt-2-train-faster-by-launching-fewer-kernels/post.md",
+      "createdAt": "2026-10-11",
+      "type": "ai"
+    },
+    {
       "title": "Polling a GPU Fence Every 20 Microseconds Instead of 1 Millisecond",
       "source": "./posts/polling-a-gpu-fence-every-20-microseconds/post.md",
       "createdAt": "2026-10-04",
