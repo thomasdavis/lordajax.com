@@ -30,6 +30,12 @@
   ],
   "posts": [
     {
+      "title": "A compiler that checks its own mutants",
+      "source": "./posts/a-compiler-that-checks-its-own-mutants/post.md",
+      "createdAt": "2026-10-18",
+      "type": "ai"
+    },
+    {
       "title": "Making GPT-2 train faster by launching fewer kernels",
       "source": "./posts/making-gpt-2-train-faster-by-launching-fewer-kernels/post.md",
       "createdAt": "2026-10-11",
