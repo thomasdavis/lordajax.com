@@ -1,6 +1,6 @@
 {
   "brand": "Lord Ajax",
-  "tagline": ["Open source, open data.", "Building in public."],
+  "tagline": ["all things ai (previously peanuts for keypresses)"],
   "nav": [
     { "label": "Essays", "href": "/essays/" },
     { "label": "Devlog", "href": "/devlog/" },
@@ -9,13 +9,8 @@
     { "label": "About", "href": "/about/" }
   ],
   "hero": {
-    "headline": "I write software",
-    "subhead": "and shitty poetry.",
     "intro": "I'm Thomas. I build open tools for language, knowledge, and the web — JSON Resume, Mob Translate, Donto — and write about what I learn along the way.",
-    "aboutHref": "/about/",
-    "lens": ["Open standards", "Language", "Knowledge"],
-    "building": "Donto — an evidence substrate",
-    "location": "Australia"
+    "aboutHref": "/about/"
   },
   "projects": [
     { "letter": "J", "color": "#c0562e", "name": "JSON Resume", "description": "The original open standard for resumes, in JSON. Themes, hosting, and a whole ecosystem.", "tags": ["Standards", "Identity"], "license": "Open standard", "status": "Maintained", "href": "https://jsonresume.org" },
@@ -23,7 +18,6 @@
     { "letter": "D", "color": "#1f2b3a", "name": "Donto", "description": "An evidence substrate for claims, sources, contradictions, and time.", "tags": ["Evidence", "Knowledge"], "license": "Open source", "status": "Active", "href": "https://donto.org" },
     { "letter": "O", "color": "#b08a52", "name": "Omega", "description": "A self-editing Discord agent that lives across chat and a persistent world.", "tags": ["Agents", "Infrastructure"], "license": "Open source", "status": "In progress", "href": "https://omegaai.dev" }
   ],
-  "footerNote": "Built in public.",
   "social": [
     { "label": "RSS", "href": "/rss.xml" },
     { "label": "GitHub", "href": "https://github.com/thomasdavis" },
