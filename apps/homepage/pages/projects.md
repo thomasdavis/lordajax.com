@@ -15,7 +15,7 @@ I co-founded [cdnjs](https://cdnjs.com) with Ryan Kirkman in 2011, a free CDN fo
 
 ## JSON Resume
 
-I started [JSON Resume](https://jsonresume.org) in 2014, an open standard for writing your resume as JSON, and I still run it.
+I co-founded [JSON Resume](https://jsonresume.org) with Roland Sharp in 2014. It's an open standard for writing your resume as JSON.
 
 - 7,000+ GitHub stars across the repos, tens of thousands of users
 - a registry that renders any resume in 52 themes ([here's mine](https://registry.jsonresume.org/thomasdavis))

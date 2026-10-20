@@ -15,7 +15,7 @@
   "projects": [
     { "name": "Alpha", "description": "A language and compiler for training models. The maths, the training loop and the GPU code are one type-checked program. No CUDA, no PyTorch.", "status": "Research" },
     { "name": "cdnjs", "description": "The free CDN for open source JavaScript I co-founded in 2011. On about 11% of all websites, serving 3.3 trillion requests a year.", "href": "https://cdnjs.com" },
-    { "name": "JSON Resume", "description": "An open standard for resumes as JSON. I've run it since 2014.", "status": "Maintained", "href": "https://jsonresume.org" },
+    { "name": "JSON Resume", "description": "An open standard for resumes as JSON. I co-founded it with Roland Sharp in 2014.", "status": "Maintained", "href": "https://jsonresume.org" },
     { "name": "Donto", "description": "A database for claims that might be wrong. Keeps contradictions, ties every claim to its source.", "status": "Active", "href": "https://donto.org" },
     { "name": "Mob Translate", "description": "Dictionaries and translation for Australian Aboriginal languages.", "status": "Active", "href": "https://mobtranslate.com" }
   ],
