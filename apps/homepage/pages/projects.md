@@ -8,9 +8,10 @@ A programming language and compiler, written in Haskell, for training models. Yo
 
 I co-founded [cdnjs](https://cdnjs.com) with Ryan Kirkman in 2011, a free CDN for the JavaScript libraries Google's CDN didn't carry. Cloudflare came on board a few months later and runs it today.
 
-- 250B+ requests a month
-- used on 12.5% of all websites
-- 4,000+ libraries, 10,000+ GitHub stars
+- 3.3 trillion requests in the last year (Oct 2025 – Sep 2026), about 9 billion a day
+- 78 petabytes of JavaScript and CSS served in that same year
+- on about 11% of all websites, and on nearly half of the sites that use a JavaScript CDN
+- 4,600+ libraries, 1,700+ contributors, 10,700 GitHub stars
 
 ## JSON Resume
 
@@ -22,6 +23,7 @@ I started [JSON Resume](https://jsonresume.org) in 2014, an open standard for wr
 
 ## Now
 
+- **[Blah](https://blah.dev)**: a private AI research lab of renegade friends. You can join, so [reach out](mailto:thomasalwyndavis@gmail.com).
 - **[Donto](https://donto.org)**: a database for claims that might be wrong. It keeps contradictions instead of picking a winner, ties every claim to its source and remembers what was believed when.
 - **[Dontopedia](https://dontopedia.com)**: a wiki on top of Donto. Every fact has a source, a date and room to disagree.
 - **[Mob Translate](https://mobtranslate.com)**: dictionaries and translation for Australian Aboriginal languages, built in the open.
@@ -29,7 +31,6 @@ I started [JSON Resume](https://jsonresume.org) in 2014, an open standard for wr
 - **[Omega](https://github.com/thomasdavis/omega)**: a Discord bot that writes its own features and merges its own PRs. The [first one](https://github.com/thomasdavis/omega-old) (2021) talked on Clubhouse with GPT-3.
 - **[Toiletpaper](https://github.com/thomasdavis/toiletpaper)**: give it a scientific paper and it tries to reproduce every claim. The KAN paper: 102 claims, 24 reproduced, 3 contradicted.
 - **[LLM Benchmark](https://github.com/thomasdavis/llm-benchmark)**: has LLMs rewrite your functions, checks the rewrites still do the same thing, then races them.
-- **[Blah](https://github.com/thomasdavis/blah)**: where my MCP experiments live.
 - **[JSON Blog](https://github.com/jsonblog/jsonblog)**: a whole blog from one JSON file. This site runs on it.
 
 ## Before
