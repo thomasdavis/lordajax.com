@@ -13,10 +13,11 @@
     "aboutHref": "/about/"
   },
   "projects": [
-    { "letter": "J", "color": "#c0562e", "name": "JSON Resume", "description": "The original open standard for resumes, in JSON. Themes, hosting, and a whole ecosystem.", "tags": ["Standards", "Identity"], "license": "Open standard", "status": "Maintained", "href": "https://jsonresume.org" },
-    { "letter": "M", "color": "#5f6234", "name": "Mob Translate", "description": "A living dictionary and translator for Australian Aboriginal languages, built in the open.", "tags": ["Language", "Lexicography"], "license": "Open data", "status": "Active", "href": "https://mobtranslate.com" },
-    { "letter": "D", "color": "#1f2b3a", "name": "Donto", "description": "An evidence substrate for claims, sources, contradictions, and time.", "tags": ["Evidence", "Knowledge"], "license": "Open source", "status": "Active", "href": "https://donto.org" },
-    { "letter": "O", "color": "#b08a52", "name": "Omega", "description": "A self-editing Discord agent that lives across chat and a persistent world.", "tags": ["Agents", "Infrastructure"], "license": "Open source", "status": "In progress", "href": "https://omegaai.dev" }
+    { "name": "Alpha", "description": "A language and compiler for training models. The maths, the training loop and the GPU code are one type-checked program. No CUDA, no PyTorch.", "status": "Research" },
+    { "name": "cdnjs", "description": "The free CDN for open source JavaScript I co-founded in 2011. On 12.5% of all websites.", "href": "https://cdnjs.com" },
+    { "name": "JSON Resume", "description": "An open standard for resumes as JSON. I've run it since 2014.", "status": "Maintained", "href": "https://jsonresume.org" },
+    { "name": "Donto", "description": "A database for claims that might be wrong. Keeps contradictions, ties every claim to its source.", "status": "Active", "href": "https://donto.org" },
+    { "name": "Mob Translate", "description": "Dictionaries and translation for Australian Aboriginal languages.", "status": "Active", "href": "https://mobtranslate.com" }
   ],
   "social": [
     { "label": "RSS", "href": "/rss.xml" },
