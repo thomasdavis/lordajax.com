@@ -7,6 +7,9 @@
   "generator": {
     "name": "@jsonblog/generator-tailwind"
   },
+  "settings": {
+    "googleAnalyticsId": "G-B6RX6VWXMT"
+  },
   "basics": {
     "name": "Lord Ajax",
     "image": "https://ajaxdavis.dev/og.png"
