@@ -9,7 +9,7 @@
     { "label": "About", "href": "/about/" }
   ],
   "hero": {
-    "intro": "I'm Thomas. I build open tools for language, knowledge, and the web — JSON Resume, Mob Translate, Donto — and write about what I learn along the way.",
+    "intro": "Hey, I'm Ajax (Thomas). Lifelong programmer; I feel like I've dabbled in almost everything in software. I love meeting people, so you should reach out to catch up about anything. Currently focused on AI and writing my own language and compiler with agents.",
     "aboutHref": "/about/"
   },
   "projects": [
