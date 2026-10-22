@@ -13,7 +13,7 @@
     "aboutHref": "/about/"
   },
   "projects": [
-    { "name": "Alpha", "description": "A language and compiler for training models. The maths, the training loop and the GPU code are one type-checked program. No CUDA, no PyTorch.", "status": "Research" },
+    { "name": "Alpha", "description": "An agent-native, dependently typed language and compiler for discovering and executing learning systems. The maths, the learning algorithm, memory layout and machine instructions are one composable program.", "status": "Research" },
     { "name": "cdnjs", "description": "The free CDN for open source JavaScript I co-founded in 2011. On about 11% of all websites, serving 3.3 trillion requests a year.", "href": "https://cdnjs.com" },
     { "name": "JSON Resume", "description": "An open standard for resumes as JSON. I co-founded it with Roland Sharp in 2014.", "status": "Maintained", "href": "https://jsonresume.org" },
     { "name": "Donto", "description": "A database for claims that might be wrong. Keeps contradictions, ties every claim to its source.", "status": "Active", "href": "https://donto.org" },

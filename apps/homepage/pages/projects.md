@@ -2,7 +2,9 @@ Things I've made, big ones first. Jobs are on my [resume](https://registry.jsonr
 
 ## Alpha
 
-A programming language and compiler, written in Haskell, for training models. You write the model, how it learns, the training loop and the GPU it runs on as one program. The compiler type-checks all of it, then writes every byte of the executable itself: host code, GPU machine code, the ELF around them. No CUDA, no PyTorch, no vendor runtime. It talks to the driver directly. It trains GPT-2 on my RTX 3070, and AI agents write most of the compiler under rules I set. The code is private for now; I write about it in the [devlog](/devlog/).
+Alpha is an agent-native, dependently typed language and compiler for discovering and executing learning systems. It treats mathematical definitions, learning algorithms, memory layouts, hardware schedules, and machine instructions as parts of one composable program. Rather than limiting AI agents to optimizing existing neural-network architectures, Alpha aims to give them control over the computational foundations from which entirely new architectures can emerge.
+
+It's written in Haskell and writes every byte of its executables itself, with no CUDA, no PyTorch and no vendor runtime. It trains GPT-2 on my RTX 3070. The code is private for now; I write about it in the [devlog](/devlog/).
 
 ## cdnjs
 
